@@ -72,21 +72,6 @@ public class SwatchColorReference : MonoBehaviour
     }
 
     /// <summary>
-    /// Continuously monitor for palette changes and update color accordingly.
-    /// 
-    /// WHY: The palette can change at runtime (through editor tools or scripts), and sprites
-    /// need to reflect these changes immediately. Update() provides the constant monitoring needed
-    /// for real-time color synchronization across all sprites using the same palette.
-    /// 
-    /// Performance note: Only updates when colors actually differ to minimize SetDirty calls.
-    /// </summary>
-    public void Update()
-    {
-        // Check if palette has changed and update color if needed
-        UpdateColorFromPalette();
-    }
-
-    /// <summary>
     /// Assigns a swatch index and immediately applies its color to the sprite.
     /// 
     /// WHY: Provides atomic operation for swatch assignment. Ensures the visual change happens 
@@ -188,6 +173,7 @@ public class SwatchColorReference : MonoBehaviour
 
         if (colorFromPalette != tempColor)
         {
+            if (enableDebug) Debug.Log($"SwatchColorReference: Updating color on {referencedComponent.GetType().Name} from {tempColor} to {colorFromPalette}");
             SetCurrentColor(colorFromPalette);
             
 #if UNITY_EDITOR
