@@ -2,16 +2,18 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using PrimeTween;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class HighlightedElement2DController : MonoBehaviour
 {
     const float sizeTweenDuration = 0.2f;
-    const float colorTweenDuration = 0.15f;
+    const float colorTweenDuration = 1f;
     [SerializeField] Camera mainCamera;
     [SerializeField] LayerMask hoverLayers = -1;
     [SerializeField] bool enableDebug = false;
+    [SerializeField] private bool enableDebugMousePosition = false;
     [ShowInInspector][CanBeNull] public HighlightableElement2D Current { get; private set; }
 
     void Awake()
@@ -40,7 +42,7 @@ public class HighlightedElement2DController : MonoBehaviour
 
         // Get mouse world position for 2D raycast
         Vector2 mouseWorldPos = GetMouseWorldPosition();
-        if (enableDebug) Debug.Log($"Mouse World Position: {mouseWorldPos}");
+        if (enableDebugMousePosition) Debug.Log($"Mouse World Position: {mouseWorldPos}");
         var highlightableElement = RaycastHighlightableElement2D(mouseWorldPos);
         SetCurrentHighlighted(highlightableElement);
 
@@ -62,7 +64,7 @@ public class HighlightedElement2DController : MonoBehaviour
     private Vector2 GetMouseWorldPosition()
     {
         Vector3 mouseScreenPos = GetMouseScreenPosition();
-        if (enableDebug) Debug.Log($"Mouse Screen Position: {mouseScreenPos}");
+        if (enableDebugMousePosition) Debug.Log($"Mouse Screen Position: {mouseScreenPos}");
         
         return mainCamera.ScreenToWorldPoint(mouseScreenPos);
     }
@@ -123,11 +125,11 @@ public class HighlightedElement2DController : MonoBehaviour
 
             if (element != null)
             {
-                if (enableDebug) Debug.Log($"Mouse over 2D element: {element.gameObject.name}");
+                if (enableDebugMousePosition) Debug.Log($"Mouse over 2D element: {element.gameObject.name}");
             }
             else
             {
-                if (enableDebug) Debug.Log("Mouse over 2D collider with no HighlightableElement2D component.");
+                if (enableDebugMousePosition) Debug.Log("Mouse over 2D collider with no HighlightableElement2D component.");
             }
 
             return element;
@@ -163,7 +165,7 @@ public class HighlightedElement2DController : MonoBehaviour
     /// <summary>
     /// Animates 2D sprite highlighting effects.
     /// </summary>
-    static void AnimateHighlightedElement2D([NotNull] HighlightableElement2D highlightable, bool isHighlighted)
+    void AnimateHighlightedElement2D([NotNull] HighlightableElement2D highlightable, bool isHighlighted)
     {
         // Scale animation
         Vector3 targetScale = isHighlighted
@@ -174,47 +176,78 @@ public class HighlightedElement2DController : MonoBehaviour
         // Color tint animation
         if (isHighlighted)
         {
-            // Check if we need to cache original colors
-            bool needsColorCaching = highlightable.CachedOriginalColors == null;
-            if (needsColorCaching)
+            if (highlightable.PreHighlightColors.IsNullOrEmpty())
             {
-                highlightable.CachedOriginalColors = new Color[highlightable.Models.Length];
+                highlightable.PreHighlightColors = new List<Color>();
+                foreach (var spriteRenderer in highlightable.Models)
+                {
+                    highlightable.PreHighlightColors.Add(spriteRenderer.color);
+                    Tween.Color(spriteRenderer, OverlayColor(spriteRenderer.color, highlightable.highlightTint), colorTweenDuration, Ease.OutQuad);
+                }
             }
-            
-            // Cache colors (if needed) and apply highlight tint in single loop
-            for (int i = 0; i < highlightable.Models.Length; i++)
+            else
             {
-                var spriteRenderer = highlightable.Models[i];
-                
-                if (needsColorCaching) highlightable.CachedOriginalColors[i] = spriteRenderer.color;
-                
-                Color targetColor = OverlayColor(highlightable.CachedOriginalColors[i], highlightable.highlightTint, false);
-                Tween.Color(spriteRenderer, targetColor, colorTweenDuration, Ease.OutQuad);
+                for (int i = 0; i < highlightable.Models.Length; i++)
+                {
+                    SpriteRenderer spriteRenderer = highlightable.Models[i];
+                    Tween.Color(spriteRenderer, OverlayColor(highlightable.PreHighlightColors[i], highlightable.highlightTint), colorTweenDuration, Ease.OutQuad);
+                }
             }
         }
-        else
+        else if (!highlightable.PreHighlightColors.IsNullOrEmpty())
         {
-            // Restore original colors from cache
-            if (highlightable.CachedOriginalColors != null)
+            for (int i = 0; i < highlightable.Models.Length; i++)
             {
-                for (int i = 0; i < highlightable.Models.Length && i < highlightable.CachedOriginalColors.Length; i++)
-                {
-                    Tween.Color(highlightable.Models[i], highlightable.CachedOriginalColors[i], colorTweenDuration, Ease.OutQuad);
-                }
-                
-                // Clear the cache AFTER the tween completes to prevent re-caching during tween
-                Tween.Delay(colorTweenDuration).OnComplete(() => {
-                    if (highlightable != null)
-                    {
-                        highlightable.CachedOriginalColors = null;
-                        Debug.Log("Cleared CachedOriginalColors after tween.");
-                    }
-                });
+                SpriteRenderer spriteRenderer = highlightable.Models[i];
+                if (highlightable.PreHighlightColors[i] == spriteRenderer.color) continue;
+
+                Tween.Color(spriteRenderer, highlightable.PreHighlightColors[i], colorTweenDuration, Ease.OutQuad);
             }
+            
+            // Schedule a check after all tweens complete to see if we can clear the list
+            StartCoroutine(CheckAndClearPreHighlightColorsAfterDelay(highlightable, colorTweenDuration));
         }
     }
 
-    static Color OverlayColor(Color baseColor, Color overlayColor, bool isUndo)
+    /// <summary>
+    /// Coroutine that waits for all color tweens to complete, then checks if all sprites
+    /// successfully reverted and clears the cache if so.
+    /// </summary>
+    System.Collections.IEnumerator CheckAndClearPreHighlightColorsAfterDelay(HighlightableElement2D highlightable, float delay)
+    {
+        // Wait for all color tweens to complete
+        yield return new WaitForSeconds(delay);
+        yield return null; // Wait one frame to ensure OnComplete callbacks executed
+
+
+        // Check if the list still exists and hasn't been cleared already
+        if (highlightable == null || highlightable.PreHighlightColors.IsNullOrEmpty())
+        {
+            yield break;
+        }
+
+        if (highlightable == Current) yield break;
+
+        if (enableDebug) Debug.Log(highlightable + " is not current highlight, clearing colors...");
+
+        List<Color> tempColors = new(highlightable.PreHighlightColors);
+        
+        highlightable.PreHighlightColors.Clear();
+
+        for (int i = 0; i < 100; ++i)
+        {
+            yield return null;
+
+            if (highlightable == Current)
+            {
+                highlightable.PreHighlightColors = tempColors;
+            }
+        }
+        
+        tempColors.Clear();
+    }
+
+    static Color OverlayColor(Color baseColor, Color overlayColor)
     {
         return new Color(
             Mathf.Clamp01(baseColor.r * overlayColor.r),

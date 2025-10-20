@@ -23,7 +23,7 @@ public class SwatchColorReference : MonoBehaviour
     /// <summary>
     /// Index into the ColorPalette array. -1 indicates no swatch assignment.
     /// </summary>
-    [HideInInspector][SerializeField] private int swatchIndex = -1;
+    [SerializeField] private int swatchIndex = -1;
 
     /// <summary>
     /// Reference to the required component (e.g., SpriteRenderer) for color updates. Property .color required.
@@ -34,6 +34,12 @@ public class SwatchColorReference : MonoBehaviour
     /// Cached PropertyInfo for the color property to avoid reflection overhead during updates.
     /// </summary>
     private PropertyInfo colorProperty;
+
+
+    [ShowInInspector] private Color colorBeforeDetachment = new(1,0,1,1); // pink
+    [ShowInInspector] private int swatchIndexAtDetachment = -1;
+
+    private Color LastFramePaletteColor;
 
     private readonly bool enableDebug = true;
 
@@ -50,7 +56,37 @@ public class SwatchColorReference : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        UpdateColorFromPalette();
+        if (swatchIndex >= 0) UpdateColorFromPalette();
+    }
+
+    void Update()
+    {
+        if (swatchIndex != -1 && GetCurrentColor() != ColorFromPalette())
+        {
+            if (LastFramePaletteColor != ColorFromPalette())
+            {
+                Debug.Log("Updating color because palette changed");
+                // palette color has changed
+                UpdateColorFromPalette();
+            }
+            else
+            {
+                Debug.Log("Swatch detached due to manual color change");
+                // has been changed externally
+                swatchIndexAtDetachment = swatchIndex;
+                colorBeforeDetachment = ColorFromPalette();
+                swatchIndex = -1;
+            }
+        }
+
+        if (swatchIndex == -1 && GetCurrentColor() == colorBeforeDetachment)
+        {
+            Debug.Log("Re-attaching swatch");
+            swatchIndex = swatchIndexAtDetachment;
+            UpdateColorFromPalette();
+        }
+        
+        LastFramePaletteColor = ColorFromPalette();
     }
 
     /// <summary>
@@ -84,8 +120,7 @@ public class SwatchColorReference : MonoBehaviour
     public void GetReferencedComponent()
     {
         // First try interface-based approach (most performant)
-        var colorableComponent = GetComponent<IColorable>();
-        if (colorableComponent != null)
+        if (TryGetComponent<IColorable>(out var colorableComponent))
         {
             referencedComponent = colorableComponent as UnityEngine.Component;
             colorProperty = typeof(IColorable).GetProperty("color");
@@ -186,7 +221,7 @@ public class SwatchColorReference : MonoBehaviour
     /// </summary>
     public Color ColorFromPalette()
     {
-        if (swatchIndex < 0) return Color.clear;
+        if (swatchIndex < 0) return Color.pink; // Indicate no swatch assigned
 
         ColorPalette palette = Resources.Load<ColorPalette>("ColorPalette");
         if (palette == null || palette.colors == null || swatchIndex >= palette.colors.Length) return Color.clear;

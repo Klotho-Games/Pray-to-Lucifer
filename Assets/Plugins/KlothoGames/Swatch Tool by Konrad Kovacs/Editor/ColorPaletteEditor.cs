@@ -18,7 +18,6 @@ public class ColorPaletteEditor : Editor
         // Check if any properties were changed
         if (GUI.changed)
         {
-            // Use the shared method from CustomSpriteRenderer to update all sprites
             SpriteRendererWithSwatchesEditor.UpdateAllSwatchReferences();
         }
     }
