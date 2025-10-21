@@ -307,7 +307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &49726019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,7 +536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &196912863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,7 +643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &197930718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -765,7 +765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &226232524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1048,7 +1048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &368466472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1187,7 +1187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &443541202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1277,7 +1277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &455611439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1926,7 +1926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 1
+  swatchIndex: -1
 --- !u!114 &530197244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2016,7 +2016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &549596866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2326,7 +2326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 1
+  swatchIndex: -1
 --- !u!114 &689982992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2416,7 +2416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &749698794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2536,7 +2536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &764581442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2628,7 +2628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &764589964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2800,7 +2800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &793417931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2972,7 +2972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &827364417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3500,7 +3500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &1224672016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3594,7 +3594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &1254768578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3709,8 +3709,8 @@ GameObject:
   - component: {fileID: 1271950134}
   - component: {fileID: 1271950138}
   - component: {fileID: 1271950137}
-  - component: {fileID: 1271950133}
   - component: {fileID: 1271950136}
+  - component: {fileID: 1271950139}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -3718,20 +3718,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1271950133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1271950131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp-firstpass::SwatchColorReference
-  manualSwatchesUpdate: 0
-  swatchIndex: 2
 --- !u!212 &1271950134
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3799,9 +3785,9 @@ Transform:
   m_GameObject: {fileID: 1271950131}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.88438, y: 0.37314, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0.79, y: -0.03, z: 0}
+  m_LocalScale: {x: 2.65, y: 1.625767, z: 1.625767}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3879,8 +3865,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrimeTweenDemo.HighlightableElement2D
   highlightAnchor: {fileID: 0}
   highlightScale: 1.1
-  highlightTint: {r: 0.7735849, g: 0.21529014, b: 0.21529014, a: 1}
-  enableDebug: 1
+  isTint: 0
+  highlightColor: {r: 0.31773528, g: 0.554, b: 0.3340294, a: 1}
+  PreHighlightColors: []
+  PreHighlightScale: {x: 1, y: 1}
+  PreHighlightScaleCached: 0
+  enableDebug: 0
+--- !u!114 &1271950139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1271950131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::SwatchColorReference
+  manualSwatchesUpdate: 0
+  swatchIndex: 2
 --- !u!1 &1310016547
 GameObject:
   m_ObjectHideFlags: 0
@@ -4019,7 +4023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &1343845911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4111,7 +4115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &1364009529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4250,7 +4254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &1513478149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4358,7 +4362,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrimeTweenDemo.HighlightableElement2D
   highlightAnchor: {fileID: 0}
   highlightScale: 1.1
-  highlightTint: {r: 1.2, g: 1.2, b: 1.2, a: 1}
+  isTint: 1
+  highlightColor: {r: 1.2, g: 1.2, b: 1.2, a: 1}
+  PreHighlightColors: []
+  PreHighlightScale: {x: 1, y: 1}
+  PreHighlightScaleCached: 0
   enableDebug: 0
 --- !u!114 &1701268114
 MonoBehaviour:
@@ -4664,11 +4672,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7da9c2285a838d44fb9f585ceab7dc27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HighlightedElement2DController
+  sizeTweenDuration: 0.25
+  sizeTweenEaseIn: 15
+  sizeTweenEaseOut: 5
+  colorTweenDuration: 0.25
+  colorTweenEaseIn: 3
+  colorTweenEaseOut: 2
   mainCamera: {fileID: 519420031}
   hoverLayers:
     serializedVersion: 2
     m_Bits: 55
   enableDebug: 0
+  enableDebugMousePosition: 0
 --- !u!4 &1802261714
 Transform:
   m_ObjectHideFlags: 0
@@ -4735,7 +4750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &1821996468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4825,7 +4840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 5
+  swatchIndex: -1
 --- !u!114 &1869992659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4919,7 +4934,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &1882942389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5235,7 +5250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &1987746438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5357,7 +5372,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrimeTweenDemo.HighlightableElement2D
   highlightAnchor: {fileID: 0}
   highlightScale: 1.1
-  highlightTint: {r: 1.2, g: 1.2, b: 1.2, a: 1}
+  isTint: 1
+  highlightColor: {r: 1.2, g: 1.2, b: 1.2, a: 1}
+  PreHighlightColors: []
+  PreHighlightScale: {x: 1, y: 1}
+  PreHighlightScaleCached: 0
   enableDebug: 0
 --- !u!114 &2069338169
 MonoBehaviour:
@@ -5543,7 +5562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &2104018827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5633,7 +5652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
   manualSwatchesUpdate: 0
-  swatchIndex: 0
+  swatchIndex: -1
 --- !u!114 &2119321215
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,13 +8,17 @@ using UnityEngine.InputSystem;
 
 public class HighlightedElement2DController : MonoBehaviour
 {
-    const float sizeTweenDuration = 0.2f;
-    const float colorTweenDuration = 1f;
+    [SerializeField] float sizeTweenDuration = 0.2f;
+    [SerializeField] Ease sizeTweenEaseIn = Ease.OutBack;
+    [SerializeField] Ease sizeTweenEaseOut = Ease.OutBack;
+    [SerializeField] float colorTweenDuration = 1f;
+    [SerializeField] Ease colorTweenEaseIn = Ease.OutQuad;
+    [SerializeField] Ease colorTweenEaseOut = Ease.OutQuad;
     [SerializeField] Camera mainCamera;
     [SerializeField] LayerMask hoverLayers = -1;
     [SerializeField] bool enableDebug = false;
     [SerializeField] private bool enableDebugMousePosition = false;
-    [ShowInInspector][CanBeNull] public HighlightableElement2D Current { get; private set; }
+    [CanBeNull] public HighlightableElement2D Current { get; private set; }
 
     void Awake()
     {
@@ -165,47 +169,56 @@ public class HighlightedElement2DController : MonoBehaviour
     /// <summary>
     /// Animates 2D sprite highlighting effects.
     /// </summary>
-    void AnimateHighlightedElement2D([NotNull] HighlightableElement2D highlightable, bool isHighlighted)
+    void AnimateHighlightedElement2D([NotNull] HighlightableElement2D h, bool isHighlighted)
     {
-        // Scale animation
-        Vector3 targetScale = isHighlighted
-            ? Vector3.one * highlightable.highlightScale
-            : Vector3.one;
-        Tween.Scale(highlightable.highlightAnchor, targetScale, sizeTweenDuration, Ease.OutBack);
-
         // Color tint animation
         if (isHighlighted)
         {
-            if (highlightable.PreHighlightColors.IsNullOrEmpty())
+            // Cache anchor scale if not already cached
+            if (!h.PreHighlightScaleCached)
             {
-                highlightable.PreHighlightColors = new List<Color>();
-                foreach (var spriteRenderer in highlightable.Models)
+                h.PreHighlightScale = h.highlightAnchor.localScale;
+                Tween.ScaleX(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseIn);
+                Tween.ScaleY(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseIn);
+                h.PreHighlightScaleCached = true;
+            }
+
+            if (h.PreHighlightColors.IsNullOrEmpty())
+            {
+                h.PreHighlightColors = new List<Color>();
+                foreach (var spriteRenderer in h.Models)
                 {
-                    highlightable.PreHighlightColors.Add(spriteRenderer.color);
-                    Tween.Color(spriteRenderer, OverlayColor(spriteRenderer.color, highlightable.highlightTint), colorTweenDuration, Ease.OutQuad);
+                    h.PreHighlightColors.Add(spriteRenderer.color);
+                    Tween.Color(spriteRenderer, h.isTint ? OverlayColor(spriteRenderer.color, h.highlightColor) : h.highlightColor, colorTweenDuration, colorTweenEaseIn);
                 }
             }
             else
             {
-                for (int i = 0; i < highlightable.Models.Length; i++)
+                Tween.ScaleX(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseIn);
+                Tween.ScaleY(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseIn);
+
+                for (int i = 0; i < h.Models.Length; i++)
                 {
-                    SpriteRenderer spriteRenderer = highlightable.Models[i];
-                    Tween.Color(spriteRenderer, OverlayColor(highlightable.PreHighlightColors[i], highlightable.highlightTint), colorTweenDuration, Ease.OutQuad);
+                    SpriteRenderer spriteRenderer = h.Models[i];
+                    Tween.Color(spriteRenderer, h.isTint ? OverlayColor(h.PreHighlightColors[i], h.highlightColor) : h.highlightColor, colorTweenDuration, colorTweenEaseIn);
                 }
             }
         }
-        else if (!highlightable.PreHighlightColors.IsNullOrEmpty())
+        else if (!h.PreHighlightColors.IsNullOrEmpty())
         {
-            for (int i = 0; i < highlightable.Models.Length; i++)
-            {
-                SpriteRenderer spriteRenderer = highlightable.Models[i];
-                if (highlightable.PreHighlightColors[i] == spriteRenderer.color) continue;
+            Tween.ScaleX(h.highlightAnchor, h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseOut);
+            Tween.ScaleY(h.highlightAnchor, h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseOut);
 
-                Tween.Color(spriteRenderer, highlightable.PreHighlightColors[i], colorTweenDuration, Ease.OutQuad);
+            for (int i = 0; i < h.Models.Length; i++)
+            {
+                SpriteRenderer spriteRenderer = h.Models[i];
+                if (h.PreHighlightColors[i] == spriteRenderer.color) continue;
+
+                Tween.Color(spriteRenderer, h.PreHighlightColors[i], colorTweenDuration, colorTweenEaseOut);
             }
             
-            // Schedule a check after all tweens complete to see if we can clear the list
-            StartCoroutine(CheckAndClearPreHighlightColorsAfterDelay(highlightable, colorTweenDuration));
+            // Schedule a check after all tweens complete to see if we can clear the list and restore scale
+            StartCoroutine(CheckAndClearPreHighlightColorsAfterDelay(h, colorTweenDuration));
         }
     }
 
@@ -230,20 +243,41 @@ public class HighlightedElement2DController : MonoBehaviour
 
         if (enableDebug) Debug.Log(highlightable + " is not current highlight, clearing colors...");
 
-        List<Color> tempColors = new(highlightable.PreHighlightColors);
-        
-        highlightable.PreHighlightColors.Clear();
+    List<Color> tempColors = new(highlightable.PreHighlightColors);
+    Vector2 cachedScale = highlightable.PreHighlightScale;
+    bool hadScaleCached = highlightable.PreHighlightScaleCached;
 
-        for (int i = 0; i < 100; ++i)
+    highlightable.PreHighlightColors.Clear();
+    highlightable.PreHighlightScaleCached = false;
+
+        // Monitor for re-highlighting during the same duration as the original tweenar 
+        float elapsedTime = 0f;
+        while (elapsedTime < delay)
         {
             yield return null;
+            elapsedTime += Time.deltaTime;
 
             if (highlightable == Current)
             {
                 highlightable.PreHighlightColors = tempColors;
+                if (hadScaleCached)
+                {
+                    highlightable.PreHighlightScale = cachedScale;
+                    highlightable.PreHighlightScaleCached = true;
+                }
+                Debug.Log(highlightable + " became current highlight again, restoring colors.");
+                yield break;
             }
         }
         
+        // If we reached here, the object wasn't re-highlighted - drop the temp cache
+        // and restore scale if needed.
+        if (hadScaleCached)
+        {
+            // Restore to pre-highlight scale
+            highlightable.highlightAnchor.localScale = cachedScale;
+        }
+
         tempColors.Clear();
     }
 

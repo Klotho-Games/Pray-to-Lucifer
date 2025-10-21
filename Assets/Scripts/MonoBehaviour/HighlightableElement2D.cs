@@ -10,7 +10,8 @@ public class HighlightableElement2D : MonoBehaviour {
     [Header("Highlight Settings")]
     public Transform highlightAnchor;
     public float highlightScale = 1.1f;
-    public Color highlightTint = new(1.2f, 1.2f, 1.2f, 1f);
+    public bool isTint = true;
+    public Color highlightColor = new(1.2f, 1.2f, 1.2f, 1f); // Lighten color
     
     /// <summary>
     /// All SpriteRenderer components that will be affected by highlighting.
@@ -21,6 +22,12 @@ public class HighlightableElement2D : MonoBehaviour {
     /// Colors before highlighting.
     /// </summary>
     [CanBeNull] public List<Color> PreHighlightColors = null;
+    
+    /// <summary>
+    /// Cached anchor scale before highlighting. Used to restore scale on unhighlight.
+    /// </summary>
+    public Vector2 PreHighlightScale = Vector2.one;
+    public bool PreHighlightScaleCached = false;
 
     [SerializeField] private bool enableDebug = false;
     
