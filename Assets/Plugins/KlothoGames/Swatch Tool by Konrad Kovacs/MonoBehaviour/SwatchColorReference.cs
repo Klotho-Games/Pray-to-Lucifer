@@ -41,7 +41,7 @@ public class SwatchColorReference : MonoBehaviour
 
     private Color LastFramePaletteColor;
 
-    private readonly bool enableDebug = true;
+    private readonly bool enableDebug = false;
 
     /// <summary>
     /// Cache the SpriteRenderer component reference for performance.
@@ -65,13 +65,13 @@ public class SwatchColorReference : MonoBehaviour
         {
             if (LastFramePaletteColor != ColorFromPalette())
             {
-                Debug.Log("Updating color because palette changed");
+                if (enableDebug) Debug.Log("Updating color because palette changed");
                 // palette color has changed
                 UpdateColorFromPalette();
             }
             else
             {
-                Debug.Log("Swatch detached due to manual color change");
+                if (enableDebug) Debug.Log("Swatch detached due to manual color change");
                 // has been changed externally
                 swatchIndexAtDetachment = swatchIndex;
                 colorBeforeDetachment = ColorFromPalette();
@@ -81,7 +81,7 @@ public class SwatchColorReference : MonoBehaviour
 
         if (swatchIndex == -1 && GetCurrentColor() == colorBeforeDetachment)
         {
-            Debug.Log("Re-attaching swatch");
+            if (enableDebug) Debug.Log("Re-attaching swatch");
             swatchIndex = swatchIndexAtDetachment;
             UpdateColorFromPalette();
         }
@@ -145,7 +145,7 @@ public class SwatchColorReference : MonoBehaviour
                 colorProperty = property;
                 if (enableDebug)
                 {
-                    Debug.Log($"SwatchColorReference: Found color property on {componentType.Name}");
+                    if (enableDebug) Debug.Log($"SwatchColorReference: Found color property on {componentType.Name}");
                 }
                 return;
             }

@@ -16,7 +16,7 @@ public class HighlightedElement2DController : MonoBehaviour
     [SerializeField] Ease colorTweenEaseOut = Ease.OutQuad;
     [SerializeField] Camera mainCamera;
     [SerializeField] LayerMask hoverLayers = -1;
-    [SerializeField] bool enableDebug = false;
+    [SerializeField] bool enableDebug = true;
     [SerializeField] private bool enableDebugMousePosition = false;
     [CanBeNull] public HighlightableElement2D Current { get; private set; }
 
@@ -182,43 +182,55 @@ public class HighlightedElement2DController : MonoBehaviour
                 Tween.ScaleY(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseIn);
                 h.PreHighlightScaleCached = true;
             }
-
-            if (h.PreHighlightColors.IsNullOrEmpty())
-            {
-                h.PreHighlightColors = new List<Color>();
-                foreach (var spriteRenderer in h.Models)
-                {
-                    h.PreHighlightColors.Add(spriteRenderer.color);
-                    Tween.Color(spriteRenderer, h.isTint ? OverlayColor(spriteRenderer.color, h.highlightColor) : h.highlightColor, colorTweenDuration, colorTweenEaseIn);
-                }
-            }
             else
             {
                 Tween.ScaleX(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseIn);
                 Tween.ScaleY(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseIn);
+            }
 
+            if (h.PreHighlightColors.IsNullOrEmpty())
+            {
+                h.PreHighlightColors = new List<Color>();
+                foreach (var component in h.Models)
+                {
+                    Color currentColor = GetComponentColor(component);
+                    h.PreHighlightColors.Add(currentColor);
+                    TweenExt.Color(component, h.isTint ? OverlayColor(currentColor, h.highlightColor) : h.highlightColor, colorTweenDuration, colorTweenEaseIn);
+                }
+            }
+            else
+            {
                 for (int i = 0; i < h.Models.Length; i++)
                 {
-                    SpriteRenderer spriteRenderer = h.Models[i];
-                    Tween.Color(spriteRenderer, h.isTint ? OverlayColor(h.PreHighlightColors[i], h.highlightColor) : h.highlightColor, colorTweenDuration, colorTweenEaseIn);
+                    Component component = h.Models[i];
+                    TweenExt.Color(component, h.isTint ? OverlayColor(h.PreHighlightColors[i], h.highlightColor) : h.highlightColor, colorTweenDuration, colorTweenEaseIn);
                 }
             }
         }
-        else if (!h.PreHighlightColors.IsNullOrEmpty())
+        else
         {
-            Tween.ScaleX(h.highlightAnchor, h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseOut);
-            Tween.ScaleY(h.highlightAnchor, h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseOut);
-
-            for (int i = 0; i < h.Models.Length; i++)
+            if (h.PreHighlightScaleCached)
             {
-                SpriteRenderer spriteRenderer = h.Models[i];
-                if (h.PreHighlightColors[i] == spriteRenderer.color) continue;
-
-                Tween.Color(spriteRenderer, h.PreHighlightColors[i], colorTweenDuration, colorTweenEaseOut);
+                // Restore to pre-highlight scale
+                Tween.ScaleX(h.highlightAnchor, h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseOut);
+                Tween.ScaleY(h.highlightAnchor, h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseOut);
             }
-            
-            // Schedule a check after all tweens complete to see if we can clear the list and restore scale
-            StartCoroutine(CheckAndClearPreHighlightColorsAfterDelay(h, colorTweenDuration));
+
+            if (!h.PreHighlightColors.IsNullOrEmpty())
+            {
+                for (int i = 0; i < h.Models.Length; i++)
+                {
+                    Component component = h.Models[i];
+                    Color currentColor = GetComponentColor(component);
+                    
+                    if (h.PreHighlightColors[i] == currentColor) continue;
+                    
+                    TweenExt.Color(component, h.PreHighlightColors[i], colorTweenDuration, colorTweenEaseOut);
+                }
+
+                // Schedule a check after all tweens complete to see if we can clear the list and restore scale
+                StartCoroutine(CheckAndClearPreHighlightColorsAfterDelay(h, colorTweenDuration));
+            }
         }
     }
 
@@ -265,20 +277,41 @@ public class HighlightedElement2DController : MonoBehaviour
                     highlightable.PreHighlightScale = cachedScale;
                     highlightable.PreHighlightScaleCached = true;
                 }
-                Debug.Log(highlightable + " became current highlight again, restoring colors.");
+                if (enableDebug) Debug.Log(highlightable + " became current highlight again, restoring colors.");
                 yield break;
             }
         }
-        
-        // If we reached here, the object wasn't re-highlighted - drop the temp cache
-        // and restore scale if needed.
-        if (hadScaleCached)
-        {
-            // Restore to pre-highlight scale
-            highlightable.highlightAnchor.localScale = cachedScale;
-        }
 
         tempColors.Clear();
+    }
+
+    /// <summary>
+    /// Gets the color from any component that has a color property.
+    /// Supports IColorable interface or reflection-based access.
+    /// </summary>
+    static Color GetComponentColor(Component component)
+    {
+        if (component == null) return Color.white;
+        
+        // Try IColorable first
+        if (component is IColorable colorable)
+            return colorable.color;
+        
+        // Fallback to reflection
+        var colorProperty = component.GetType().GetProperty("color");
+        if (colorProperty != null && colorProperty.PropertyType == typeof(Color))
+        {
+            try
+            {
+                return (Color)colorProperty.GetValue(component);
+            }
+            catch
+            {
+                return Color.white;
+            }
+        }
+        
+        return Color.white;
     }
 
     static Color OverlayColor(Color baseColor, Color overlayColor)
