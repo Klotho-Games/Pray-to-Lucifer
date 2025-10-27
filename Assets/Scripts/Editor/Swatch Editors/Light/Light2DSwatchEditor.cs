@@ -1,4 +1,4 @@
-/* using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using UnityEngine.Rendering.Universal;
 using System.Collections.Generic;
@@ -797,4 +797,4 @@ public class Light2DSwatchEditor : SwatchEditorBase
         Color swatchColor = swatchRef.ColorFromPalette();
         return Light2D.color != swatchColor;
     }
-} */
+}
