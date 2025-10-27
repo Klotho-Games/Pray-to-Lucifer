@@ -20,6 +20,7 @@ public static class ColorUtilitiesRuntime
                             ?? component.GetType().GetProperty("vertexColor")
                             ?? component.GetType().GetProperty("tintColor")
                             ?? component.GetType().GetProperty("fillColor")
+                            ?? component.GetType().GetProperty("backgroundColor")
                             ?? component.GetType().GetProperty("emissionColor");
 
         if (colorProperty != null)

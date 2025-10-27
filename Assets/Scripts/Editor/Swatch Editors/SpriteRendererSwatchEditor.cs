@@ -8,7 +8,7 @@ using UnityEditor;
 /// property handling and behavior.
 /// </summary>
 [CustomEditor(typeof(SpriteRenderer))]
-public class SpriteRendererWithSwatchesEditor : SwatchEditorBase
+public class SpriteRendererSwatchEditor : SwatchEditorBase
 {
     /// <summary>
     /// Draws the most commonly used SpriteRenderer properties above the swatch section.

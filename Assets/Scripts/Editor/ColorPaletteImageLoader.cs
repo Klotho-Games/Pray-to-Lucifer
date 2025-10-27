@@ -311,7 +311,7 @@ public class ColorPaletteImageLoader
         AssetDatabase.SaveAssets();
         
         // Trigger swatch reference updates
-        SpriteRendererWithSwatchesEditor.UpdateAllSwatchReferences();
+        SwatchEditorBase.UpdateAllSwatchReferences();
         #endif
         
         // Debug.Log($"[ColorPaletteImageLoader] Updated ColorPalette: Swatch 0 (default) + {extractedColors.Count} extracted colors");

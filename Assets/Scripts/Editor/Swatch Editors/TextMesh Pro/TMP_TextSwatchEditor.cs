@@ -939,7 +939,7 @@ public class TMP_TextSwatchEditor : SwatchEditorBase
             if (GUI.Button(rect, new GUIContent("<b>Extra Settings</b>"), TMP_UIStyleManager.sectionHeader))
                 s_ExtraSettingsFoldout = !s_ExtraSettingsFoldout;
 
-            GUI.Label(rect, (s_ExtraSettingsFoldout ? k_UiStateLabel[0] : k_UiStateLabel[1]), TMP_UIStyleManager.rightLabel);
+            GUI.Label(rect, s_ExtraSettingsFoldout ? k_UiStateLabel[0] : k_UiStateLabel[1], TMP_UIStyleManager.rightLabel);
 
             if (s_ExtraSettingsFoldout)
             {
