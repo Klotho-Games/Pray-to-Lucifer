@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Reflection;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -11,7 +9,7 @@ using UnityEngine;
 /// The component handles automatic registration for performance optimization and manages serialization
 /// edge cases like duplicated objects that need to re-register with the editor system.
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class SwatchColorReference : MonoBehaviour
 {
     /// <summary>
