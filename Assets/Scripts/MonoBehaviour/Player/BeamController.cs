@@ -48,51 +48,11 @@ public class BeamController : MonoBehaviour
 
         Vector2 direction = (mouseWorldPos - (Vector2)transform.position).normalized;
 
-        DrawNextBeam(_intensity, (Vector2)transform.position, direction, null);
-
-        /* while (hitIsDarkness == false && bounceCount < maxBounces)
-        {
-            RaycastInfo raycastInfo = RaycastForFirstGateTypeOrTheBigDarknessTag(Points[^1], direction, previouslyHitObject);
-
-            // Safety check: if contactPoint is zero/invalid, treat as darkness
-            if (raycastInfo.contactPoint == Vector2.zero || raycastInfo.contactPoint == Points[^1])
-            {
-                // Add a far point in the current direction and exit
-                Points.Add(Points[^1] + direction * 100f);
-                break;
-            }
-
-            Points.Add(raycastInfo.contactPoint);
-
-            if (raycastInfo.isDarkness)
-            {
-                hitIsDarkness = true;
-            }
-            else
-            {
-                // TODO: Implement proper gate-specific logic based on raycastInfo.gateTypeComponent.gateType
-                // For now, this is placeholder reflection logic
-                // In a real implementation, you would:
-                // - Get the surface normal from the hit
-                // - Apply different transformations based on gate type (mirror, lens, etc.)
-
-                // Temporary: reflect with proper normal (you'll need to get this from the hit)
-                // Using Vector2.up is just a placeholder - replace with actual surface normal
-                Vector2 surfaceNormal = raycastInfo.normal;
-
-                direction = Vector2.Reflect(direction, surfaceNormal);
-
-                previouslyHitObject = raycastInfo.hitObject;
-                bounceCount++;
-            }
-        } */
+        DrawNextBeam(_intensity + 1, (Vector2)transform.position, direction, null);
     }
 
     private void DrawNextBeam(int intensity, Vector2 origin, Vector2 direction, GameObject ignoreObject)
     {
-        --intensity;
-        if (intensity <= 0)
-            return;
 
         RaycastInfo raycastInfo = RaycastForFirstGateTypeOrTheBigDarknessTag(origin, direction, ignoreObject);
 
@@ -104,6 +64,10 @@ public class BeamController : MonoBehaviour
         segmentLR.SetPosition(1, new(raycastInfo.contactPoint.x, raycastInfo.contactPoint.y, 0f));
         spawnedLineRenderers.Push(segmentLR.gameObject);
         #endregion
+        
+        --intensity;
+        if (intensity <= 0)
+            return;
 
         if (raycastInfo.isDarkness)
             return;
