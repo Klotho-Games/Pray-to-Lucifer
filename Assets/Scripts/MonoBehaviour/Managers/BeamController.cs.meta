@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 12ce8148b2498f6469d81677f444315e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - lineRendererObjectPrefab: {fileID: 3777194826535280043, guid: 4776fc821539660478695a39c984de08, type: 3}
+  - mainCamera: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

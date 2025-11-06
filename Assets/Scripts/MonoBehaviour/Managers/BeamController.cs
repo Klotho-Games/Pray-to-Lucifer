@@ -1,20 +1,36 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class BeamController : MonoBehaviour
 {
-    /// <summary>
-    /// Points that make up the beam path.
-    /// </summary>
+    public static BeamController instance;
 
+    [SerializeField] private int damagePerSecond = 10;
     [SerializeField] private int _intensity = 10;
-    [SerializeField] private GameObject lineRendererObjectPrefab;
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private Transform beamOriginTransform;
+    [SerializeField] private GameObject lineRendererObjectPrefab;
 
-    private Stack<GameObject> spawnedLineRenderers = new();
-    private bool enableDebugMousePosition = false;
+    public List<GameObject> SpawnedLineRenderers { get; private set; } = new();
+    private readonly bool enableDebugMousePosition = false;
 
+    #region Instance
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    #endregion
+    
     private void FixedUpdate()
     {
         DeleteOldLineRenderers();
@@ -23,9 +39,10 @@ public class BeamController : MonoBehaviour
 
     private void DeleteOldLineRenderers()
     {
-        while (spawnedLineRenderers.Count > 0)
+        while (SpawnedLineRenderers.Count > 0)
         {
-            GameObject lrObj = spawnedLineRenderers.Pop();
+            GameObject lrObj = SpawnedLineRenderers[^1];
+            SpawnedLineRenderers.RemoveAt(SpawnedLineRenderers.Count - 1);
             Destroy(lrObj);
         }
     }
@@ -45,23 +62,28 @@ public class BeamController : MonoBehaviour
         if (mouseWorldPos == Vector2.zero)
             return;
 
-        Vector2 direction = (mouseWorldPos - (Vector2)transform.position).normalized;
+        Vector2 direction = (mouseWorldPos - (Vector2)beamOriginTransform.position).normalized;
 
-        DrawNextBeam(_intensity + 1, (Vector2)transform.position, direction, null);
+        DrawNextBeam(_intensity + 1, (Vector2)beamOriginTransform.position, direction, null, damagePerSecond);
     }
 
-    private void DrawNextBeam(int intensity, Vector2 origin, Vector2 direction, GameObject ignoreObject)
+    private void DrawNextBeam(int intensity, Vector2 origin, Vector2 direction, GameObject ignoreObject, int damagePerSecond)
     {
 
         RaycastInfo raycastInfo = RaycastForFirstGateTypeOrTheBigDarknessTag(origin, direction, ignoreObject);
 
         #region Draw the line segment
-        LineRenderer segmentLR = Instantiate(lineRendererObjectPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<LineRenderer>();
+        LineRenderer segmentLR = Instantiate(lineRendererObjectPrefab, Vector3.zero, Quaternion.identity, beamOriginTransform).GetComponent<LineRenderer>();
         segmentLR.positionCount = 2;
         segmentLR.widthMultiplier = Mathf.Log(intensity);
         segmentLR.SetPosition(0, new(origin.x, origin.y, 0f));
         segmentLR.SetPosition(1, new(raycastInfo.contactPoint.x, raycastInfo.contactPoint.y, 0f));
-        spawnedLineRenderers.Push(segmentLR.gameObject);
+        SpawnedLineRenderers.Add(segmentLR.gameObject);
+        #endregion
+
+        #region Pass on data
+        BeamData beamData = segmentLR.GetComponent<BeamData>();
+        beamData.damagePerSecond = damagePerSecond;
         #endregion
         
         --intensity;
@@ -76,7 +98,21 @@ public class BeamController : MonoBehaviour
             case GateTypes.Mirror:
                 // Reflect the beam
                 Vector2 reflectedDir = Vector2.Reflect(direction, raycastInfo.normal);
-                DrawNextBeam(intensity, raycastInfo.contactPoint + reflectedDir * 0.01f, reflectedDir, raycastInfo.hitObject);
+                DrawNextBeam(intensity, raycastInfo.contactPoint, reflectedDir, raycastInfo.hitObject, damagePerSecond);
+                break;
+            case GateTypes.Diverging_lens:
+                DrawNextBeam(intensity, raycastInfo.contactPoint, direction, raycastInfo.hitObject, damagePerSecond >> 1);
+                break;
+            case GateTypes.Converging_lens:
+                DrawNextBeam(intensity, raycastInfo.contactPoint, direction, raycastInfo.hitObject, damagePerSecond << 1);
+                break;
+
+            // TODO: Implement other gate types
+            case GateTypes.Lens_system:
+                break;
+            case GateTypes.One_way_mirror:
+                break;
+            case GateTypes.Diffraction:
                 break;
 
             default:

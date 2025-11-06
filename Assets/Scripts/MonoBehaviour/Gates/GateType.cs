@@ -11,8 +11,8 @@ public enum GateTypes
     [InspectorName("Diffraction")]
     Diffraction,
 
-    [InspectorName("Optical fiber")]
-    Optical_fiber,
+    // [InspectorName("Optical fiber")]
+    // Optical_fiber,
 
     [InspectorName("Converging lens")]
     Converging_lens,

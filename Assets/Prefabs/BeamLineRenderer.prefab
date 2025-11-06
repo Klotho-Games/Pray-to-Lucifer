@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2504679157682717039}
   - component: {fileID: 58766953218729167}
+  - component: {fileID: -3625264193603621059}
   m_Layer: 0
   m_Name: BeamLineRenderer
   m_TagString: Untagged
@@ -142,3 +143,16 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &-3625264193603621059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3777194826535280043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8b4f0bb68163a74e9d45d4d78edf1d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeamData
+  damagePerSecond: 10

@@ -19,12 +19,12 @@ public class SwatchColorReference : MonoBehaviour
     /// <summary>
     /// Index into the ColorPalette array. -1 indicates no swatch assignment.
     /// </summary>
-    [SerializeField] private int swatchIndex = -1;
+    private int swatchIndex = -1;
 
     /// <summary>
     /// Reference to the required component (e.g., SpriteRenderer) for color updates. Property .color required.
     /// </summary>
-    private UnityEngine.Component referencedComponent;
+    private Component referencedComponent;
 
     /// <summary>
     /// Cached PropertyInfo for the color property to avoid reflection overhead during updates.
