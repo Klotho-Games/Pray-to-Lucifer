@@ -5,8 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class PlayerMovement : MonoBehaviour
 {
-    public event Action GameOver;
-
     public enum Axis { X, Y }
 
     [Serializable]
@@ -41,6 +39,22 @@ public class PlayerMovement : MonoBehaviour
     {
         Move(Axis.X);
         Move(Axis.Y);
+        
+        // Clamp diagonal movement to prevent moving faster diagonally
+        ClampVelocityMagnitude();
+    }
+    
+    private void ClampVelocityMagnitude()
+    {
+        Vector2 velocity = rb.linearVelocity;
+        
+        // Check if velocity magnitude exceeds maxVelocity
+        if (velocity.magnitude > moveVariables.maxVelocity)
+        {
+            // Normalize and scale back to maxVelocity
+            velocity = velocity.normalized * moveVariables.maxVelocity;
+            rb.linearVelocity = velocity;
+        }
     }
 
     private void Move(Axis axis)

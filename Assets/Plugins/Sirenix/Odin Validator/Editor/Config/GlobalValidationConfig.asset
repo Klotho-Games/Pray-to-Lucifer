@@ -9,27 +9,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1426575000, guid: afbf832bc46149f5a291e87cab63e46d, type: 3}
+  m_Script: {fileID: 0}
   m_Name: GlobalValidationConfig
-  m_EditorClassIdentifier: Sirenix.OdinValidator.Editor.dll::Sirenix.OdinValidator.Editor.GlobalValidationConfig
+  m_EditorClassIdentifier: 
   ValidateScenesOnSceneLoad:
-    serializedValue: 1
-    changedFromDefault: 1
+    serializedValue: 0
+    changedFromDefault: 0
   ValidateMainProfileOnLoad:
     serializedValue: 0
     changedFromDefault: 0
   QueueAssetsOnLoad:
     serializedValue: 0
-    changedFromDefault: 1
+    changedFromDefault: 0
   QueueScenesOnLoad:
     serializedValue: 0
     changedFromDefault: 0
   PopulateQueueOnAssetDeleted:
-    serializedValue: 1
-    changedFromDefault: 1
+    serializedValue: 0
+    changedFromDefault: 0
   PopulateQueueOnGameObjectDeleted:
-    serializedValue: 1
-    changedFromDefault: 1
+    serializedValue: 0
+    changedFromDefault: 0
   RunMainValidationSessionOnLoad:
     serializedValue: 0
     changedFromDefault: 0
@@ -58,8 +58,8 @@ MonoBehaviour:
     serializedValue: 0
     changedFromDefault: 0
   ShowWidget:
-    serializedValue: 1
-    changedFromDefault: 1
+    serializedValue: 0
+    changedFromDefault: 0
   DebugMode:
     serializedValue: 0
     changedFromDefault: 0
@@ -82,6 +82,6 @@ MonoBehaviour:
     serializedValue: 0
     changedFromDefault: 0
   KeepMainValidationSessionAliveInBackground:
-    serializedValue: 1
-    changedFromDefault: 1
-  HasShownValidationConfig: 1
+    serializedValue: 0
+    changedFromDefault: 0
+  HasShownValidationConfig: 0

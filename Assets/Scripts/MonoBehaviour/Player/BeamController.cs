@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +12,7 @@ public class BeamController : MonoBehaviour
     [SerializeField] private GameObject lineRendererObjectPrefab;
     [SerializeField] private Camera mainCamera;
 
-    [ShowInInspector] private Stack<GameObject> spawnedLineRenderers = new();
+    private Stack<GameObject> spawnedLineRenderers = new();
     private bool enableDebugMousePosition = false;
 
     private void FixedUpdate()

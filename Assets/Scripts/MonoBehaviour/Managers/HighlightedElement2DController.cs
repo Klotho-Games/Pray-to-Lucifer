@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using System.Reflection;
 using JetBrains.Annotations;
 using PrimeTween;
-using Sirenix.OdinInspector;
-using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -189,7 +186,7 @@ public class HighlightedElement2DController : MonoBehaviour
                 Tween.ScaleY(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseIn);
             }
 
-            if (h.PreHighlightColors.IsNullOrEmpty())
+            if (h.PreHighlightColors == null || h.PreHighlightColors.Count == 0)
             {
                 h.PreHighlightColors = new List<Color>();
                 foreach (var component in h.Models)
@@ -219,7 +216,7 @@ public class HighlightedElement2DController : MonoBehaviour
                 Tween.ScaleY(h.highlightAnchor, h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseOut);
             }
 
-            if (!h.PreHighlightColors.IsNullOrEmpty())
+            if (h.PreHighlightColors != null && h.PreHighlightColors.Count > 0)
             {
                 for (int i = 0; i < h.Models.Length; i++)
                 {
@@ -251,7 +248,7 @@ public class HighlightedElement2DController : MonoBehaviour
 
 
         // Check if the list still exists and hasn't been cleared already
-        if (highlightable == null || highlightable.PreHighlightColors.IsNullOrEmpty())
+        if (highlightable == null || highlightable.PreHighlightColors == null || highlightable.PreHighlightColors.Count == 0)
         {
             yield break;
         }

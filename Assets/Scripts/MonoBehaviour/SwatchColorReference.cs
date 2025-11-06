@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 /// <summary>
@@ -33,8 +32,8 @@ public class SwatchColorReference : MonoBehaviour
     private PropertyInfo colorProperty;
 
 
-    [ShowInInspector] private Color colorBeforeDetachment = new(1,0,1,1); // pink
-    [ShowInInspector] private int swatchIndexAtDetachment = -1;
+    private Color colorBeforeDetachment = new(1,0,1,1); // pink
+    private int swatchIndexAtDetachment = -1;
 
     private Color LastFramePaletteColor;
 
