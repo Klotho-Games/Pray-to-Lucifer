@@ -7,16 +7,11 @@ public class PlayerMovement : MonoBehaviour
 {
     public enum Axis { X, Y }
 
-    [Serializable]
-    public class MoveVariables
-    {
-        [Header("Move")]
-        public float maxVelocity = 6.5f;
-        public float accelerationDuration = 0.2f;
-        public float deccelerationDuration = 0.4f;
-        [Range(0,1f)] public float yAxisModifier = 0.75f;
-    }
-    public MoveVariables moveVariables = new();
+    [Header("Move")]
+    public float maxVelocity = 6.5f;
+    public float accelerationDuration = 0.2f;
+    public float deccelerationDuration = 0.4f;
+    [Range(0, 1f)] public float yAxisModifier = 0.75f;
 
     private Rigidbody2D rb;
 
@@ -49,10 +44,10 @@ public class PlayerMovement : MonoBehaviour
         Vector2 velocity = rb.linearVelocity;
         
         // Check if velocity magnitude exceeds maxVelocity
-        if (velocity.magnitude > moveVariables.maxVelocity)
+        if (velocity.magnitude > maxVelocity)
         {
             // Normalize and scale back to maxVelocity
-            velocity = velocity.normalized * moveVariables.maxVelocity * (Mathf.Sqrt(1f + moveVariables.yAxisModifier * moveVariables.yAxisModifier));
+            velocity = velocity.normalized * maxVelocity * Mathf.Sqrt(1f + yAxisModifier * yAxisModifier);
             rb.linearVelocity = velocity;
         }
     }
@@ -60,9 +55,9 @@ public class PlayerMovement : MonoBehaviour
     private void Move(Axis axis)
     {
         int i = (int)axis;
-        moveInput[i] = axis == Axis.X ? InputManager.instance.MoveInput.x : InputManager.instance.MoveInput.y * moveVariables.yAxisModifier;
-        acceleration = moveVariables.maxVelocity / moveVariables.accelerationDuration;
-        decceleration = moveVariables.maxVelocity / moveVariables.deccelerationDuration;
+        moveInput[i] = axis == Axis.X ? InputManager.instance.MoveInput.x : InputManager.instance.MoveInput.y * yAxisModifier;
+        acceleration = maxVelocity / accelerationDuration;
+        decceleration = maxVelocity / deccelerationDuration;
 
         bool atMaxVelocity = axis == Axis.X ? isAtMaxVelocity.x : isAtMaxVelocity.y;
 
@@ -92,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
         else
             velocity.y += moveInput[i] * acceleration;
 
-        if (Mathf.Abs(axis == Axis.X ? velocity.x : velocity.y) > moveVariables.maxVelocity)
+        if (Mathf.Abs(axis == Axis.X ? velocity.x : velocity.y) > maxVelocity)
         {
             if (axis == Axis.X)
                 isAtMaxVelocity.x = true;
@@ -141,9 +136,9 @@ public class PlayerMovement : MonoBehaviour
         int i = (int)axis;
         Vector2 velocity = rb.linearVelocity;
         if (axis == Axis.X)
-            velocity.x = moveInput[i] * moveVariables.maxVelocity;
+            velocity.x = moveInput[i] * maxVelocity;
         else
-            velocity.y = moveInput[i] * moveVariables.maxVelocity;
+            velocity.y = moveInput[i] * maxVelocity;
         rb.linearVelocity = velocity;
     }
 

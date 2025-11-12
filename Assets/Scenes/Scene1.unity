@@ -847,7 +847,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1370055744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1215,11 +1215,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 259859f973b0c374cb5f04b7d16df15b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveVariables:
-    maxVelocity: 7
-    accelerationDuration: 1
-    deccelerationDuration: 7
-    yAxisModifier: 0.75
+  maxVelocity: 5
+  accelerationDuration: 0.75
+  deccelerationDuration: 5
+  yAxisModifier: 0.65
 --- !u!95 &1552325824
 Animator:
   serializedVersion: 7
