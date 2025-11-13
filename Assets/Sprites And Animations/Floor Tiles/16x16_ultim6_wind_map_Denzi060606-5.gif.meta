@@ -1,0 +1,1096 @@
+fileFormatVersion: 2
+guid: 05d8c6544a8adc94b9e653b8a834a1ec
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8835741724653496896
+    second: 16x16_ultim6_wind_map_Denzi060606-5_0
+  - first:
+      213: 8011959780071687116
+    second: 16x16_ultim6_wind_map_Denzi060606-5_1
+  - first:
+      213: -6282457113334360565
+    second: 16x16_ultim6_wind_map_Denzi060606-5_2
+  - first:
+      213: -6592460277297777808
+    second: 16x16_ultim6_wind_map_Denzi060606-5_3
+  - first:
+      213: -1126996370652780803
+    second: 16x16_ultim6_wind_map_Denzi060606-5_4
+  - first:
+      213: 208910164556779704
+    second: 16x16_ultim6_wind_map_Denzi060606-5_5
+  - first:
+      213: 3330889891218749180
+    second: 16x16_ultim6_wind_map_Denzi060606-5_6
+  - first:
+      213: 7440238002526722803
+    second: 16x16_ultim6_wind_map_Denzi060606-5_7
+  - first:
+      213: -2015491157572362299
+    second: 16x16_ultim6_wind_map_Denzi060606-5_8
+  - first:
+      213: 2305594368696806551
+    second: 16x16_ultim6_wind_map_Denzi060606-5_9
+  - first:
+      213: 6986876615597734587
+    second: 16x16_ultim6_wind_map_Denzi060606-5_10
+  - first:
+      213: -5836186868134515222
+    second: 16x16_ultim6_wind_map_Denzi060606-5_11
+  - first:
+      213: 7019931624019396750
+    second: 16x16_ultim6_wind_map_Denzi060606-5_12
+  - first:
+      213: -4240153800098818430
+    second: 16x16_ultim6_wind_map_Denzi060606-5_13
+  - first:
+      213: 5886095155242676407
+    second: 16x16_ultim6_wind_map_Denzi060606-5_14
+  - first:
+      213: 1844380825725957542
+    second: 16x16_ultim6_wind_map_Denzi060606-5_15
+  - first:
+      213: -3091755228876407710
+    second: 16x16_ultim6_wind_map_Denzi060606-5_16
+  - first:
+      213: -4039661484946563089
+    second: 16x16_ultim6_wind_map_Denzi060606-5_17
+  - first:
+      213: -6865928372966512874
+    second: 16x16_ultim6_wind_map_Denzi060606-5_18
+  - first:
+      213: 9188660215831614083
+    second: 16x16_ultim6_wind_map_Denzi060606-5_19
+  - first:
+      213: -5029702020003411328
+    second: 16x16_ultim6_wind_map_Denzi060606-5_20
+  - first:
+      213: 2009365084741290515
+    second: 16x16_ultim6_wind_map_Denzi060606-5_21
+  - first:
+      213: -7639840176236423577
+    second: 16x16_ultim6_wind_map_Denzi060606-5_22
+  - first:
+      213: -3353940941124331180
+    second: 16x16_ultim6_wind_map_Denzi060606-5_23
+  - first:
+      213: -6660754512802899191
+    second: 16x16_ultim6_wind_map_Denzi060606-5_24
+  - first:
+      213: 8908310767552714634
+    second: 16x16_ultim6_wind_map_Denzi060606-5_25
+  - first:
+      213: -143068625154426593
+    second: 16x16_ultim6_wind_map_Denzi060606-5_26
+  - first:
+      213: 7529516164503908642
+    second: 16x16_ultim6_wind_map_Denzi060606-5_27
+  - first:
+      213: 4866002925113226842
+    second: 16x16_ultim6_wind_map_Denzi060606-5_28
+  - first:
+      213: -8265091960515530321
+    second: 16x16_ultim6_wind_map_Denzi060606-5_29
+  - first:
+      213: -4748264512545174522
+    second: 16x16_ultim6_wind_map_Denzi060606-5_30
+  - first:
+      213: 8272852422319800
+    second: 16x16_ultim6_wind_map_Denzi060606-5_31
+  - first:
+      213: -604975600005174845
+    second: 16x16_ultim6_wind_map_Denzi060606-5_32
+  - first:
+      213: -4679106320182449536
+    second: 16x16_ultim6_wind_map_Denzi060606-5_33
+  - first:
+      213: 2207725554606397739
+    second: 16x16_ultim6_wind_map_Denzi060606-5_34
+  - first:
+      213: 5640065618613690655
+    second: 16x16_ultim6_wind_map_Denzi060606-5_35
+  - first:
+      213: -7043392772151172724
+    second: 16x16_ultim6_wind_map_Denzi060606-5_36
+  - first:
+      213: 2477693815811013529
+    second: 16x16_ultim6_wind_map_Denzi060606-5_37
+  - first:
+      213: 8171993742042649715
+    second: 16x16_ultim6_wind_map_Denzi060606-5_38
+  - first:
+      213: -4302951938438411284
+    second: 16x16_ultim6_wind_map_Denzi060606-5_39
+  - first:
+      213: 3763642030382831468
+    second: 16x16_ultim6_wind_map_Denzi060606-5_40
+  - first:
+      213: 7315914851343797747
+    second: 16x16_ultim6_wind_map_Denzi060606-5_41
+  - first:
+      213: -8303083490431179923
+    second: 16x16_ultim6_wind_map_Denzi060606-5_42
+  - first:
+      213: -3147248957706905144
+    second: 16x16_ultim6_wind_map_Denzi060606-5_43
+  - first:
+      213: 268618450155382716
+    second: 16x16_ultim6_wind_map_Denzi060606-5_44
+  - first:
+      213: -7251279310971094032
+    second: 16x16_ultim6_wind_map_Denzi060606-5_45
+  - first:
+      213: -4911683899139370835
+    second: 16x16_ultim6_wind_map_Denzi060606-5_46
+  - first:
+      213: -4428963392499228632
+    second: 16x16_ultim6_wind_map_Denzi060606-5_47
+  - first:
+      213: -629237766083395099
+    second: 16x16_ultim6_wind_map_Denzi060606-5_48
+  - first:
+      213: -3194233037185247234
+    second: 16x16_ultim6_wind_map_Denzi060606-5_49
+  - first:
+      213: 6968999025411251443
+    second: 16x16_ultim6_wind_map_Denzi060606-5_50
+  - first:
+      213: 5544660891130161935
+    second: 16x16_ultim6_wind_map_Denzi060606-5_51
+  - first:
+      213: 4103091116749075515
+    second: 16x16_ultim6_wind_map_Denzi060606-5_52
+  - first:
+      213: 3337984276034114458
+    second: 16x16_ultim6_wind_map_Denzi060606-5_53
+  - first:
+      213: 2618031047876414773
+    second: 16x16_ultim6_wind_map_Denzi060606-5_54
+  - first:
+      213: -3663935595532897302
+    second: 16x16_ultim6_wind_map_Denzi060606-5_55
+  - first:
+      213: 919948481382495663
+    second: 16x16_ultim6_wind_map_Denzi060606-5_56
+  - first:
+      213: 2364004588791184503
+    second: 16x16_ultim6_wind_map_Denzi060606-5_57
+  - first:
+      213: 2800233161009916919
+    second: 16x16_ultim6_wind_map_Denzi060606-5_58
+  - first:
+      213: -2933496701591292614
+    second: 16x16_ultim6_wind_map_Denzi060606-5_59
+  - first:
+      213: 6145309752450986998
+    second: 16x16_ultim6_wind_map_Denzi060606-5_60
+  - first:
+      213: -5268364507697126478
+    second: 16x16_ultim6_wind_map_Denzi060606-5_61
+  - first:
+      213: 438161875742037701
+    second: 16x16_ultim6_wind_map_Denzi060606-5_62
+  - first:
+      213: 5964734243429780651
+    second: 16x16_ultim6_wind_map_Denzi060606-5_63
+  - first:
+      213: 4277577291340334522
+    second: 16x16_ultim6_wind_map_Denzi060606-5_64
+  - first:
+      213: -3024806095953500768
+    second: 16x16_ultim6_wind_map_Denzi060606-5_65
+  - first:
+      213: -2917719016700288604
+    second: 16x16_ultim6_wind_map_Denzi060606-5_66
+  - first:
+      213: -5330760685817954819
+    second: 16x16_ultim6_wind_map_Denzi060606-5_67
+  - first:
+      213: -6110375435279735547
+    second: 16x16_ultim6_wind_map_Denzi060606-5_68
+  - first:
+      213: -1452598992974477210
+    second: 16x16_ultim6_wind_map_Denzi060606-5_69
+  - first:
+      213: 4029936998363588483
+    second: 16x16_ultim6_wind_map_Denzi060606-5_70
+  - first:
+      213: -1723115575886393526
+    second: 16x16_ultim6_wind_map_Denzi060606-5_71
+  - first:
+      213: -5985137200302405872
+    second: 16x16_ultim6_wind_map_Denzi060606-5_72
+  - first:
+      213: 4885819775160519444
+    second: 16x16_ultim6_wind_map_Denzi060606-5_73
+  - first:
+      213: -8905495064421887784
+    second: 16x16_ultim6_wind_map_Denzi060606-5_74
+  - first:
+      213: -392338787006228160
+    second: 16x16_ultim6_wind_map_Denzi060606-5_75
+  - first:
+      213: 6934221680000404629
+    second: 16x16_ultim6_wind_map_Denzi060606-5_76
+  - first:
+      213: 2762558591678423070
+    second: 16x16_ultim6_wind_map_Denzi060606-5_77
+  - first:
+      213: 882723932829019969
+    second: 16x16_ultim6_wind_map_Denzi060606-5_78
+  - first:
+      213: 3091211060098895018
+    second: 16x16_ultim6_wind_map_Denzi060606-5_79
+  - first:
+      213: 3942775217505091663
+    second: 16x16_ultim6_wind_map_Denzi060606-5_80
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_0
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 608
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.4660826, y: 0.5174272}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c55ee617b3216580800000000000000
+      internalID: -8835741724653496896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 528
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc3c3e588f2303f60800000000000000
+      internalID: 8011959780071687116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_2
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 528
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0654139a8a30d8a0800000000000000
+      internalID: -6282457113334360565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 528
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 073facf5e40e284a0800000000000000
+      internalID: -6592460277297777808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_4
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 528
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df62610a5ca1c50f0800000000000000
+      internalID: -1126996370652780803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_5
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 528
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b0106410b236e200800000000000000
+      internalID: 208910164556779704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_6
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 528
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf6780055b2b93e20800000000000000
+      internalID: 3330889891218749180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_7
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 640
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fa97f01b09014760800000000000000
+      internalID: 7440238002526722803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_8
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 640
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5cf55f088798704e0800000000000000
+      internalID: -2015491157572362299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_9
+      rect:
+        serializedVersion: 2
+        x: 417
+        y: 543
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79c605edcdd1fff10800000000000000
+      internalID: 2305594368696806551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_10
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 480
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbabf2a834f56f060800000000000000
+      internalID: 6986876615597734587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_11
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 512
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aedea0207f2b10fa0800000000000000
+      internalID: -5836186868134515222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_12
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 512
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e88053d6e9ecb6160800000000000000
+      internalID: 7019931624019396750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_13
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 512
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28656188592f725c0800000000000000
+      internalID: -4240153800098818430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_14
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 512
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b0336a9b5c9fa150800000000000000
+      internalID: 5886095155242676407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_15
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 512
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a5ffebc69e889910800000000000000
+      internalID: 1844380825725957542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_16
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 480
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26c7d5a0001e715d0800000000000000
+      internalID: -3091755228876407710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_17
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 592
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fefdee0584d30f7c0800000000000000
+      internalID: -4039661484946563089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_39
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 304
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cebcccf8208d844c0800000000000000
+      internalID: -4302951938438411284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_40
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 304
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c67d2ba6c742b3430800000000000000
+      internalID: 3763642030382831468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_41
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 304
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fd0a51cbc9578560800000000000000
+      internalID: 7315914851343797747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_48
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 287
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e1c659e59f7447f0800000000000000
+      internalID: -629237766083395099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_49
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 287
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef791c8f9fdcba3d0800000000000000
+      internalID: -3194233037185247234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_52
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 287
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b34b3eea1ab11f830800000000000000
+      internalID: 4103091116749075515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_81
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 608
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.4660826, y: 0.5174272}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d255f26d5694a264ead8a9bac9c5a63a
+      internalID: -2137524362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_82
+      rect:
+        serializedVersion: 2
+        x: 368
+        y: 608
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.4660826, y: 0.5174272}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d63fa56a3c80544f83f470a1477fe3f
+      internalID: 392774703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_83
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 608
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.4660826, y: 0.5174272}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38ba3aede2ed2e440826907bfb10aea7
+      internalID: -1290150450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_84
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 608
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.4660826, y: 0.5174272}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26558e55c0bf8b345861dbefb17268ee
+      internalID: -545564636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_wind_map_Denzi060606-5_18
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 574
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15f857d9174b8044387aad6e6f36f1ea
+      internalID: -6865928372966512874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 45bc23a34e5896840bec17eb23839ba1
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      16x16_ultim6_wind_map_Denzi060606-5_0: -8835741724653496896
+      16x16_ultim6_wind_map_Denzi060606-5_1: 8011959780071687116
+      16x16_ultim6_wind_map_Denzi060606-5_10: 6986876615597734587
+      16x16_ultim6_wind_map_Denzi060606-5_11: -5836186868134515222
+      16x16_ultim6_wind_map_Denzi060606-5_12: 7019931624019396750
+      16x16_ultim6_wind_map_Denzi060606-5_13: -4240153800098818430
+      16x16_ultim6_wind_map_Denzi060606-5_14: 5886095155242676407
+      16x16_ultim6_wind_map_Denzi060606-5_15: 1844380825725957542
+      16x16_ultim6_wind_map_Denzi060606-5_16: -3091755228876407710
+      16x16_ultim6_wind_map_Denzi060606-5_17: -4039661484946563089
+      16x16_ultim6_wind_map_Denzi060606-5_18: -6865928372966512874
+      16x16_ultim6_wind_map_Denzi060606-5_19: 9188660215831614083
+      16x16_ultim6_wind_map_Denzi060606-5_2: -6282457113334360565
+      16x16_ultim6_wind_map_Denzi060606-5_20: -5029702020003411328
+      16x16_ultim6_wind_map_Denzi060606-5_21: 2009365084741290515
+      16x16_ultim6_wind_map_Denzi060606-5_22: -7639840176236423577
+      16x16_ultim6_wind_map_Denzi060606-5_23: -3353940941124331180
+      16x16_ultim6_wind_map_Denzi060606-5_24: -6660754512802899191
+      16x16_ultim6_wind_map_Denzi060606-5_25: 8908310767552714634
+      16x16_ultim6_wind_map_Denzi060606-5_26: -143068625154426593
+      16x16_ultim6_wind_map_Denzi060606-5_27: 7529516164503908642
+      16x16_ultim6_wind_map_Denzi060606-5_28: 4866002925113226842
+      16x16_ultim6_wind_map_Denzi060606-5_29: -8265091960515530321
+      16x16_ultim6_wind_map_Denzi060606-5_3: -6592460277297777808
+      16x16_ultim6_wind_map_Denzi060606-5_30: -4748264512545174522
+      16x16_ultim6_wind_map_Denzi060606-5_31: 8272852422319800
+      16x16_ultim6_wind_map_Denzi060606-5_32: -604975600005174845
+      16x16_ultim6_wind_map_Denzi060606-5_33: -4679106320182449536
+      16x16_ultim6_wind_map_Denzi060606-5_34: 2207725554606397739
+      16x16_ultim6_wind_map_Denzi060606-5_35: 5640065618613690655
+      16x16_ultim6_wind_map_Denzi060606-5_36: -7043392772151172724
+      16x16_ultim6_wind_map_Denzi060606-5_37: 2477693815811013529
+      16x16_ultim6_wind_map_Denzi060606-5_38: 8171993742042649715
+      16x16_ultim6_wind_map_Denzi060606-5_39: -4302951938438411284
+      16x16_ultim6_wind_map_Denzi060606-5_4: -1126996370652780803
+      16x16_ultim6_wind_map_Denzi060606-5_40: 3763642030382831468
+      16x16_ultim6_wind_map_Denzi060606-5_41: 7315914851343797747
+      16x16_ultim6_wind_map_Denzi060606-5_42: -8303083490431179923
+      16x16_ultim6_wind_map_Denzi060606-5_43: -3147248957706905144
+      16x16_ultim6_wind_map_Denzi060606-5_44: 268618450155382716
+      16x16_ultim6_wind_map_Denzi060606-5_45: -7251279310971094032
+      16x16_ultim6_wind_map_Denzi060606-5_46: -4911683899139370835
+      16x16_ultim6_wind_map_Denzi060606-5_47: -4428963392499228632
+      16x16_ultim6_wind_map_Denzi060606-5_48: -629237766083395099
+      16x16_ultim6_wind_map_Denzi060606-5_49: -3194233037185247234
+      16x16_ultim6_wind_map_Denzi060606-5_5: 208910164556779704
+      16x16_ultim6_wind_map_Denzi060606-5_50: 6968999025411251443
+      16x16_ultim6_wind_map_Denzi060606-5_51: 5544660891130161935
+      16x16_ultim6_wind_map_Denzi060606-5_52: 4103091116749075515
+      16x16_ultim6_wind_map_Denzi060606-5_53: 3337984276034114458
+      16x16_ultim6_wind_map_Denzi060606-5_54: 2618031047876414773
+      16x16_ultim6_wind_map_Denzi060606-5_55: -3663935595532897302
+      16x16_ultim6_wind_map_Denzi060606-5_56: 919948481382495663
+      16x16_ultim6_wind_map_Denzi060606-5_57: 2364004588791184503
+      16x16_ultim6_wind_map_Denzi060606-5_58: 2800233161009916919
+      16x16_ultim6_wind_map_Denzi060606-5_59: -2933496701591292614
+      16x16_ultim6_wind_map_Denzi060606-5_6: 3330889891218749180
+      16x16_ultim6_wind_map_Denzi060606-5_60: 6145309752450986998
+      16x16_ultim6_wind_map_Denzi060606-5_61: -5268364507697126478
+      16x16_ultim6_wind_map_Denzi060606-5_62: 438161875742037701
+      16x16_ultim6_wind_map_Denzi060606-5_63: 5964734243429780651
+      16x16_ultim6_wind_map_Denzi060606-5_64: 4277577291340334522
+      16x16_ultim6_wind_map_Denzi060606-5_65: -3024806095953500768
+      16x16_ultim6_wind_map_Denzi060606-5_66: -2917719016700288604
+      16x16_ultim6_wind_map_Denzi060606-5_67: -5330760685817954819
+      16x16_ultim6_wind_map_Denzi060606-5_68: -6110375435279735547
+      16x16_ultim6_wind_map_Denzi060606-5_69: -1452598992974477210
+      16x16_ultim6_wind_map_Denzi060606-5_7: 7440238002526722803
+      16x16_ultim6_wind_map_Denzi060606-5_70: 4029936998363588483
+      16x16_ultim6_wind_map_Denzi060606-5_71: -1723115575886393526
+      16x16_ultim6_wind_map_Denzi060606-5_72: -5985137200302405872
+      16x16_ultim6_wind_map_Denzi060606-5_73: 4885819775160519444
+      16x16_ultim6_wind_map_Denzi060606-5_74: -8905495064421887784
+      16x16_ultim6_wind_map_Denzi060606-5_75: -392338787006228160
+      16x16_ultim6_wind_map_Denzi060606-5_76: 6934221680000404629
+      16x16_ultim6_wind_map_Denzi060606-5_77: 2762558591678423070
+      16x16_ultim6_wind_map_Denzi060606-5_78: 882723932829019969
+      16x16_ultim6_wind_map_Denzi060606-5_79: 3091211060098895018
+      16x16_ultim6_wind_map_Denzi060606-5_8: -2015491157572362299
+      16x16_ultim6_wind_map_Denzi060606-5_80: 3942775217505091663
+      16x16_ultim6_wind_map_Denzi060606-5_81: -2137524362
+      16x16_ultim6_wind_map_Denzi060606-5_82: 392774703
+      16x16_ultim6_wind_map_Denzi060606-5_83: -1290150450
+      16x16_ultim6_wind_map_Denzi060606-5_84: -545564636
+      16x16_ultim6_wind_map_Denzi060606-5_9: 2305594368696806551
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
