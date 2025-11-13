@@ -17,10 +17,12 @@ public class InputManager : MonoBehaviour
     private PlayerInput playerInput;
 
     public Vector2 MoveInput { get; private set; }
+    public bool SoulStateInput { get; private set; }
     /* public Vector2 ClickWorldPosition { get; private set; }
     private Vector2? lastClickPos; */
 
     private InputAction moveAction;
+    private InputAction soulStateAction;
     /* public InputAction shortClickAction;  // For instant click (press and release)
     public InputAction pressAction;       // For press start */
     private void Awake()
@@ -100,6 +102,7 @@ public class InputManager : MonoBehaviour
     private void UpdateInputs()
     {
         MoveInput = moveAction.ReadValue<Vector2>();
+        soulStateAction.ReadValue<bool>();
         if (EnableDebug && MoveInput != Vector2.zero)
             Debug.Log($"[InputManager] Move input detected: {MoveInput}");
 
@@ -141,6 +144,7 @@ public class InputManager : MonoBehaviour
     {
         if (EnableDebug) Debug.Log("[InputManager] Setting up actions");
         moveAction = playerInput.actions["Move"];
+        soulStateAction = playerInput.actions["SoulState"];
         /* shortClickAction = playerInput.actions["ShortClick"];
         pressAction = playerInput.actions["Click"];
 

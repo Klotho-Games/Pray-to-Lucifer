@@ -530,6 +530,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SoulState",
+                    "type": "Button",
+                    "id": "35a47dae-6d27-4d74-b521-d62fac2a3f42",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -662,6 +671,28 @@
                     "processors": "",
                     "groups": ";XR",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "64b6101f-835d-4371-9b2a-01b26791f0b0",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SoulState",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7409fc50-2cd9-4c24-8771-3b7c32a15c4c",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "SoulState",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
