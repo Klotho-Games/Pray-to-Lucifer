@@ -75,10 +75,29 @@ public class BeamController : MonoBehaviour
         public GameObject hitObject;
     }
 
+    void OnDisable()
+    {
+        beamOriginTransform.gameObject.SetActive(false);
+    }
+
+    private bool BeamOriginIsAllGood()
+    {
+        if (beamOriginTransform.gameObject == null)
+            return false;
+        if (beamOriginTransform.gameObject.activeSelf == false)
+            beamOriginTransform.gameObject.SetActive(true);
+        if (!beamOriginTransform.gameObject.activeInHierarchy)
+            return false;
+        return true;
+    }
+
     private void UpdateBeamPath()
     {
         Vector2 mouseWorldPos = GetMouseWorldPosition();
         if (mouseWorldPos == Vector2.zero)
+            return;
+
+        if (!BeamOriginIsAllGood())
             return;
 
         Vector2 direction = (mouseWorldPos - (Vector2)beamOriginTransform.position).normalized;
@@ -88,6 +107,8 @@ public class BeamController : MonoBehaviour
 
     private void DrawNextBeam(int intensity, Vector2 origin, Vector2 direction, GameObject ignoreObject, int damagePerSecond)
     {
+        if (!BeamOriginIsAllGood())
+            return;
 
         RaycastInfo raycastInfo = RaycastForFirstGateTypeOrTheBigDarknessTag(origin, direction, ignoreObject);
 
