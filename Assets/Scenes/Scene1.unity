@@ -2956,9 +2956,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BeamController
   damagePerSecond: 30
   _intensity: 5
+  beamConeAngle: 60
   mainCamera: {fileID: 519420031}
   beamOriginTransform: {fileID: 1332143255}
   lineRendererObjectPrefab: {fileID: 3777194826535280043, guid: 4776fc821539660478695a39c984de08, type: 3}
+  playerSoulState: {fileID: 1552325828}
+  animator: {fileID: 1552325824}
 --- !u!4 &1370055745
 Transform:
   m_ObjectHideFlags: 0
