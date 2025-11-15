@@ -3526,7 +3526,6 @@ MonoBehaviour:
   maxVelocity: 5
   accelerationDuration: 0.75
   deccelerationDuration: 5
-  yAxisModifier: 0.65
 --- !u!95 &1552325824
 Animator:
   serializedVersion: 7
