@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerAnimator : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject BeamController;
+
+    private const float threshold = 1e-4f;
 
     enum Direction_8
     {
@@ -34,17 +37,22 @@ public class PlayerAnimator : MonoBehaviour
 
     private void Movement()
     {
-        if (rb.linearVelocityX != 0 || rb.linearVelocityY != 0)
+        if (Mathf.Abs(rb.linearVelocityX) > threshold || Mathf.Abs(rb.linearVelocityY) > threshold)
         {
             DirectionalMovement();
         }
         else
         {
-            if (animator.GetInteger("isIdleFacing") != -1 || animator.GetInteger("isShootingFacing") != -1)
+            if (animator.GetInteger("isIdleFacing") != -1 && BeamController.activeSelf)
             {
+                SetInt("isShootingFacing", animator.GetInteger("isIdleFacing"));
                 return;
             }
-
+            if (animator.GetInteger("isShootingFacing") != -1 && !BeamController.activeSelf)
+            {
+                SetInt("isIdleFacing", animator.GetInteger("isShootingFacing"));
+                return;
+            }
             if (animator.GetInteger("isMovingInDirection") != -1)
             {
                 SetInt("isIdleFacing", animator.GetInteger("isMovingInDirection") / 2);
@@ -61,16 +69,16 @@ public class PlayerAnimator : MonoBehaviour
 
     void DirectionalMovement()
     {
-        if (rb.linearVelocityX == 0 && rb.linearVelocityY == 0)
+        if (Mathf.Abs(rb.linearVelocityX) <= threshold && Mathf.Abs(rb.linearVelocityY) <= threshold)
             return;
 
-        if (rb.linearVelocityX == 0)
+        if (Mathf.Abs(rb.linearVelocityX) <= threshold)
         {
             VerticalMovement();
             return;
         }
 
-        if (rb.linearVelocityY == 0)
+        if (Mathf.Abs(rb.linearVelocityY) <= threshold)
         {
             HorizontalMovement();
             return;

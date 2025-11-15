@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     public float maxVelocity = 6.5f;
     public float accelerationDuration = 0.2f;
     public float deccelerationDuration = 0.4f;
-    [Range(0, 1f)] public float yAxisModifier = 0.75f;
 
     private Rigidbody2D rb;
 
@@ -47,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
         if (velocity.magnitude > maxVelocity)
         {
             // Normalize and scale back to maxVelocity
-            velocity = velocity.normalized * maxVelocity * Mathf.Sqrt(1f + yAxisModifier * yAxisModifier);
+            velocity = maxVelocity * velocity.normalized;
             rb.linearVelocity = velocity;
         }
     }
@@ -55,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     private void Move(Axis axis)
     {
         int i = (int)axis;
-        moveInput[i] = axis == Axis.X ? InputManager.instance.MoveInput.x : InputManager.instance.MoveInput.y * yAxisModifier;
+        moveInput[i] = axis == Axis.X ? InputManager.instance.MoveInput.x : InputManager.instance.MoveInput.y;
         acceleration = maxVelocity / accelerationDuration;
         decceleration = maxVelocity / deccelerationDuration;
 

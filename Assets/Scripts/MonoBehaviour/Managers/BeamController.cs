@@ -168,41 +168,6 @@ public class BeamController : MonoBehaviour
             float sign = Mathf.Sign(Vector3.Cross(facingDirection, direction).z);
             float clampedAngle = beamConeAngle * sign;
             return Quaternion.Euler(0, 0, clampedAngle) * facingDirection;
-
-            /* // Snap to closest of 3 directions: facingDirection, facingDirection rotated +45 degrees, facingDirection rotated -45 degrees
-            Vector2[] possibleDirections = new Vector2[]
-            {
-                // facingDirection,
-                RotatedBy45Degrees(facingDirection, true),
-                RotatedBy45Degrees(facingDirection, false)
-            };
-            
-
-            Get Closest Direction
-            float smallestAngle = 180f;
-            Vector2 closestDirection = possibleDirections[0];
-            foreach (var dir in possibleDirections)
-            {
-                float angle = Vector2.Angle(direction, dir);
-                if (angle < smallestAngle)
-                {
-                    smallestAngle = angle;
-                    closestDirection = dir;
-                }
-            }
-            return closestDirection; */
-
-            Vector2 RotatedBy45Degrees(Vector2 dir, bool clockwise)
-            {
-                if (clockwise)
-                {
-                    return Quaternion.Euler(0, 0, -45) * dir;
-                }
-                else
-                {
-                    return Quaternion.Euler(0, 0, 45) * dir;
-                }
-            }
         }
     }
 
