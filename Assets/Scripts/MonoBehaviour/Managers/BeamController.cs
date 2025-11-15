@@ -154,9 +154,9 @@ public class BeamController : MonoBehaviour
             lastBeamDirection = direction;
         }
 
-        DrawNextBeam(_intensity + 1, (Vector2)beamOriginTransform.position, playerSoulState.currentSoulState is null ? TrimDirection(direction) : direction, null, damagePerSecond);
+        DrawNextBeam(_intensity + 1, (Vector2)beamOriginTransform.position, playerSoulState.currentSoulState is null ? TranslateDirection(direction) : direction, null, damagePerSecond);
 
-        Vector2 TrimDirection(Vector2 direction)
+        Vector2 TranslateDirection(Vector2 direction)
         {
             FacingDirectionUpdate();
 
@@ -167,7 +167,9 @@ public class BeamController : MonoBehaviour
             
             float sign = Mathf.Sign(Vector3.Cross(facingDirection, direction).z);
             float clampedAngle = beamConeAngle * sign;
-            return Quaternion.Euler(0, 0, clampedAngle) * facingDirection;
+            Vector2 clampedDirection = Quaternion.Euler(0, 0, clampedAngle) * facingDirection;
+            float mirroredAngle = beamConeAngle - Vector2.Angle(direction, clampedDirection); 
+            return Quaternion.Euler(0, 0, mirroredAngle * sign) * facingDirection;
         }
     }
 
