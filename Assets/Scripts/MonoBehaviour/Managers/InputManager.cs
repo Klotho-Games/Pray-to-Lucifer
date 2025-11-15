@@ -31,6 +31,7 @@ public class InputManager : MonoBehaviour
     public bool DashInput { get; private set; }
     public Vector2 MousePosition { get; private set; }
     public Vector2 RightStick { get; private set; }
+    public bool PreciseControlInput { get; private set; }
 
     private InputAction moveAction;
     private InputAction soulStateAction;
@@ -41,6 +42,7 @@ public class InputManager : MonoBehaviour
     public InputAction CancelAction {get; private set; }
     private InputAction mousePositionAction;
     private InputAction rightStickAction;
+    private InputAction preciseControlAction;
 
     private void Awake()
     {
@@ -102,6 +104,7 @@ public class InputManager : MonoBehaviour
         MousePosition = mousePositionAction.ReadValue<Vector2>();
         MousePosition = cam.ScreenToWorldPoint(MousePosition);
         RightStick = rightStickAction.ReadValue<Vector2>();
+        PreciseControlInput = preciseControlAction.IsPressed();
         
         if (EnableDebug && MoveInput != Vector2.zero)
             Debug.Log($"[InputManager] Move input detected: {MoveInput}");
@@ -119,5 +122,6 @@ public class InputManager : MonoBehaviour
         CancelAction = playerInput.actions["Cancel"];
         mousePositionAction = playerInput.actions["MousePosition"];
         rightStickAction = playerInput.actions["RightStick"];
+        preciseControlAction = playerInput.actions["PreciseControl"];
     }
 }

@@ -602,6 +602,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "PreciseControl",
+                    "type": "Button",
+                    "id": "a48f62f6-b963-4a1e-80b5-af7f76f04cac",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -866,6 +875,17 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "RightStick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "69556121-850b-4b6f-9021-16d542b68786",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "PreciseControl",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

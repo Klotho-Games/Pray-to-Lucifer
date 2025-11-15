@@ -7,7 +7,7 @@ public class BeamController : MonoBehaviour
 
     [SerializeField] private int damagePerSecond = 10;
     [SerializeField] private int _intensity = 10;
-    [SerializeField] private float beamConeAngle = 60f;
+    [SerializeField] private float beamConeAngle = 45f;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Transform beamOriginTransform;
     [SerializeField] private GameObject lineRendererObjectPrefab;
@@ -165,6 +165,8 @@ public class BeamController : MonoBehaviour
             if (angleBetween <= beamConeAngle)
                 return direction;
             
+            if (!InputManager.instance.PreciseControlInput)
+                return facingDirection;
             float sign = Mathf.Sign(Vector3.Cross(facingDirection, direction).z);
             float clampedAngle = beamConeAngle * sign;
             Vector2 clampedDirection = Quaternion.Euler(0, 0, clampedAngle) * facingDirection;
