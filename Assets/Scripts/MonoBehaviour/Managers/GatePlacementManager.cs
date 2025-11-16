@@ -4,13 +4,20 @@ public class GatePlacement : MonoBehaviour
 {
     public static GatePlacement instance;
 
+    [Range(0,1)][SerializeField] private float slowmoDuringRotation = 0.25f;
     [SerializeField] private Grid hexGrid;
     [SerializeField] private GameObject placementIndicatorPrefab;
+    [SerializeField] private GameObject rotationIndicatorPrefab;
     [SerializeField] private Transform player;
     [SerializeField] private PlayerSoulState soulState;
     [SerializeField] private float minimumLightIntensity = 0.5f;
 
-    private float[] diagonals = new float[] { 0f, 60f, 120f };
+    private readonly float[] diagonals = new float[] { 0f, 60f, 120f };
+    /// <summary>
+    /// from 0 to 5, where 0 is 0 times rotated by 60 deg and 5 rotated by 300f
+    /// </summary>
+    private int lastTimesRotated = 0;
+    private Transform currentRotationIndicator = null;
     private readonly float diagonalLength = Mathf.Sqrt(3f); // length of diagonal in hex grid
 
     #region Instance
@@ -25,17 +32,17 @@ public class GatePlacement : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        Debug.LogWarning("TODO get facing direction from animator or player controller as a fallback for beam direction");
     }
     #endregion
 
     void Update()
     {
-        if (soulState.currentSoulState is not null)
+        if (!InputManager.instance.PreciseControlInput)
             return;
 
+        // Show places where you can build
         DestroyAllIndicators(); // children
-        Vector2Int playerCell = PointToGridCell(player.position);
+        Vector2Int playerCell = (Vector2Int)hexGrid.WorldToCell(player.position);
         SearchForAllCellsToIndicate(playerCell, 3);
     }
 
@@ -47,11 +54,25 @@ public class GatePlacement : MonoBehaviour
         }
     }
 
-    private void EnterGatePlacementMode()
+    private void EnterGateRotationMode(Vector2 cellWorldPos)
     {
-        Time.timeScale = 0f;
-        Vector2Int playerCell = PointToGridCell(player.position);
-        SearchForAllCellsToIndicate(playerCell, 3);
+        Time.timeScale = slowmoDuringRotation;
+
+        int backup = 0;
+        do
+        {
+            if (IsPossibleToPlaceGateOnDiagonal((Vector2Int)hexGrid.WorldToCell(cellWorldPos), lastTimesRotated < diagonals.Length ? lastTimesRotated : lastTimesRotated/2))
+            {
+                currentRotationIndicator = Instantiate(rotationIndicatorPrefab).transform;
+                currentRotationIndicator.position = cellWorldPos;
+                for (int _ = 0; _ < lastTimesRotated; ++_)
+                {
+                    currentRotationIndicator.Rotate(new Vector3(0,0,60f));
+                }
+            }
+            ++backup;
+        }
+        while(currentRotationIndicator == null && backup < 3);
     }
 
     private void SearchForAllCellsToIndicate(Vector2Int playerCell, int radius)
@@ -135,13 +156,6 @@ public class GatePlacement : MonoBehaviour
         {
             return obj.CompareTag("Player") || obj.CompareTag("Gate") || obj.CompareTag("Enemy");
         }
-    }
-
-
-    private Vector2Int PointToGridCell(Vector2 point)
-    {
-        Vector3Int cellPosition = hexGrid.WorldToCell(point);
-        return (Vector2Int)cellPosition;
     }
 
     private float GetLightIntensityAtPosition(Vector3 position)
