@@ -2,8 +2,6 @@ using System;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.Splines.ExtrusionShapes;
-using UnityEngine.XR;
 
 public class PlayerSoulState : MonoBehaviour
 {

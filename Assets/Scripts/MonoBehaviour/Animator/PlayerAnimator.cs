@@ -6,6 +6,7 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject BeamController;
+    [SerializeField] private PlayerSoulState soulState;
 
     private const float threshold = 1e-4f;
 
@@ -23,16 +24,10 @@ public class PlayerAnimator : MonoBehaviour
 
     void Update()
     {
-        if (SoulState())
+        if (soulState.currentSoulState is not null)
             return;
 
         Movement();
-    }
-    
-    private bool SoulState()
-    {
-
-        return false;
     }
 
     private void Movement()

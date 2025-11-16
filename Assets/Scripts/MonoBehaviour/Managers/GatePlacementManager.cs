@@ -7,6 +7,7 @@ public class GatePlacement : MonoBehaviour
     [SerializeField] private Grid hexGrid;
     [SerializeField] private GameObject placementIndicatorPrefab;
     [SerializeField] private Transform player;
+    [SerializeField] private PlayerSoulState soulState;
     [SerializeField] private float minimumLightIntensity = 0.5f;
 
     private float[] diagonals = new float[] { 0f, 60f, 120f };
@@ -30,13 +31,25 @@ public class GatePlacement : MonoBehaviour
 
     void Update()
     {
-        
+        if (soulState.currentSoulState is not null)
+            return;
+
+        DestroyAllIndicators(); // children
+        Vector2Int playerCell = PointToGridCell(player.position);
+        SearchForAllCellsToIndicate(playerCell, 3);
+    }
+
+    private void DestroyAllIndicators()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
     private void EnterGatePlacementMode()
     {
         Time.timeScale = 0f;
-        Debug.Log("Entering Gate Placement Mode");
         Vector2Int playerCell = PointToGridCell(player.position);
         SearchForAllCellsToIndicate(playerCell, 3);
     }
@@ -54,6 +67,9 @@ public class GatePlacement : MonoBehaviour
 
                 Vector2Int cellPosition = new(playerCell.x + q, playerCell.y + r);
 
+                if (OutOfScreen(cellPosition))
+                    continue;
+
                 if (IsPossibleToPlaceGateInCell(cellPosition))
                 {
                     InstantiateIndicatorAtCell(cellPosition);
@@ -62,10 +78,18 @@ public class GatePlacement : MonoBehaviour
         }
     }
 
+    private bool OutOfScreen(Vector2Int cellPosition)
+    {
+        Vector3 cellWorldPosition = hexGrid.GetCellCenterWorld((Vector3Int)cellPosition);
+        Vector3 viewportPoint = Camera.main.WorldToViewportPoint(cellWorldPosition);
+
+        return viewportPoint.x < 0f || viewportPoint.x > 1f || viewportPoint.y < 0f || viewportPoint.y > 1f;
+    }
+
     private void InstantiateIndicatorAtCell(Vector2Int cellPosition)
     {
         Vector3 cellWorldPosition = hexGrid.GetCellCenterWorld((Vector3Int)cellPosition);
-        Instantiate(placementIndicatorPrefab, cellWorldPosition, Quaternion.identity, transform);
+        Instantiate(placementIndicatorPrefab, cellWorldPosition, Quaternion.identity, hexGrid.transform);
     }
 
     private bool IsPossibleToPlaceGateInCell(Vector2Int cellPosition)
