@@ -229,6 +229,8 @@ public class PlayerSoulState : MonoBehaviour
 
     private void SoulBlast()
     {
+        if (isZapping)
+            ZapCancel();
         Debug.Log("Soul Blast!");
     }
 
