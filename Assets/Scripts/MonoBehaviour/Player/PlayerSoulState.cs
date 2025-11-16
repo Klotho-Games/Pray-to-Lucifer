@@ -247,8 +247,11 @@ public class PlayerSoulState : MonoBehaviour
 
     private void OnZapAttackStarted()
     {
-        if (currentSoulState != SoulState.Enter && currentSoulState != SoulState.Full && currentSoulState != SoulState.Idle && currentSoulState != SoulState.Heal)
+        if (currentSoulState is null || currentSoulState == SoulState.Blast)
             return;
+        if (allocatedSouls <= 0)
+            return;
+        
         SetIndicatorDirection();
         zapIndicator.transform.position = transform.position;
         zapIndicator.SetActive(true);
