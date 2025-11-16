@@ -6,9 +6,14 @@ using UnityEngine;
 [RequireComponent(typeof(HighlightableElement2D))]
 [RequireComponent(typeof(Collider2D))]
 public class Clickable2D : MonoBehaviour, IClickable {
+    enum ButtonSpecialFunction {
+        None,
+        InvokeRotationMode,
+    }
     [Header("Click Settings")]
     [SerializeField] private AudioClip clickSound;
-    [SerializeField] private bool enableDebug = true;
+    [SerializeField] private ButtonSpecialFunction specialFunction = ButtonSpecialFunction.None;
+    [SerializeField] private bool enableDebug = false;
     
     private AudioSource audioSource;
     
@@ -40,11 +45,19 @@ public class Clickable2D : MonoBehaviour, IClickable {
     /// <summary>
     /// Override this method to add custom click behavior.
     /// </summary>
-    protected virtual void HandleCustomClick() {
-        // Example: Destroy the object after a delay
-        // Destroy(gameObject, 0.5f);
-        
-        // Example: Change the sprite color
+    protected virtual void HandleCustomClick() 
+    {
+        switch (specialFunction)
+        {
+            case ButtonSpecialFunction.None:
+                // No special function, do nothing
+                break;
+            case ButtonSpecialFunction.InvokeRotationMode:
+                Vector2 cellWorldPos = transform.position;
+                GatePlacementManager.instance.EnterGateRotationMode(cellWorldPos);
+                break;
+        }
+
         
         // Add your custom behavior here
         if (enableDebug) Debug.Log($"Add custom click behavior for {gameObject.name}");

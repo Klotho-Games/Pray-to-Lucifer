@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class GatePlacement : MonoBehaviour
+public class GatePlacementManager : MonoBehaviour
 {
-    public static GatePlacement instance;
+    public static GatePlacementManager instance;
 
     [Range(0,1)][SerializeField] private float slowmoDuringRotation = 0.25f;
     [SerializeField] private Grid hexGrid;
@@ -18,6 +18,7 @@ public class GatePlacement : MonoBehaviour
     /// </summary>
     private int lastTimesRotated = 0;
     private Transform currentRotationIndicator = null;
+    private bool isInRotationMode = false;
     private readonly float diagonalLength = Mathf.Sqrt(3f); // length of diagonal in hex grid
 
     #region Instance
@@ -37,8 +38,18 @@ public class GatePlacement : MonoBehaviour
 
     void Update()
     {
-        if (!InputManager.instance.PreciseControlInput)
+        if (isInRotationMode)
+        {
+            RotationModeUpdate();
             return;
+        }
+
+        if (!InputManager.instance.PreciseControlInput)
+        {
+            DestroyAllIndicators();
+            return;
+        }
+
 
         // Show places where you can build
         DestroyAllIndicators(); // children
@@ -48,31 +59,107 @@ public class GatePlacement : MonoBehaviour
 
     private void DestroyAllIndicators()
     {
-        foreach (Transform child in transform)
+        foreach (Transform child in hexGrid.transform)
         {
             Destroy(child.gameObject);
         }
     }
 
-    private void EnterGateRotationMode(Vector2 cellWorldPos)
+    public void EnterGateRotationMode(Vector2 cellWorldPos)
     {
+        isInRotationMode = true;
+        InputManager.instance.CancelAction.performed += ctx => CancelRotationMode();
         Time.timeScale = slowmoDuringRotation;
+        DestroyAllIndicators();
+        currentRotationIndicator = Instantiate(rotationIndicatorPrefab).transform;
+        currentRotationIndicator.position = cellWorldPos;
+    }
 
-        int backup = 0;
-        do
+    private void RotationModeUpdate()
+    {
+        if (currentRotationIndicator == null)
+            CancelRotationMode();
+
+        if (InputManager.instance.IsKeyboardAndMouse)
+        {
+            HandleRotationWithMouse();
+        }
+        else if (InputManager.instance.RightStick != Vector2.zero)
+        {
+            RotateToFaceDirection(InputManager.instance.RightStick);
+        }
+        else
+        {
+            BackupRotation(currentRotationIndicator.position);
+        }
+    }
+
+    private void HandleRotationWithMouse()
+    {
+        Vector2 direction = InputManager.instance.MousePosition - (Vector2)currentRotationIndicator.position;
+        RotateToFaceDirection(direction);
+    }
+
+    private void RotateToFaceDirection(Vector2 direction)
+    {
+        float angle = Vector2.SignedAngle(Vector2.right, direction.normalized);
+        
+        // Normalize angle to 0-360 range
+        if (angle < 0)
+            angle += 360f;
+        
+        // The 6 valid directions for hex diagonals: 0°, 60°, 120°, 180°, 240°, 300°
+        float[] validAngles = new float[] { 0f, 60f, 120f, 180f, 240f, 300f };
+        
+        // Find closest valid angle
+        float closestAngle = validAngles[0];
+        float minDifference = float.MaxValue;
+        int closestIndex = 0;
+        
+        for (int i = 0; i < validAngles.Length; i++)
+        {
+            float diff = Mathf.Abs(Mathf.DeltaAngle(angle, validAngles[i]));
+            if (diff < minDifference)
+            {
+                minDifference = diff;
+                closestAngle = validAngles[i];
+                closestIndex = i;
+            }
+        }
+        
+        // Update rotation indicator
+        currentRotationIndicator.rotation = Quaternion.Euler(0, 0, closestAngle);
+        lastTimesRotated = closestIndex;
+    }
+
+    private void BackupRotation(Vector2 cellWorldPos)
+    {
+        for (int i = 0; i < 6; i++)
         {
             if (IsPossibleToPlaceGateOnDiagonal((Vector2Int)hexGrid.WorldToCell(cellWorldPos), lastTimesRotated < diagonals.Length ? lastTimesRotated : lastTimesRotated/2))
             {
-                currentRotationIndicator = Instantiate(rotationIndicatorPrefab).transform;
-                currentRotationIndicator.position = cellWorldPos;
                 for (int _ = 0; _ < lastTimesRotated; ++_)
                 {
                     currentRotationIndicator.Rotate(new Vector3(0,0,60f));
                 }
+                return;
             }
-            ++backup;
         }
-        while(currentRotationIndicator == null && backup < 3);
+
+        CancelRotationMode();
+        return;
+    }
+
+    private void CancelRotationMode()
+    {
+        isInRotationMode = false;
+        InputManager.instance.CancelAction.performed -= ctx => CancelRotationMode();
+        Time.timeScale = 1f;
+        if (currentRotationIndicator != null)
+        {
+            Destroy(currentRotationIndicator.gameObject);
+            currentRotationIndicator = null;
+        }
     }
 
     private void SearchForAllCellsToIndicate(Vector2Int playerCell, int radius)
