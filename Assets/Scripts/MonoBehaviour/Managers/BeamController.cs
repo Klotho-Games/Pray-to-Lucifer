@@ -245,9 +245,6 @@ public class BeamController : MonoBehaviour
                 }
                 break;
 
-            // TODO: Implement other gate types
-            case GateTypes.Lens_system:
-                break;
             case GateTypes.One_way_mirror:
                 break;
 

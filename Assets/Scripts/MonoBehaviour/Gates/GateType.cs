@@ -17,9 +17,6 @@ public enum GateTypes
     [InspectorName("Converging lens")]
     Converging_lens,
 
-    [InspectorName("Lens system")]
-    Lens_system,
-
     [InspectorName("Diverging lens")]
     Diverging_lens
 }
