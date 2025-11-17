@@ -3181,7 +3181,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 17.777779, y: 10}
+  m_SizeDelta: {x: 35.4476, y: 19.939276}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1450780085
 MonoBehaviour:
@@ -4819,8 +4819,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb44f80162d0ebe4780f951f778b0e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GatePlacement
+  slowmoDuringRotation: 0
   hexGrid: {fileID: 2106973145}
   placementIndicatorPrefab: {fileID: 8784213973245083084, guid: 2c9135840fa974845b224e72437a2c61, type: 3}
+  rotationIndicatorPrefab: {fileID: 5941380524745284770, guid: 9faabfe7d4a9456489494736d6895175, type: 3}
   player: {fileID: 1552325820}
   soulState: {fileID: 1552325828}
   minimumLightIntensity: 0.5

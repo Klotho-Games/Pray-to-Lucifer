@@ -11,6 +11,8 @@ public class GatePlacementManager : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private PlayerSoulState soulState;
     [SerializeField] private float minimumLightIntensity = 0.5f;
+    [SerializeField] private Camera cam;
+    [SerializeField] private LineRenderer debugLineRenderer;
 
     private readonly float[] diagonals = new float[] { 0f, 60f, 120f };
     /// <summary>
@@ -54,7 +56,7 @@ public class GatePlacementManager : MonoBehaviour
         // Show places where you can build
         DestroyAllIndicators(); // children
         Vector2Int playerCell = (Vector2Int)hexGrid.WorldToCell(player.position);
-        SearchForAllCellsToIndicate(playerCell, 3);
+        SearchForAllCellsToIndicate(playerCell, 5);
     }
 
     private void DestroyAllIndicators()
@@ -164,22 +166,36 @@ public class GatePlacementManager : MonoBehaviour
 
     private void SearchForAllCellsToIndicate(Vector2Int playerCell, int radius)
     {
-        // Start from player cell and search in a radius
-        for (int q = -radius; q <= radius; q++)
+        if (debugLineRenderer != null)
         {
-            for (int r = -radius; r <= radius; r++)
+            debugLineRenderer.positionCount = 0;
+        }
+        Vector2 playerCellWorldPosition = (Vector2)hexGrid.GetCellCenterWorld((Vector3Int)playerCell);
+        // Start from 1 to radius going through all hexagonal cells
+        for (int r = 0; r < radius; r++)
+        {
+            float stepAngle = 360f / (6 * (r+1));
+            for (float angle = 90f; angle < 450f; angle += stepAngle)
             {
-                // Skip cells outside hexagonal radius
-                if (Mathf.Abs(q + r) > radius)
-                    continue;
+                float x = hexGrid.cellSize.x * (r + 1) * Mathf.Sin(angle * Mathf.Deg2Rad);
+                float y = hexGrid.cellSize.x * (r + 1) * Mathf.Cos(angle * Mathf.Deg2Rad);
 
-                Vector2Int cellPosition = new(playerCell.x + q, playerCell.y + r);
+                Vector2 cellWorldPosition = playerCellWorldPosition + new Vector2(x, y);
+                Vector2Int cellPosition = (Vector2Int)hexGrid.WorldToCell((Vector3)cellWorldPosition);
 
                 if (OutOfScreen(cellPosition))
+                {
+                    Debug.Log("Out of screen: " + cellPosition);
                     continue;
+                }
 
                 if (IsPossibleToPlaceGateInCell(cellPosition))
                 {
+                    if (debugLineRenderer != null)
+                    {
+                        debugLineRenderer.positionCount++;
+                        debugLineRenderer.SetPosition(debugLineRenderer.positionCount - 1, hexGrid.GetCellCenterWorld((Vector3Int)cellPosition));
+                    }
                     InstantiateIndicatorAtCell(cellPosition);
                 }
             }
@@ -189,9 +205,15 @@ public class GatePlacementManager : MonoBehaviour
     private bool OutOfScreen(Vector2Int cellPosition)
     {
         Vector3 cellWorldPosition = hexGrid.GetCellCenterWorld((Vector3Int)cellPosition);
-        Vector3 viewportPoint = Camera.main.WorldToViewportPoint(cellWorldPosition);
+        if (cam == null)
+            cam = Camera.main;
+        float screenHeight = cam.orthographicSize * 2f;
+        float screenWidth = cam.aspect * screenHeight;
 
-        return viewportPoint.x < 0f || viewportPoint.x > 1f || viewportPoint.y < 0f || viewportPoint.y > 1f;
+        return cellWorldPosition.x < cam.transform.position.x - screenWidth / 2f ||
+               cellWorldPosition.x > cam.transform.position.x + screenWidth / 2f ||
+               cellWorldPosition.y < cam.transform.position.y - screenHeight / 2f ||
+               cellWorldPosition.y > cam.transform.position.y + screenHeight / 2f;
     }
 
     private void InstantiateIndicatorAtCell(Vector2Int cellPosition)
@@ -208,18 +230,20 @@ public class GatePlacementManager : MonoBehaviour
         
         if (lightIntensity < minimumLightIntensity)
         {
+            Debug.Log("Insufficient light at " + cellPosition + ": " + lightIntensity);
             return false;
         }
 
         for (int i = 0; i < diagonals.Length; i++)
         {
-            if (!IsPossibleToPlaceGateOnDiagonal(cellPosition, i))
+            if (IsPossibleToPlaceGateOnDiagonal(cellPosition, i))
             {
-                return false;
+                return true;
             }
         }
 
-        return true;
+        Debug.Log("Cannot place gate on any diagonal at " + cellPosition);
+        return false;
     }
 
     private bool IsPossibleToPlaceGateOnDiagonal(Vector2Int cellPosition, int diagonalIndex)
