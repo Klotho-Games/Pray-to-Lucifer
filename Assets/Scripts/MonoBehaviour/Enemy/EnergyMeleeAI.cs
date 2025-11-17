@@ -2,15 +2,24 @@ using UnityEngine;
 
 public class EnergyMeleeAI : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private Enemy enemyData;
+    private Transform player;
+
+    public void Initialize(Transform playerTransform)
     {
-        
+        player = playerTransform;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        GoInPlayerDirection();
+    }
+
+    private void GoInPlayerDirection()
+    {
+        if (player == null) return;
+
+        Vector3 direction = (player.position - transform.position).normalized;
+        transform.position += enemyData.speed * Time.deltaTime * direction;
     }
 }

@@ -12,17 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60959e2dc67c838438f69088ce1ab5dc, type: 3}
   m_Name: Ghost
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  enemyName: 
+  enemyName: Ghost
   isLava: 0
-  size: 1
-  maxHP: 20
-  speed: 4
-  armor: 1
-  regeneration: 5
+  maxHP: 10
+  speed: 1
+  regeneration: 0
   rewardAmount: 10
-  isEnergy: 0
-  isPlacer: 1
-  attackType: 0
-  attackDamage: 20
-  attackRange: 10
-  attackCooldown: 1.5
+  isEnergy: 1
+  attacks:
+  - attackType: 0
+    attackDamage: 10
+    attackRange: 0
+    attackCooldown: 1

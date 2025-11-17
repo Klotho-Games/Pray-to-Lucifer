@@ -12,7 +12,7 @@ public class GatePlacementManager : MonoBehaviour
     [SerializeField] private PlayerSoulState soulState;
     [SerializeField] private float minimumLightIntensity = 0.5f;
     [SerializeField] private Camera cam;
-    [SerializeField] private LineRenderer debugLineRenderer;
+    // private LineRenderer debugLineRenderer;
 
     private readonly float[] diagonals = new float[] { 0f, 60f, 120f };
     /// <summary>
@@ -166,10 +166,10 @@ public class GatePlacementManager : MonoBehaviour
 
     private void SearchForAllCellsToIndicate(Vector2Int playerCell, int radius)
     {
-        if (debugLineRenderer != null)
-        {
-            debugLineRenderer.positionCount = 0;
-        }
+        // if (debugLineRenderer != null)
+        // {
+        //     debugLineRenderer.positionCount = 0;
+        // }
         Vector2 playerCellWorldPosition = (Vector2)hexGrid.GetCellCenterWorld((Vector3Int)playerCell);
         // Start from 1 to radius going through all hexagonal cells
         for (int r = 0; r < radius; r++)
@@ -191,11 +191,11 @@ public class GatePlacementManager : MonoBehaviour
 
                 if (IsPossibleToPlaceGateInCell(cellPosition))
                 {
-                    if (debugLineRenderer != null)
-                    {
-                        debugLineRenderer.positionCount++;
-                        debugLineRenderer.SetPosition(debugLineRenderer.positionCount - 1, hexGrid.GetCellCenterWorld((Vector3Int)cellPosition));
-                    }
+                    // if (debugLineRenderer != null)
+                    // {
+                    //     debugLineRenderer.positionCount++;
+                    //     debugLineRenderer.SetPosition(debugLineRenderer.positionCount - 1, hexGrid.GetCellCenterWorld((Vector3Int)cellPosition));
+                    // }
                     InstantiateIndicatorAtCell(cellPosition);
                 }
             }
