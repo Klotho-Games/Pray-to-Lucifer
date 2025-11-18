@@ -2234,6 +2234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   levels:
   - {fileID: 11400000, guid: fa36b2998b57f314b8fb51c1b0130ac4, type: 2}
+  - {fileID: 11400000, guid: 4e68ec406b5ce8848bd97a4cfbd21f15, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -2242,9 +2243,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  playerTransform: {fileID: 0}
-  cam: {fileID: 0}
+  playerTransform: {fileID: 1552325820}
+  cam: {fileID: 519420031}
 --- !u!4 &1897987069
 Transform:
   m_ObjectHideFlags: 0
