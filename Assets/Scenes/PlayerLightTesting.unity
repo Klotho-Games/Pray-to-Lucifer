@@ -2874,10 +2874,10 @@ MonoBehaviour:
   playerSoulState: {fileID: 1552325828}
   animator: {fileID: 1552325824}
   enableWiggle: 1
-  wiggleAmplitude: 0.4
+  wiggleAmplitude: 0.2
   wiggleFrequency: 10
   wiggleSpeed: 7
-  wiggleSegments: 20
+  wiggleSegments: 100
   particleSystemPrefab: {fileID: 7795755573084203614, guid: 9350a59251a24ce12941356807f57de5, type: 3}
   enableParticles: 1
   enableLights: 1
@@ -4093,8 +4093,7 @@ MonoBehaviour:
   MirrorCost: 0
   OneWayMirrorCost: 0
   DiffractionSlateCost: 0
-  DivergingLensUpgradeToLensSystemCost: 0
-  LensSystemUpgradeToConvergingLensCost: 0
+  DivergingLensUpgradeToConvergingLensCost: 0
   UpgradeDiffractionPlateCosts: 00000000000000000000000000000000
 --- !u!4 &1897022498
 Transform:
@@ -4379,14 +4378,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb44f80162d0ebe4780f951f778b0e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GatePlacement
-  slowmoDuringRotation: 0
+  currentGateType: 2
+  gatePrefabs: []
   hexGrid: {fileID: 2106973145}
   placementIndicatorPrefab: {fileID: 8784213973245083084, guid: 2c9135840fa974845b224e72437a2c61, type: 3}
+  slowmoDuringRotation: 0
   rotationIndicatorPrefab: {fileID: 5941380524745284770, guid: 9faabfe7d4a9456489494736d6895175, type: 3}
   player: {fileID: 1552325820}
-  soulState: {fileID: 0}
+  playerStats: {fileID: 0}
   minimumLightIntensity: 0.5
   cam: {fileID: 519420031}
+  parentForPlacedGates: {fileID: 0}
+  gateLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!4 &1976485765
 Transform:
   m_ObjectHideFlags: 0
