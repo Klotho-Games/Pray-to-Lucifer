@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class BeamController : MonoBehaviour
@@ -50,7 +51,7 @@ public class BeamController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        DeleteOldLineRenderers();
+        DestroyOldLineRenderers();
         UpdateBeamPath();
     }
 
@@ -64,7 +65,7 @@ public class BeamController : MonoBehaviour
         return value >> 1;
     }
 
-    private void DeleteOldLineRenderers()
+    private void DestroyOldLineRenderers()
     {
         while (SpawnedLineRenderers.Count > 0)
         {
@@ -88,6 +89,7 @@ public class BeamController : MonoBehaviour
         if (beamOriginTransform != null && beamOriginTransform.gameObject != null)
         {
             beamOriginTransform.gameObject.SetActive(false);
+            DestroyOldLineRenderers();
         }
     }
 
@@ -159,13 +161,14 @@ public class BeamController : MonoBehaviour
         {
             FacingDirectionUpdate();
 
+            if (!InputManager.instance.PreciseControlInput)
+                return facingDirection;
+
             //Trim to 90 degree cone around facingDirection
             float angleBetween = Vector2.Angle(direction, facingDirection);
             if (angleBetween <= beamConeAngle)
                 return direction;
             
-            if (!InputManager.instance.PreciseControlInput)
-                return facingDirection;
             float sign = Mathf.Sign(Vector3.Cross(facingDirection, direction).z);
             float clampedAngle = beamConeAngle * sign;
             Vector2 clampedDirection = Quaternion.Euler(0, 0, clampedAngle) * facingDirection;

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20ff7c4cd28f8ea44b2a627d0103c212, type: 3}
+  m_Name: Level1
+  m_EditorClassIdentifier: Assembly-CSharp::LevelTimeline
+  spawnPosition: {x: 0, y: 0}
+  enemyGroups:
+  - spawnTime: 0
+    enemyPrefab: {fileID: 3542369998568306156, guid: 5122c29a66701d14584bf6c12a8a9b7e, type: 3}
+    quantity: 20
+    scattered: 1
+  - spawnTime: 15
+    enemyPrefab: {fileID: 3542369998568306156, guid: 5122c29a66701d14584bf6c12a8a9b7e, type: 3}
+    quantity: 10
+    scattered: 1
+  - spawnTime: 20
+    enemyPrefab: {fileID: 3542369998568306156, guid: 5122c29a66701d14584bf6c12a8a9b7e, type: 3}
+    quantity: 5
+    scattered: 1
+  - spawnTime: 20
+    enemyPrefab: {fileID: 3542369998568306156, guid: 5122c29a66701d14584bf6c12a8a9b7e, type: 3}
+    quantity: 5
+    scattered: 1
+  - spawnTime: 20
+    enemyPrefab: {fileID: 3542369998568306156, guid: 5122c29a66701d14584bf6c12a8a9b7e, type: 3}
+    quantity: 5
+    scattered: 1

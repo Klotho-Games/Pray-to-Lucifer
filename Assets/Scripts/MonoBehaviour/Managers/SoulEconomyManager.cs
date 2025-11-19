@@ -16,8 +16,7 @@ public class SoulEconomyManager : MonoBehaviour
     public int MirrorCost = 0;
     public int OneWayMirrorCost = 0;
     public int DiffractionSlateCost = 0;
-    public int DivergingLensUpgradeToLensSystemCost = 0;
-    public int LensSystemUpgradeToConvergingLensCost = 0;
+    public int DivergingLensUpgradeToConvergingLensCost = 0;
     /// <summary>
     /// Costs of upgrading the Diffraction Plate from lvl 
     /// [0] 1 => 2

@@ -1,17 +1,27 @@
+using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class GatePlacementManager : MonoBehaviour
 {
     public static GatePlacementManager instance;
 
-    [Range(0,1)][SerializeField] private float slowmoDuringRotation = 0.25f;
+    public enum GateType { DivergingLens, ConvergingLens, Mirror, OneWayMirror, Diffraction }
+
+    [Tooltip("The type of gate to place when in placement mode and for which indicators are shown when cost is coverable")]
+    public GateType currentGateType = GateType.Mirror;
+    [Header("Do not reorder these prefabs, they correspond to GateType enum")]
+    [SerializeField] private List<GameObject> gatePrefabs = new(); // List to hold gate prefabs
     [SerializeField] private Grid hexGrid;
     [SerializeField] private GameObject placementIndicatorPrefab;
+    [Range(0,1)][SerializeField] private float slowmoDuringRotation = 0.25f;
     [SerializeField] private GameObject rotationIndicatorPrefab;
     [SerializeField] private Transform player;
-    [SerializeField] private PlayerSoulState soulState;
+    [SerializeField] private PlayerStats playerStats;
     [SerializeField] private float minimumLightIntensity = 0.5f;
     [SerializeField] private Camera cam;
+    [SerializeField] private Transform parentForPlacedGates;
+    [SerializeField] private LayerMask gateLayer;
     // private LineRenderer debugLineRenderer;
 
     private readonly float[] diagonals = new float[] { 0f, 60f, 120f };
@@ -46,7 +56,10 @@ public class GatePlacementManager : MonoBehaviour
             return;
         }
 
-        if (!InputManager.instance.PreciseControlInput)
+        int gateCost = GetGateCost(currentGateType);
+
+        if (!InputManager.instance.PreciseControlInput 
+            || gateCost > playerStats.CurrentSoul)
         {
             DestroyAllIndicators();
             return;
@@ -57,6 +70,18 @@ public class GatePlacementManager : MonoBehaviour
         DestroyAllIndicators(); // children
         Vector2Int playerCell = (Vector2Int)hexGrid.WorldToCell(player.position);
         SearchForAllCellsToIndicate(playerCell, 5);
+    }
+
+    private int GetGateCost(GateType gateType)
+    {
+        return gateType switch
+        {
+            GateType.ConvergingLens => SoulEconomyManager.instance.ConvergingLensCost,
+            GateType.Mirror => SoulEconomyManager.instance.MirrorCost,
+            GateType.OneWayMirror => SoulEconomyManager.instance.OneWayMirrorCost,
+            GateType.Diffraction => SoulEconomyManager.instance.DiffractionSlateCost,
+            _ => int.MaxValue,
+        };
     }
 
     private void DestroyAllIndicators()
@@ -77,10 +102,57 @@ public class GatePlacementManager : MonoBehaviour
         currentRotationIndicator.position = cellWorldPos;
     }
 
+    private void PlaceGate()
+    {
+        if (currentRotationIndicator == null)
+            return;
+
+        playerStats.CurrentSoul -= GetGateCost(currentGateType);
+
+        GameObject gatePrefab = gatePrefabs[(int)currentGateType];
+        GameObject placedGate = Instantiate(gatePrefab, currentRotationIndicator.position, currentRotationIndicator.rotation, parentForPlacedGates);
+        
+        // Set layer for AI navigation
+        if (gateLayer != 0)
+        {
+            SetLayerRecursively(placedGate, LayerMaskToLayer(gateLayer));
+        }
+        
+        CancelRotationMode();
+    }
+    
+    private void SetLayerRecursively(GameObject obj, int layer)
+    {
+        if (obj.layer == layer) return; // Avoid redundant operations
+        obj.layer = layer;
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, layer);
+        }
+    }
+    
+    private int LayerMaskToLayer(LayerMask layerMask)
+    {
+        int layerNumber = 0;
+        int layer = layerMask.value;
+        while (layer > 1)
+        {
+            layer >>= 1;
+            layerNumber++;
+        }
+        return layerNumber;
+    }
+
     private void RotationModeUpdate()
     {
         if (currentRotationIndicator == null)
             CancelRotationMode();
+
+        if (InputManager.instance.DashInput)
+        {
+            PlaceGate();
+            return;
+        }
 
         if (InputManager.instance.IsKeyboardAndMouse)
         {

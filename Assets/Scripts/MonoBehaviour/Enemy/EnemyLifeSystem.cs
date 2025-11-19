@@ -52,8 +52,7 @@ public class EnemyLifeSystem : MonoBehaviour
     private void Die()
     {
         // Handle enemy death (e.g., play animation, drop rewards)
-        //Destroy(gameObject);
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     private bool GetDamaged()

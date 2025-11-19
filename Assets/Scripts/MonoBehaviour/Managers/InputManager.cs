@@ -26,7 +26,7 @@ public class InputManager : MonoBehaviour
 
     public Vector2 MoveInput { get; private set; }
     public bool SoulStateInput { get; private set; }
-    private bool primaryShootInput;
+    public bool PrimaryShootInput { get; private set; } // beam attack
     public bool TertiaryShootInput { get; private set; } // Soul Blast attack
     public bool DashInput { get; private set; }
     public Vector2 MousePosition { get; private set; }
@@ -84,7 +84,7 @@ public class InputManager : MonoBehaviour
     {
         UpdateInputs();
 
-        if (primaryShootInput)
+        if (PrimaryShootInput)
         {
             BeamController.instance.gameObject.SetActive(true);
         }
@@ -98,7 +98,7 @@ public class InputManager : MonoBehaviour
     {
         MoveInput = moveAction.ReadValue<Vector2>();
         SoulStateInput = soulStateAction.IsPressed();
-        primaryShootInput = primaryShootAction.IsPressed();
+        PrimaryShootInput = primaryShootAction.IsPressed();
         TertiaryShootInput = tertiaryShootAction.IsPressed();
         DashInput = dashAction.IsPressed();
         MousePosition = mousePositionAction.ReadValue<Vector2>();
