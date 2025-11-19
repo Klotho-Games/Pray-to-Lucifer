@@ -1,4 +1,7 @@
+using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelAndRespawnManager : MonoBehaviour
 {
@@ -9,7 +12,13 @@ public class LevelAndRespawnManager : MonoBehaviour
     [SerializeField] private LevelTimeline[] levels;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Camera cam;
+    [SerializeField] private float respawnDelay = 2f;
+    [SerializeField] private GameObject youDiedScreen;
+    [SerializeField] private GameObject nextlevelScreen;
+    [SerializeField] private float levelCompleteScreenDuration = 3f;
+    [SerializeField] private GameObject gameCompleteScreen;
     private PlayerStats playerStats;
+    private bool isDead = false;
     
     #region Instance
     void Awake()
@@ -29,14 +38,16 @@ public class LevelAndRespawnManager : MonoBehaviour
     void Start()
     {
         playerStats = playerTransform.GetComponent<PlayerStats>();
+        StartCoroutine(ShowForSeconds(nextlevelScreen, levelCompleteScreenDuration));
         RespawnPlayer();
     }
 
     void Update()
     {
-        if (playerStats.CurrentHealth <= 0)
+        if (playerStats.CurrentHealth <= 0 && !isDead)
         {
             OnPlayerDeath();
+            levelTimer = 0f;
         }
 
         levelTimer += Time.deltaTime;
@@ -131,27 +142,58 @@ public class LevelAndRespawnManager : MonoBehaviour
 
     private void LoadNextLevel()
     {
-        if (currentLevelIndex < levels.Length)
+        if (currentLevelIndex < levels.Length - 1)
         {
-
             ++currentLevelIndex;
+            nextlevelScreen.GetComponent<TMPro.TextMeshProUGUI>().text = "Level " + (currentLevelIndex + 1);
+            StartCoroutine(ShowForSeconds(nextlevelScreen, levelCompleteScreenDuration));
+            // more level transition logic can be added here
         }
-        else
+        else if (transform.childCount <= 0)
         {
             Debug.Log("All levels completed!");
-            // Handle end of game logic here
+            gameCompleteScreen.SetActive(true);
+            // more end-of-game logic can be added here
         }
+    }
+
+    private IEnumerator ShowForSeconds(GameObject obj, float seconds)
+    {
+        obj.SetActive(true);
+        yield return new WaitForSeconds(seconds);
+        obj.SetActive(false);
     }
 
     public void OnPlayerDeath()
     {
-        // Handle player death and respawn logic here
-        Debug.Log("Player has died. Respawning...");
+        isDead = true;
+        youDiedScreen.SetActive(true);
+        StartCoroutine(WaitAndRespawnPlayer());
+        // more player death handling logic can be added here
+    }
+
+    private IEnumerator WaitAndRespawnPlayer()
+    {
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(respawnDelay);
         RespawnPlayer();
     }
 
     private void RespawnPlayer()
     {
+        Time.timeScale = 1f;
+        DestroyAllEnemies();
         playerTransform.position = levels[currentLevelIndex].spawnPosition;
+        playerStats.CurrentHealth = playerStats.MaxHealth;
+        youDiedScreen.SetActive(false);
+        isDead = false;
+    }
+
+    private void DestroyAllEnemies()
+    {
+        foreach (Transform enemy in transform)
+        {
+            Destroy(enemy.gameObject);
+        }
     }
 }
