@@ -17,20 +17,25 @@ MonoBehaviour:
   - spawnTime: 0
     enemyPrefab: {fileID: 3542369998568306156, guid: 5122c29a66701d14584bf6c12a8a9b7e, type: 3}
     quantity: 20
-    scattered: 1
+    scattered: 0
+    groupRadius: 10
   - spawnTime: 15
     enemyPrefab: {fileID: 3542369998568306156, guid: 5122c29a66701d14584bf6c12a8a9b7e, type: 3}
     quantity: 10
-    scattered: 1
+    scattered: 0
+    groupRadius: 2
   - spawnTime: 20
     enemyPrefab: {fileID: 3542369998568306156, guid: 5122c29a66701d14584bf6c12a8a9b7e, type: 3}
     quantity: 5
-    scattered: 1
+    scattered: 0
+    groupRadius: 2
   - spawnTime: 20
     enemyPrefab: {fileID: 3542369998568306156, guid: 5122c29a66701d14584bf6c12a8a9b7e, type: 3}
     quantity: 5
-    scattered: 1
+    scattered: 0
+    groupRadius: 2
   - spawnTime: 20
     enemyPrefab: {fileID: 3542369998568306156, guid: 5122c29a66701d14584bf6c12a8a9b7e, type: 3}
     quantity: 5
-    scattered: 1
+    scattered: 0
+    groupRadius: 2

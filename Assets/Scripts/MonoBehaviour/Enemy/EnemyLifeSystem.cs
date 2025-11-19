@@ -7,6 +7,7 @@ public class EnemyLifeSystem : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField, Range(0f, 1f)] private float redColorPercent = 0.6f; // Percent HP at which color is fully red
     [SerializeField] private Color originalColor;
+    [SerializeField] private GameObject soulShardPrefab;
 
     private int currentHP;
 
@@ -52,7 +53,17 @@ public class EnemyLifeSystem : MonoBehaviour
     private void Die()
     {
         // Handle enemy death (e.g., play animation, drop rewards)
+        SpawnSoulShard();
         Destroy(gameObject);
+    }
+
+    private void SpawnSoulShard()
+    {
+        if (soulShardPrefab != null)
+        {
+            SoulShard shard = Instantiate(soulShardPrefab, transform.position, Quaternion.identity).GetComponent<SoulShard>();
+            shard.Initialize(enemyData.soulRewardAmount);
+        }
     }
 
     private bool GetDamaged()

@@ -4,6 +4,8 @@ public class EnergyMeleeAI : MonoBehaviour
 {
     [SerializeField] private Enemy enemyData;
     private Transform player;
+    private PlayerStats playerStats;
+    private float attackCooldownTimer = 0f;
 
     public void Initialize(Transform playerTransform)
     {
@@ -12,7 +14,41 @@ public class EnergyMeleeAI : MonoBehaviour
 
     void Update()
     {
-        GoInPlayerDirection();
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        AttackOrMove(distanceToPlayer);
+    }
+
+    private void AttackOrMove(float distanceToPlayer)
+    {
+        bool isInRange = false;
+        foreach (var attack in enemyData.attacks)
+        {
+            if (attack.attackType == Enemy.AttackType.Melee && distanceToPlayer <= attack.attackRange)
+            {
+                PerformAttack(attack);
+                isInRange = true;
+            }
+        }
+
+        if (!isInRange)
+        {
+            GoInPlayerDirection();
+        }
+    }
+
+    private void PerformAttack(Enemy.Attack attack)
+    {
+        if (attackCooldownTimer <= 0f)
+        {
+            playerStats ??= player.GetComponent<PlayerStats>();
+            playerStats.TakeDamage(attack.attackDamage);
+
+            attackCooldownTimer = attack.attackCooldown;
+        }
+        else
+        {
+            attackCooldownTimer -= Time.deltaTime;
+        }
     }
 
     private void GoInPlayerDirection()

@@ -43,6 +43,8 @@ public class InputManager : MonoBehaviour
     private InputAction mousePositionAction;
     private InputAction rightStickAction;
     private InputAction preciseControlAction;
+    public InputAction ItemRightAction {get; private set; } // for cycling through items
+    public InputAction ItemLeftAction {get; private set; } // for cycling through items
 
     private void Awake()
     {
@@ -123,5 +125,7 @@ public class InputManager : MonoBehaviour
         mousePositionAction = playerInput.actions["MousePosition"];
         rightStickAction = playerInput.actions["RightStick"];
         preciseControlAction = playerInput.actions["PreciseControl"];
+        ItemRightAction = playerInput.actions["ItemRight"];
+        ItemLeftAction = playerInput.actions["ItemLeft"];
     }
 }

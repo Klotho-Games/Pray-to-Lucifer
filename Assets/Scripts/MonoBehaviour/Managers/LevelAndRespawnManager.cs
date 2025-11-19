@@ -1,4 +1,7 @@
+using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelAndRespawnManager : MonoBehaviour
 {
@@ -9,7 +12,13 @@ public class LevelAndRespawnManager : MonoBehaviour
     [SerializeField] private LevelTimeline[] levels;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Camera cam;
+    [SerializeField] private float respawnDelay = 2f;
+    [SerializeField] private GameObject youDiedScreen;
+    [SerializeField] private GameObject nextlevelScreen;
+    [SerializeField] private float levelCompleteScreenDuration = 3f;
+    [SerializeField] private GameObject gameCompleteScreen;
     private PlayerStats playerStats;
+    private bool isDead = false;
     
     #region Instance
     void Awake()
@@ -29,28 +38,47 @@ public class LevelAndRespawnManager : MonoBehaviour
     void Start()
     {
         playerStats = playerTransform.GetComponent<PlayerStats>();
+        StartCoroutine(ShowForSeconds(nextlevelScreen, levelCompleteScreenDuration));
         RespawnPlayer();
     }
 
     void Update()
     {
-        if (playerStats.CurrentHealth <= 0)
+        // check for player death
+        if (playerStats.CurrentHealth <= 0 && !isDead)
         {
             OnPlayerDeath();
+            if (currentLevelIndex >= levels.Length)
+                currentLevelIndex = levels.Length - 1;
+            levelTimer = 0f;
+            currentTimelineElementIndex = 0;
         }
 
+        // check for game completion
+        if (currentLevelIndex >= levels.Length)
+        {
+            if (transform.childCount == 0 && !isDead)
+            {
+                Time.timeScale = 0f;
+                gameCompleteScreen.SetActive(true);
+            }
+            return;
+        }
+
+        // Level progression
         levelTimer += Time.deltaTime;
         while (transform.childCount <= 0 || levelTimer >= levels[currentLevelIndex].enemyGroups[currentTimelineElementIndex].spawnTime)
         {
             levelTimer = levels[currentLevelIndex].enemyGroups[currentTimelineElementIndex].spawnTime;
             SpawnEnemyGroup(levels[currentLevelIndex].enemyGroups[currentTimelineElementIndex]);
-            currentTimelineElementIndex++;
+            ++currentTimelineElementIndex;
 
             if (currentTimelineElementIndex >= levels[currentLevelIndex].enemyGroups.Count)
             {
                 LoadNextLevel();
                 currentTimelineElementIndex = 0;
                 levelTimer = 0f;
+                break;
             }
         }
     }
@@ -61,29 +89,43 @@ public class LevelAndRespawnManager : MonoBehaviour
         {
             for (int i = 0; i < enemyGroup.quantity; i++)
             {
-                SpawnEnemyScattered(enemyGroup.enemyPrefab);
+                Vector3 spawnPosition = GetPointOutsideCameraView(0f);
+                SpawnEnemy(enemyGroup.enemyPrefab, spawnPosition);
             }
         }
         else
         {
-            // Use a clutter at a random position outside the camera view
+            Vector3 groupCenter = GetPointOutsideCameraView(enemyGroup.groupRadius);
+            for (int i = 0; i < enemyGroup.quantity; i++)
+            {
+                Vector2 spawnOffset = Random.insideUnitCircle * enemyGroup.groupRadius;
+                Vector3 spawnPosition = new(groupCenter.x + spawnOffset.x, groupCenter.y + spawnOffset.y, 0f);
+                SpawnEnemy(enemyGroup.enemyPrefab, spawnPosition);
+            }
         }
     }
 
-    private void SpawnEnemyScattered(GameObject enemyToSpawn)
+    private void SpawnEnemy(GameObject enemyToSpawn, Vector3 spawnPosition)
     {
-        Vector3 spawnPosition = GetPointOutsideCameraView();
-        EnergyMeleeAI AI = Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity, transform).GetComponent<EnergyMeleeAI>();
-        AI.Initialize(playerTransform);
+        if (Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity, transform).TryGetComponent(out EnergyMeleeAI energyMeleeAI))
+            energyMeleeAI.Initialize(playerTransform);
+        else if (Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity, transform).TryGetComponent(out MaterialMeleeAI materialMeleeAI))
+            materialMeleeAI.Initialize(playerTransform);
+        else if (Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity, transform).TryGetComponent(out MaterialProjectileAI materialProjectileAI))
+            materialProjectileAI.Initialize(playerTransform);
+        else if (Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity, transform).TryGetComponent(out MaterialGrenadeAI materialGrenadeAI))
+            materialGrenadeAI.Initialize(playerTransform);
+        else
+            Debug.LogError("Enemy prefab does not have a recognized AI component.");
     }
 
-    private Vector3 GetPointOutsideCameraView()
+    private Vector3 GetPointOutsideCameraView(float groupSize)
     {
         float camHeight = 2f * cam.orthographicSize;
         float camWidth = camHeight * cam.aspect;
 
-        camWidth += 2f; // Extra buffer
-        camHeight += 2f; // Extra buffer
+        camWidth += 2f + groupSize; // Extra buffer
+        camHeight += 2f + groupSize; // Extra buffer
 
         float x, y;
         int side = Random.Range(0, 4); // 0: top, 1: bottom, 2: left, 3: right
@@ -117,27 +159,52 @@ public class LevelAndRespawnManager : MonoBehaviour
 
     private void LoadNextLevel()
     {
+        ++currentLevelIndex;
         if (currentLevelIndex < levels.Length)
         {
+            nextlevelScreen.GetComponent<TMPro.TextMeshProUGUI>().text = "Level " + (currentLevelIndex + 1);
+            StartCoroutine(ShowForSeconds(nextlevelScreen, levelCompleteScreenDuration));
+            // more level transition logic can be added here
+        }
+    }
 
-            ++currentLevelIndex;
-        }
-        else
-        {
-            Debug.Log("All levels completed!");
-            // Handle end of game logic here
-        }
+    private IEnumerator ShowForSeconds(GameObject obj, float seconds)
+    {
+        obj.SetActive(true);
+        yield return new WaitForSeconds(seconds);
+        obj.SetActive(false);
     }
 
     public void OnPlayerDeath()
     {
-        // Handle player death and respawn logic here
-        Debug.Log("Player has died. Respawning...");
+        isDead = true;
+        youDiedScreen.SetActive(true);
+        StartCoroutine(WaitAndRespawnPlayer());
+        // more player death handling logic can be added here
+    }
+
+    private IEnumerator WaitAndRespawnPlayer()
+    {
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(respawnDelay);
         RespawnPlayer();
     }
 
     private void RespawnPlayer()
     {
+        Time.timeScale = 1f;
+        DestroyAllEnemies();
         playerTransform.position = levels[currentLevelIndex].spawnPosition;
+        playerStats.CurrentHealth = playerStats.MaxHealth;
+        youDiedScreen.SetActive(false);
+        isDead = false;
+    }
+
+    private void DestroyAllEnemies()
+    {
+        foreach (Transform enemy in transform)
+        {
+            Destroy(enemy.gameObject);
+        }
     }
 }
