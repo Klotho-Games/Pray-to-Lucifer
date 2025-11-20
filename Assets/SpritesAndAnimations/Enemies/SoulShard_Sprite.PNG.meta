@@ -1,0 +1,909 @@
+fileFormatVersion: 2
+guid: 0f3a0cee8de2c6e43a3d9ae66966477d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -351858460170743219
+    second: 16x16_ultim6_character_Denzi050731_0
+  - first:
+      213: 7369964675150993643
+    second: 16x16_ultim6_character_Denzi050731_1
+  - first:
+      213: 4479871202758832592
+    second: 16x16_ultim6_character_Denzi050731_2
+  - first:
+      213: -5022239581291220755
+    second: 16x16_ultim6_character_Denzi050731_3
+  - first:
+      213: 3846100850191674765
+    second: 16x16_ultim6_character_Denzi050731_4
+  - first:
+      213: -9150569035202349266
+    second: 16x16_ultim6_character_Denzi050731_5
+  - first:
+      213: -4250738071192146962
+    second: 16x16_ultim6_character_Denzi050731_6
+  - first:
+      213: 4686359946983982244
+    second: 16x16_ultim6_character_Denzi050731_7
+  - first:
+      213: -2557529886258523604
+    second: 16x16_ultim6_character_Denzi050731_8
+  - first:
+      213: -4266241362625515656
+    second: 16x16_ultim6_character_Denzi050731_9
+  - first:
+      213: -7417879906640345122
+    second: 16x16_ultim6_character_Denzi050731_10
+  - first:
+      213: -5254981949948832875
+    second: 16x16_ultim6_character_Denzi050731_11
+  - first:
+      213: -2893142367728304440
+    second: 16x16_ultim6_character_Denzi050731_12
+  - first:
+      213: 2268647463082424881
+    second: 16x16_ultim6_character_Denzi050731_13
+  - first:
+      213: 8848455931481896651
+    second: 16x16_ultim6_character_Denzi050731_14
+  - first:
+      213: -5301216393878787864
+    second: 16x16_ultim6_character_Denzi050731_15
+  - first:
+      213: -8803807895013188158
+    second: 16x16_ultim6_character_Denzi050731_16
+  - first:
+      213: -2443133253300183226
+    second: 16x16_ultim6_character_Denzi050731_17
+  - first:
+      213: 6853291303848413543
+    second: 16x16_ultim6_character_Denzi050731_18
+  - first:
+      213: -5846958365271106934
+    second: 16x16_ultim6_character_Denzi050731_19
+  - first:
+      213: 1412849331619388824
+    second: 16x16_ultim6_character_Denzi050731_20
+  - first:
+      213: -7721878873304828441
+    second: 16x16_ultim6_character_Denzi050731_21
+  - first:
+      213: -1372627368376896298
+    second: 16x16_ultim6_character_Denzi050731_22
+  - first:
+      213: 2664706392617021712
+    second: 16x16_ultim6_character_Denzi050731_23
+  - first:
+      213: -8673719222679215225
+    second: 16x16_ultim6_character_Denzi050731_24
+  - first:
+      213: 476461155827260748
+    second: 16x16_ultim6_character_Denzi050731_25
+  - first:
+      213: -6349404020366867655
+    second: 16x16_ultim6_character_Denzi050731_26
+  - first:
+      213: 3113695260442034870
+    second: 16x16_ultim6_character_Denzi050731_27
+  - first:
+      213: -3586107431546319064
+    second: 16x16_ultim6_character_Denzi050731_28
+  - first:
+      213: 3200719362646851293
+    second: 16x16_ultim6_character_Denzi050731_29
+  - first:
+      213: 6432919919825205023
+    second: 16x16_ultim6_character_Denzi050731_30
+  - first:
+      213: -4036217479560785059
+    second: 16x16_ultim6_character_Denzi050731_31
+  - first:
+      213: -2014741351675102064
+    second: 16x16_ultim6_character_Denzi050731_32
+  - first:
+      213: 4587887856040293511
+    second: 16x16_ultim6_character_Denzi050731_33
+  - first:
+      213: -918476257052504899
+    second: 16x16_ultim6_character_Denzi050731_34
+  - first:
+      213: 3766274013563893442
+    second: 16x16_ultim6_character_Denzi050731_35
+  - first:
+      213: 553459505127086777
+    second: 16x16_ultim6_character_Denzi050731_36
+  - first:
+      213: -4151787448905664357
+    second: 16x16_ultim6_character_Denzi050731_37
+  - first:
+      213: -6728473238383125868
+    second: 16x16_ultim6_character_Denzi050731_38
+  - first:
+      213: -1771731404796375681
+    second: 16x16_ultim6_character_Denzi050731_39
+  - first:
+      213: 1505562252371394651
+    second: 16x16_ultim6_character_Denzi050731_40
+  - first:
+      213: -6519239570328286618
+    second: 16x16_ultim6_character_Denzi050731_41
+  - first:
+      213: -2600087792992709450
+    second: 16x16_ultim6_character_Denzi050731_42
+  - first:
+      213: -3406777507425386966
+    second: 16x16_ultim6_character_Denzi050731_43
+  - first:
+      213: 5684337173841704053
+    second: 16x16_ultim6_character_Denzi050731_44
+  - first:
+      213: -1362574650000553345
+    second: 16x16_ultim6_character_Denzi050731_45
+  - first:
+      213: 7055473969404438803
+    second: 16x16_ultim6_character_Denzi050731_46
+  - first:
+      213: 2914109188439378185
+    second: 16x16_ultim6_character_Denzi050731_47
+  - first:
+      213: -709496938281733431
+    second: 16x16_ultim6_character_Denzi050731_48
+  - first:
+      213: -5677665741788732948
+    second: 16x16_ultim6_character_Denzi050731_49
+  - first:
+      213: 4903958744717199464
+    second: 16x16_ultim6_character_Denzi050731_50
+  - first:
+      213: -6969226035436295763
+    second: 16x16_ultim6_character_Denzi050731_51
+  - first:
+      213: 8633223415844845882
+    second: 16x16_ultim6_character_Denzi050731_52
+  - first:
+      213: 4411570620221557371
+    second: 16x16_ultim6_character_Denzi050731_53
+  - first:
+      213: -2774509097790941072
+    second: 16x16_ultim6_character_Denzi050731_54
+  - first:
+      213: -8572441760103812578
+    second: 16x16_ultim6_character_Denzi050731_55
+  - first:
+      213: -3428177575088005623
+    second: 16x16_ultim6_character_Denzi050731_56
+  - first:
+      213: 8863504595926339550
+    second: 16x16_ultim6_character_Denzi050731_57
+  - first:
+      213: 5658277820025604479
+    second: 16x16_ultim6_character_Denzi050731_58
+  - first:
+      213: 6125780120476541162
+    second: 16x16_ultim6_character_Denzi050731_59
+  - first:
+      213: -8703817278573038724
+    second: 16x16_ultim6_character_Denzi050731_60
+  - first:
+      213: -6123775493192403365
+    second: 16x16_ultim6_character_Denzi050731_61
+  - first:
+      213: -4353493146469962525
+    second: 16x16_ultim6_character_Denzi050731_62
+  - first:
+      213: 3092355937090783469
+    second: 16x16_ultim6_character_Denzi050731_63
+  - first:
+      213: 6536833047240393454
+    second: 16x16_ultim6_character_Denzi050731_64
+  - first:
+      213: -5512317017444473670
+    second: 16x16_ultim6_character_Denzi050731_65
+  - first:
+      213: -8031762660666147746
+    second: 16x16_ultim6_character_Denzi050731_66
+  - first:
+      213: -440532841967575494
+    second: 16x16_ultim6_character_Denzi050731_67
+  - first:
+      213: 7655604983963530010
+    second: 16x16_ultim6_character_Denzi050731_68
+  - first:
+      213: 776348782851402776
+    second: 16x16_ultim6_character_Denzi050731_69
+  - first:
+      213: 5513271369018730096
+    second: 16x16_ultim6_character_Denzi050731_70
+  - first:
+      213: -6064596441306622928
+    second: 16x16_ultim6_character_Denzi050731_71
+  - first:
+      213: 442541014402845560
+    second: 16x16_ultim6_character_Denzi050731_72
+  - first:
+      213: -1640084157246722106
+    second: 16x16_ultim6_character_Denzi050731_73
+  - first:
+      213: 5013030958383377413
+    second: 16x16_ultim6_character_Denzi050731_74
+  - first:
+      213: -5725428844237859083
+    second: 16x16_ultim6_character_Denzi050731_75
+  - first:
+      213: -3641781988413907758
+    second: 16x16_ultim6_character_Denzi050731_76
+  - first:
+      213: -6525504283060978663
+    second: 16x16_ultim6_character_Denzi050731_77
+  - first:
+      213: -5499965114980665627
+    second: 16x16_ultim6_character_Denzi050731_78
+  - first:
+      213: 1653230293373743592
+    second: 16x16_ultim6_character_Denzi050731_79
+  - first:
+      213: 7606247278020266091
+    second: 16x16_ultim6_character_Denzi050731_80
+  - first:
+      213: -391131487055626845
+    second: 16x16_ultim6_character_Denzi050731_81
+  - first:
+      213: 7500432386985248143
+    second: 16x16_ultim6_character_Denzi050731_82
+  - first:
+      213: 2218615923870561926
+    second: 16x16_ultim6_character_Denzi050731_83
+  - first:
+      213: -1718810016326281535
+    second: 16x16_ultim6_character_Denzi050731_84
+  - first:
+      213: -1961428212115845574
+    second: 16x16_ultim6_character_Denzi050731_85
+  - first:
+      213: -3782994161746361809
+    second: 16x16_ultim6_character_Denzi050731_86
+  - first:
+      213: 965769361021523472
+    second: 16x16_ultim6_character_Denzi050731_87
+  - first:
+      213: 2978536135098832938
+    second: 16x16_ultim6_character_Denzi050731_88
+  - first:
+      213: -5085618166960925211
+    second: 16x16_ultim6_character_Denzi050731_89
+  - first:
+      213: 8536984759418503686
+    second: 16x16_ultim6_character_Denzi050731_90
+  - first:
+      213: -5058409101930599330
+    second: 16x16_ultim6_character_Denzi050731_91
+  - first:
+      213: 1761701980753470737
+    second: 16x16_ultim6_character_Denzi050731_92
+  - first:
+      213: 4408731383379316432
+    second: 16x16_ultim6_character_Denzi050731_93
+  - first:
+      213: -2109339080371991242
+    second: 16x16_ultim6_character_Denzi050731_94
+  - first:
+      213: -2588874634017842593
+    second: 16x16_ultim6_character_Denzi050731_95
+  - first:
+      213: -9151107760069967647
+    second: 16x16_ultim6_character_Denzi050731_96
+  - first:
+      213: -1850414802201391929
+    second: 16x16_ultim6_character_Denzi050731_97
+  - first:
+      213: 7747769929549311755
+    second: 16x16_ultim6_character_Denzi050731_98
+  - first:
+      213: -1534913247335022589
+    second: 16x16_ultim6_character_Denzi050731_99
+  - first:
+      213: -8285523610847385995
+    second: 16x16_ultim6_character_Denzi050731_100
+  - first:
+      213: 2129067083374771484
+    second: 16x16_ultim6_character_Denzi050731_101
+  - first:
+      213: -7790901274111967909
+    second: 16x16_ultim6_character_Denzi050731_102
+  - first:
+      213: -1176805705594008818
+    second: 16x16_ultim6_character_Denzi050731_103
+  - first:
+      213: -7560488703886023771
+    second: 16x16_ultim6_character_Denzi050731_104
+  - first:
+      213: -8411613128624465685
+    second: 16x16_ultim6_character_Denzi050731_105
+  - first:
+      213: -800780530363076979
+    second: 16x16_ultim6_character_Denzi050731_106
+  - first:
+      213: -7851559743439683850
+    second: 16x16_ultim6_character_Denzi050731_107
+  - first:
+      213: -3084222198825243615
+    second: 16x16_ultim6_character_Denzi050731_108
+  - first:
+      213: -3478781776196590644
+    second: 16x16_ultim6_character_Denzi050731_109
+  - first:
+      213: -11633398055671953
+    second: 16x16_ultim6_character_Denzi050731_110
+  - first:
+      213: 8045854232138188201
+    second: 16x16_ultim6_character_Denzi050731_111
+  - first:
+      213: 5168583966065347932
+    second: 16x16_ultim6_character_Denzi050731_112
+  - first:
+      213: 3147749685326658626
+    second: 16x16_ultim6_character_Denzi050731_113
+  - first:
+      213: -5900209952860219050
+    second: 16x16_ultim6_character_Denzi050731_114
+  - first:
+      213: -1132986112074327839
+    second: 16x16_ultim6_character_Denzi050731_115
+  - first:
+      213: -3250336509620714727
+    second: 16x16_ultim6_character_Denzi050731_116
+  - first:
+      213: 4975070322339500650
+    second: 16x16_ultim6_character_Denzi050731_117
+  - first:
+      213: -665374194097839140
+    second: 16x16_ultim6_character_Denzi050731_118
+  - first:
+      213: -4949808388464353067
+    second: 16x16_ultim6_character_Denzi050731_119
+  - first:
+      213: 7974415400054134797
+    second: 16x16_ultim6_character_Denzi050731_120
+  - first:
+      213: -3229676657562667508
+    second: 16x16_ultim6_character_Denzi050731_121
+  - first:
+      213: -2723659738069757716
+    second: 16x16_ultim6_character_Denzi050731_122
+  - first:
+      213: -4947166075392494319
+    second: 16x16_ultim6_character_Denzi050731_123
+  - first:
+      213: 1126268754269142612
+    second: 16x16_ultim6_character_Denzi050731_124
+  - first:
+      213: 5370159930516751059
+    second: 16x16_ultim6_character_Denzi050731_125
+  - first:
+      213: 431829745486953591
+    second: 16x16_ultim6_character_Denzi050731_126
+  - first:
+      213: -3554456642054255966
+    second: 16x16_ultim6_character_Denzi050731_127
+  - first:
+      213: 6377401792838965449
+    second: 16x16_ultim6_character_Denzi050731_128
+  - first:
+      213: 2022807699493622473
+    second: 16x16_ultim6_character_Denzi050731_129
+  - first:
+      213: 7681043318836430056
+    second: 16x16_ultim6_character_Denzi050731_130
+  - first:
+      213: -6927753173459264296
+    second: 16x16_ultim6_character_Denzi050731_131
+  - first:
+      213: -7249073883734793273
+    second: 16x16_ultim6_character_Denzi050731_132
+  - first:
+      213: -5522991045436830784
+    second: 16x16_ultim6_character_Denzi050731_133
+  - first:
+      213: 3051090905091447836
+    second: 16x16_ultim6_character_Denzi050731_134
+  - first:
+      213: 6514662700265608080
+    second: 16x16_ultim6_character_Denzi050731_135
+  - first:
+      213: 5830184339063204680
+    second: 16x16_ultim6_character_Denzi050731_136
+  - first:
+      213: 4140320785917712514
+    second: 16x16_ultim6_character_Denzi050731_137
+  - first:
+      213: -8542777135082284453
+    second: 16x16_ultim6_character_Denzi050731_138
+  - first:
+      213: -8626512301841126330
+    second: 16x16_ultim6_character_Denzi050731_139
+  - first:
+      213: -1293924382481611340
+    second: 16x16_ultim6_character_Denzi050731_140
+  - first:
+      213: -583603522280268408
+    second: 16x16_ultim6_character_Denzi050731_141
+  - first:
+      213: 551832733340869809
+    second: 16x16_ultim6_character_Denzi050731_142
+  - first:
+      213: 6059888094699117956
+    second: 16x16_ultim6_character_Denzi050731_143
+  - first:
+      213: 8506804533866211671
+    second: 16x16_ultim6_character_Denzi050731_144
+  - first:
+      213: 405502889191600412
+    second: 16x16_ultim6_character_Denzi050731_145
+  - first:
+      213: -4682294994467984728
+    second: 16x16_ultim6_character_Denzi050731_146
+  - first:
+      213: -244727825618653461
+    second: 16x16_ultim6_character_Denzi050731_147
+  - first:
+      213: -1648402537515793751
+    second: 16x16_ultim6_character_Denzi050731_148
+  - first:
+      213: -148102172911861453
+    second: 16x16_ultim6_character_Denzi050731_149
+  - first:
+      213: 2398597269522582903
+    second: 16x16_ultim6_character_Denzi050731_150
+  - first:
+      213: -962008609309118109
+    second: 16x16_ultim6_character_Denzi050731_151
+  - first:
+      213: -8169480146968369932
+    second: 16x16_ultim6_character_Denzi050731_152
+  - first:
+      213: 7826946638087420320
+    second: 16x16_ultim6_character_Denzi050731_153
+  - first:
+      213: -8014573977685046661
+    second: 16x16_ultim6_character_Denzi050731_154
+  - first:
+      213: 1234485221492624076
+    second: 16x16_ultim6_character_Denzi050731_155
+  - first:
+      213: 3147684791086243044
+    second: 16x16_ultim6_character_Denzi050731_156
+  - first:
+      213: 6853507753605866234
+    second: 16x16_ultim6_character_Denzi050731_157
+  - first:
+      213: 7758672514451966544
+    second: 16x16_ultim6_character_Denzi050731_158
+  - first:
+      213: -5188618469756014662
+    second: 16x16_ultim6_character_Denzi050731_159
+  - first:
+      213: -8538640954482140481
+    second: 16x16_ultim6_character_Denzi050731_160
+  - first:
+      213: 7021246329841750463
+    second: 16x16_ultim6_character_Denzi050731_161
+  - first:
+      213: 1013844631087930246
+    second: 16x16_ultim6_character_Denzi050731_162
+  - first:
+      213: 881897748151162242
+    second: 16x16_ultim6_character_Denzi050731_163
+  - first:
+      213: -6268188357539244616
+    second: 16x16_ultim6_character_Denzi050731_164
+  - first:
+      213: 7367963978965229576
+    second: 16x16_ultim6_character_Denzi050731_165
+  - first:
+      213: -8535615631538316137
+    second: 16x16_ultim6_character_Denzi050731_166
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 16x16_ultim6_character_Denzi050731_0
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 144
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10d24313e4c86f54cbd0fa8ad6007161
+      internalID: -1344155406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_character_Denzi050731_1
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 144
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ad134f660db7e64ba222cec3574a6ec
+      internalID: 1105725534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_character_Denzi050731_2
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 144
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c3a3de0a2df57f479cb0959b710e77d
+      internalID: -1645006257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_character_Denzi050731_3
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ca3fc6bd9c79b74b811f7b4053da0ce
+      internalID: -2081786534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_character_Denzi050731_4
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fee679be802a1ec4089c0ef402444e51
+      internalID: -933016253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_character_Denzi050731_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f57965b77a8618649b05abb221cf869f
+      internalID: 353190571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_character_Denzi050731_6
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 112
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3ce74f2364e85d449d30a3db824a322
+      internalID: 1567002522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_character_Denzi050731_7
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 112
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6718618942353c4b8dac85713868c63
+      internalID: 1233716553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_character_Denzi050731_8
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 112
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.34931564, y: 0.6883583}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26e17678ba85bce419c168f8474887c2
+      internalID: 191269096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_character_Denzi050731_9
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d99d5d1af985184449bd8f87ad01b962
+      internalID: 443497512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_character_Denzi050731_10
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ede25386555e4d4588e89dcdf6b40ed
+      internalID: -2096519995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16x16_ultim6_character_Denzi050731_11
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7aa8e11ea6d4f04494d91432e31401f
+      internalID: 361585393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      16x16_ultim6_character_Denzi050731_0: -1344155406
+      16x16_ultim6_character_Denzi050731_1: 1105725534
+      16x16_ultim6_character_Denzi050731_10: -2096519995
+      16x16_ultim6_character_Denzi050731_11: 361585393
+      16x16_ultim6_character_Denzi050731_2: -1645006257
+      16x16_ultim6_character_Denzi050731_3: -2081786534
+      16x16_ultim6_character_Denzi050731_4: -933016253
+      16x16_ultim6_character_Denzi050731_5: 353190571
+      16x16_ultim6_character_Denzi050731_6: 1567002522
+      16x16_ultim6_character_Denzi050731_7: 1233716553
+      16x16_ultim6_character_Denzi050731_8: 191269096
+      16x16_ultim6_character_Denzi050731_9: 443497512
+      Mirror_0: -3342743851459327484
+      SoulShard_Sprite_0: -190164787
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

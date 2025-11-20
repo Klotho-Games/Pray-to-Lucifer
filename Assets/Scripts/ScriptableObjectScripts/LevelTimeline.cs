@@ -11,6 +11,8 @@ public class LevelTimeline : ScriptableObject
         public GameObject enemyPrefab;
         public int quantity;
         public bool scattered;
+        [ShowIf("scattered", false)]
+        public float groupRadius = 5f;
     }
 
     public Vector2 spawnPosition = Vector2.zero;

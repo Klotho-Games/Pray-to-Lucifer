@@ -14,8 +14,23 @@ public class BeamController : MonoBehaviour
     [SerializeField] private GameObject lineRendererObjectPrefab;
     [SerializeField] private PlayerSoulState playerSoulState;
     [SerializeField] private Animator animator;
+    
+    [Header("Beam Wiggle Settings")]
+    [SerializeField] private bool enableWiggle = true;
+    [SerializeField] private float wiggleAmplitude = 0.1f;
+    [SerializeField] private float wiggleFrequency = 10f;
+    [SerializeField] private float wiggleSpeed = 5f;
+    [SerializeField] private int wiggleSegments = 20;
+    
+    [Header("Particle & Light Effects")]
+    [SerializeField] private GameObject particleSystemPrefab;
+    [SerializeField] private bool enableParticles = true;
+    [SerializeField] private bool enableLights = true;
+    [SerializeField] private float lightIntensityMultiplier = 0.5f;
+    [SerializeField] private Color lightColor = new Color(1f, 0.3f, 0.1f, 1f);
 
     public List<GameObject> SpawnedLineRenderers { get; private set; } = new();
+    private List<GameObject> spawnedEffects = new();
 
     private Vector2 facingDirection;
     private Vector2 lastBeamDirection = Vector2.zero;
@@ -67,12 +82,17 @@ public class BeamController : MonoBehaviour
 
     private void DestroyOldLineRenderers()
     {
-        while (SpawnedLineRenderers.Count > 0)
+        foreach (var obj in SpawnedLineRenderers)
         {
-            GameObject lrObj = SpawnedLineRenderers[^1];
-            SpawnedLineRenderers.RemoveAt(SpawnedLineRenderers.Count - 1);
-            Destroy(lrObj);
+            Destroy(obj);
         }
+        SpawnedLineRenderers.Clear();
+        
+        foreach (var obj in spawnedEffects)
+        {
+            Destroy(obj);
+        }
+        spawnedEffects.Clear();
     }
     
     struct RaycastInfo
@@ -186,11 +206,27 @@ public class BeamController : MonoBehaviour
 
         #region Draw the line segment
         LineRenderer segmentLR = Instantiate(lineRendererObjectPrefab, Vector3.zero, Quaternion.identity, beamOriginTransform).GetComponent<LineRenderer>();
-        segmentLR.positionCount = 2;
+        
+        if (enableWiggle)
+        {
+            ApplyWiggleToLineRenderer(segmentLR, origin, raycastInfo.contactPoint);
+        }
+        else
+        {
+            segmentLR.positionCount = 2;
+            segmentLR.SetPosition(0, new(origin.x, origin.y, 0f));
+            segmentLR.SetPosition(1, new(raycastInfo.contactPoint.x, raycastInfo.contactPoint.y, 0f));
+        }
+        
         segmentLR.widthMultiplier = Mathf.Log(intensity);
-        segmentLR.SetPosition(0, new(origin.x, origin.y, 0f));
-        segmentLR.SetPosition(1, new(raycastInfo.contactPoint.x, raycastInfo.contactPoint.y, 0f));
         SpawnedLineRenderers.Add(segmentLR.gameObject);
+        #endregion
+        
+        #region Spawn particle trail along beam
+        if ((enableParticles || enableLights) && particleSystemPrefab != null)
+        {
+            SpawnBeamEffects(origin, raycastInfo.contactPoint, intensity);
+        }
         #endregion
 
         #region Pass on data to the new beam segment
@@ -313,6 +349,83 @@ public class BeamController : MonoBehaviour
             gateTypeComponent = null,
             hitObject = null
         };
+    }
+    
+    private void SpawnBeamEffects(Vector2 startPos, Vector2 endPos, int intensity)
+    {
+        Vector2 direction = (endPos - startPos).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float beamLength = Vector2.Distance(startPos, endPos);
+        
+        // Position at start point, then offset half the light radius along the beam direction
+        Vector2 lightPosition = startPos + direction * (beamLength * 0.5f);
+        
+        GameObject effectObj;
+        
+        // Create particle system or empty GameObject
+        if (enableParticles)
+        {
+            effectObj = Instantiate(particleSystemPrefab, new Vector3(lightPosition.x, lightPosition.y, 0f), Quaternion.Euler(0, 0, angle), beamOriginTransform);
+            
+            ParticleSystem ps = effectObj.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                var shape = ps.shape;
+                shape.scale = new Vector3(beamLength, 1f, 1f);
+                
+                // Stop emission so particles don't escape when destroyed
+                var emission = ps.emission;
+                emission.enabled = false;
+                
+                // Play/simulate to show existing particles, but don't emit new ones
+                ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            }
+        }
+        else
+        {
+            effectObj = new GameObject("BeamLight");
+            effectObj.transform.SetParent(beamOriginTransform);
+            effectObj.transform.position = new Vector3(lightPosition.x, lightPosition.y, 0f);
+            effectObj.transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+        
+        // Add Light2D component programmatically
+        if (enableLights)
+        {
+            var light2D = effectObj.AddComponent<UnityEngine.Rendering.Universal.Light2D>();
+            light2D.lightType = UnityEngine.Rendering.Universal.Light2D.LightType.Point;
+            light2D.color = lightColor;
+            light2D.intensity = Mathf.Log(intensity + 1) * lightIntensityMultiplier;
+            light2D.pointLightOuterRadius = beamLength * 0.5f;
+            light2D.pointLightInnerRadius = 0f;
+        }
+        
+        spawnedEffects.Add(effectObj);
+    }
+    
+    private void ApplyWiggleToLineRenderer(LineRenderer lr, Vector2 startPos, Vector2 endPos)
+    {
+        float beamLength = Vector2.Distance(startPos, endPos);
+        Vector2 direction = (endPos - startPos).normalized;
+        Vector2 perpendicular = new Vector2(-direction.y, direction.x); // Perpendicular vector for offset
+        
+        int segments = Mathf.Max(2, wiggleSegments);
+        lr.positionCount = segments;
+        
+        float timeOffset = Time.time * wiggleSpeed;
+        
+        for (int i = 0; i < segments; i++)
+        {
+            float t = (float)i / (segments - 1);
+            Vector2 basePosition = Vector2.Lerp(startPos, endPos, t);
+            
+            // Calculate sine wave offset
+            float sineValue = Mathf.Sin(t * wiggleFrequency * Mathf.PI * 2f + timeOffset);
+            Vector2 offset = perpendicular * (sineValue * wiggleAmplitude);
+            
+            Vector2 finalPosition = basePosition + offset;
+            lr.SetPosition(i, new Vector3(finalPosition.x, finalPosition.y, 0f));
+        }
     }
     
     

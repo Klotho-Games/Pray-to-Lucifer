@@ -10,7 +10,7 @@ public class Enemy : ScriptableObject
     public class Attack
     {
         public AttackType attackType = AttackType.Melee;
-        public float attackDamage = 20f;
+        public int attackDamage = 20;
         
         [Tooltip("How close the enemy needs to be to attack")]
         public float attackRange = 10f;
@@ -35,7 +35,7 @@ public class Enemy : ScriptableObject
     [Tooltip("How much health is regenerated per second")]
     public float regeneration = 0f;
     
-    public float rewardAmount = 10f;
+    public int soulRewardAmount = 10;
 
 
     [Header("Behavior")]

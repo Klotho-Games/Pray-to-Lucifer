@@ -9,11 +9,29 @@ public class PlayerStats : MonoBehaviour
 
     void Update()
     {
-        if (CurrentHealth < 0)
-            Die();
         if (CurrentSoul < 0)
             CurrentSoul = 0;
+    }
 
+    public void TakeDamage(int damage)
+    {
+        var temp = CurrentHealth - damage;
+        if (temp < 0)
+        {
+            CurrentHealth = 0;
+            Die();
+        }
+        else
+            CurrentHealth = temp;
+    }
+
+    public void AddSoul(int amount)
+    {
+        var temp = CurrentSoul + amount;
+        if (temp > MaxSoul)
+            CurrentSoul = MaxSoul;
+        else
+            CurrentSoul = temp;
     }
 
     private void Die()
