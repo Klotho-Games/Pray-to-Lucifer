@@ -5,10 +5,11 @@ public class PlayerStats : MonoBehaviour
 {
     public int MaxHealth { get; private set; } = 1000;
     public int CurrentHealth { get; private set; } = 1000;
-    public int MaxSoul { get; private set; } = 500;
+    public int MaxSoul { get; private set; } = 5000;
     public int CurrentSoul { get; private set; } = 0;
 
     public event System.Action OnHealthChanged;
+    public event System.Action OnSoulChanged;
 
     public void TakeDamage(int damage)
     {
@@ -49,6 +50,8 @@ public class PlayerStats : MonoBehaviour
             CurrentSoul = 0;
         else
             CurrentSoul = temp;
+
+        OnSoulChanged?.Invoke();
     }
 
     public void AddSoul(int amount)
@@ -58,6 +61,8 @@ public class PlayerStats : MonoBehaviour
             CurrentSoul = MaxSoul;
         else
             CurrentSoul = temp;
+
+        OnSoulChanged?.Invoke();
     }
 
     private void Die()

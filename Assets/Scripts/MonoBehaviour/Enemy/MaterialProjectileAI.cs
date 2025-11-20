@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class MaterialProjectileAI : MonoBehaviour
 {
-    private Transform playerTransform;
+    public Transform PlayerTransform { get; private set; }
 
     public void Initialize(Transform player)
     {
-        playerTransform = player;
+        PlayerTransform = player;
     }
 }

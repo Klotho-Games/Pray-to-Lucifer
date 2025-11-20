@@ -31,6 +31,7 @@ public class GatePlacementManager : MonoBehaviour
     /// </summary>
     private int lastTimesRotated = 0;
     private Transform currentRotationIndicator = null;
+    private bool isInPlacementMode = false;
     private bool isInRotationMode = false;
     private readonly float diagonalLength = Mathf.Sqrt(3f); // length of diagonal in hex grid
 
@@ -113,6 +114,11 @@ public class GatePlacementManager : MonoBehaviour
 
         if (gateCost > playerStats.CurrentSoul)
         {
+            if (isInPlacementMode)
+            {
+                Time.timeScale = 1f;
+                isInPlacementMode = false;
+            }
             currentGateTypeDisplayText.alpha = 0.06f;
             currentGateTypeDisplayText.text = GetCurrentGateTypeString();
             DestroyAllIndicators();
@@ -126,12 +132,20 @@ public class GatePlacementManager : MonoBehaviour
 
         if (!InputManager.instance.PreciseControlInput)
         {
+            if (isInPlacementMode)
+            {
+                Time.timeScale = 1f;
+                isInPlacementMode = false;
+            }
             DestroyAllIndicators();
             return;
         }
 
-        
-
+        if (!isInPlacementMode)
+        {
+            Time.timeScale = 0f;
+            isInPlacementMode = true;
+        }
         // Show places where you can build
         DestroyAllIndicators(); // children
         Vector2Int playerCell = (Vector2Int)hexGrid.WorldToCell(player.position);
@@ -160,6 +174,7 @@ public class GatePlacementManager : MonoBehaviour
 
     public void EnterGateRotationMode(Vector2 cellWorldPos)
     {
+        isInPlacementMode = false;
         isInRotationMode = true;
         InputManager.instance.CancelAction.performed += ctx => CancelRotationMode();
         Time.timeScale = slowmoDuringRotation;
@@ -293,6 +308,7 @@ public class GatePlacementManager : MonoBehaviour
     private void CancelRotationMode()
     {
         isInRotationMode = false;
+        isInPlacementMode = true;
         InputManager.instance.CancelAction.performed -= ctx => CancelRotationMode();
         Time.timeScale = 1f;
         if (currentRotationIndicator != null)

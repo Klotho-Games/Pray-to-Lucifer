@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 [CreateAssetMenu(fileName = "LevelTimeline", menuName = "Scriptable Objects/LevelTimeline")]
 public class LevelTimeline : ScriptableObject
 {
@@ -11,19 +15,20 @@ public class LevelTimeline : ScriptableObject
         public GameObject enemyPrefab;
         public int quantity;
         public bool scattered;
-        [ShowIf("scattered", false)]
-        public float groupRadius = 5f;
+        [ShowIf("scattered", false)] public float groupRadius = 5f;
     }
 
     public Vector2 spawnPosition = Vector2.zero;
     public List<EnemyGroup> enemyGroups;
 
-    private void OnValidate()
+#if UNITY_EDITOR
+    private void OnDisable()
     {
-        SortEnemyGroupsBySpawnTime();
-        void SortEnemyGroupsBySpawnTime()
+        if (enemyGroups != null && enemyGroups.Count > 0)
         {
             enemyGroups.Sort((a, b) => a.spawnTime.CompareTo(b.spawnTime));
+            EditorUtility.SetDirty(this);
         }
     }
+#endif
 }

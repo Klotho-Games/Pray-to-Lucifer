@@ -3,18 +3,18 @@ using UnityEngine;
 public class EnergyMeleeAI : MonoBehaviour
 {
     [SerializeField] private Enemy enemyData;
-    private Transform player;
+    public Transform PlayerTransform { get; private set; }
     private PlayerStats playerStats;
     private float attackCooldownTimer = 0f;
 
     public void Initialize(Transform playerTransform)
     {
-        player = playerTransform;
+        PlayerTransform = playerTransform;
     }
 
     void Update()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, PlayerTransform.position);
         AttackOrMove(distanceToPlayer);
     }
 
@@ -40,7 +40,7 @@ public class EnergyMeleeAI : MonoBehaviour
     {
         if (attackCooldownTimer <= 0f)
         {
-            playerStats ??= player.GetComponent<PlayerStats>();
+            playerStats ??= PlayerTransform.GetComponent<PlayerStats>();
             playerStats.TakeDamage(attack.attackDamage);
 
             attackCooldownTimer = attack.attackCooldown;
@@ -53,9 +53,9 @@ public class EnergyMeleeAI : MonoBehaviour
 
     private void GoInPlayerDirection()
     {
-        if (player == null) return;
+        if (PlayerTransform == null) return;
 
-        Vector3 direction = (player.position - transform.position).normalized;
+        Vector3 direction = (PlayerTransform.position - transform.position).normalized;
         transform.position += enemyData.speed * Time.deltaTime * direction;
     }
 }

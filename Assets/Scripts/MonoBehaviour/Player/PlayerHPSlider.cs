@@ -40,6 +40,12 @@ public class PlayerHPSlider : MonoBehaviour
     private void UpdateHPSlider()
     {
         showTimer = 0f;
+
+        if (playerStats.CurrentHealth <= 0)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
         gameObject.SetActive(true);
 
         int currentHP = playerStats.CurrentHealth;

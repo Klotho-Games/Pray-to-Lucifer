@@ -84,6 +84,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 835567148765652125, guid: fb8ec0884f509c145a1d3c0c42c51cbb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4466477938682139499}
+    - targetCorrespondingSourceObject: {fileID: 835567148765652125, guid: fb8ec0884f509c145a1d3c0c42c51cbb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2633971086088405276}
   m_SourcePrefab: {fileID: 100100000, guid: fb8ec0884f509c145a1d3c0c42c51cbb, type: 3}
 --- !u!1 &3542369998568306156 stripped
 GameObject:
@@ -229,3 +232,17 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.8125, y: 1.21875}
   m_EdgeRadius: 0
+--- !u!114 &2633971086088405276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3542369998568306156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d2471b4f57b73948b8f597e92b665dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyEvolution
+  evolvedEnemyPrefab: {fileID: 78532269484941420, guid: 7016aca09c37aac4e9db89d9179850a5, type: 3}
+  chanceToEvolve: 0.01
