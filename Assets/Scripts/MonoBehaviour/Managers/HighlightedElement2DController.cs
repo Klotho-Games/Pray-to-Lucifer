@@ -191,7 +191,7 @@ public class HighlightedElement2DController : MonoBehaviour
                 h.PreHighlightColors = new List<Color>();
                 foreach (var component in h.Models)
                 {
-                    Color? currentColor = ColorUtilities.GetColor(component);
+                    Color? currentColor = GetColor(component);
                     if (currentColor == null) continue;
 
                     h.PreHighlightColors.Add(currentColor.Value);
@@ -222,7 +222,7 @@ public class HighlightedElement2DController : MonoBehaviour
                 {
                     Component component = h.Models[i];
                     
-                    Color? currentColor = ColorUtilities.GetColor(component);
+                    Color? currentColor = GetColor(component);
                     if (currentColor == null) continue;
                     
                     if (h.PreHighlightColors[i] == currentColor.Value) continue;
@@ -310,5 +310,53 @@ public class HighlightedElement2DController : MonoBehaviour
     public void ClearHighlight()
     {
         SetCurrentHighlighted(null);
+    }
+
+    /// <summary>
+    /// Gets the color value from a component if it has a color property.
+    /// </summary>
+    public static Color? GetColor(Component component)
+    {
+        var colorProperty = GetColorProperty(component);
+        if (colorProperty == null) return null;
+
+        try
+        {
+            return (Color)colorProperty.GetValue(component);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets the color property from any component that has one.
+    /// Supports Color and Color32 types.
+    /// </summary>
+    public static System.Reflection.PropertyInfo GetColorProperty(Component component)
+    {
+        if (component == null) return null;
+
+        // Check common color property names
+        var colorProperty = component.GetType().GetProperty("color")
+                            ?? component.GetType().GetProperty("vertexColor")
+                            ?? component.GetType().GetProperty("tintColor")
+                            ?? component.GetType().GetProperty("fillColor")
+                            ?? component.GetType().GetProperty("backgroundColor")
+                            ?? component.GetType().GetProperty("emissionColor");
+
+        if (colorProperty != null)
+        {
+            var propType = colorProperty.PropertyType;
+
+            // Support both Color and Color32
+            if (propType == typeof(Color) || propType == typeof(Color32))
+            {
+                return colorProperty;
+            }
+        }
+
+        return null;
     }
 }

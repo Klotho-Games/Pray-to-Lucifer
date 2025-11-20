@@ -45,7 +45,7 @@ public class HighlightableElement2D : MonoBehaviour {
         // Add components with color property
         foreach (var component in allComponents)
         {
-            var colorProperty = ColorUtilitiesRuntime.GetColorProperty(component);
+            var colorProperty = GetColorProperty(component);
             if (colorProperty == null) continue;
 
             colorableList.Add(component);
@@ -66,5 +66,35 @@ public class HighlightableElement2D : MonoBehaviour {
             if (enableDebug) Debug.LogWarning($"HighlightableElement2D on {gameObject.name} requires a Collider2D component for mouse detection!");
             gameObject.AddComponent<BoxCollider2D>();
         }
+    }
+
+        /// <summary>
+    /// Gets the color property from any component that has one.
+    /// Supports Color and Color32 types.
+    /// </summary>
+    public static System.Reflection.PropertyInfo GetColorProperty(Component component)
+    {
+        if (component == null) return null;
+
+        // Check common color property names
+        var colorProperty = component.GetType().GetProperty("color")
+                            ?? component.GetType().GetProperty("vertexColor")
+                            ?? component.GetType().GetProperty("tintColor")
+                            ?? component.GetType().GetProperty("fillColor")
+                            ?? component.GetType().GetProperty("backgroundColor")
+                            ?? component.GetType().GetProperty("emissionColor");
+
+        if (colorProperty != null)
+        {
+            var propType = colorProperty.PropertyType;
+
+            // Support both Color and Color32
+            if (propType == typeof(Color) || propType == typeof(Color32))
+            {
+                return colorProperty;
+            }
+        }
+
+        return null;
     }
 }
