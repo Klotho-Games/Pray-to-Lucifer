@@ -70,10 +70,9 @@ public class EnemyLifeSystem : MonoBehaviour
     {
         bool takingDamage = false;
 
-        foreach (GameObject beamSegment in BeamController.instance.SpawnedLineRenderers)
+        foreach (LineRenderer beamLR in BeamController.instance.SpawnedLineRenderers)
         {
-            if (!beamSegment.TryGetComponent<BeamData>(out var beamData)) continue;
-            if (!beamSegment.TryGetComponent<LineRenderer>(out var beamLR)) continue;
+            if (!beamLR.TryGetComponent<BeamData>(out var beamData)) continue;
             if (!DoesLineIntersectCollider(beamLR))
                 continue;
 

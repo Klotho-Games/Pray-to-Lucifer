@@ -1244,7 +1244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ce8148b2498f6469d81677f444315e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BeamController
-  damagePerSecond: 30
+  _damagePerSecond: 10
   _intensity: 5
   beamConeAngle: 60
   mainCamera: {fileID: 519420031}
@@ -1252,14 +1252,15 @@ MonoBehaviour:
   lineRendererObjectPrefab: {fileID: 3777194826535280043, guid: 4776fc821539660478695a39c984de08, type: 3}
   playerSoulState: {fileID: 1552325828}
   animator: {fileID: 1552325824}
-  enableWiggle: 1
-  wiggleAmplitude: 0.1
-  wiggleFrequency: 10
-  wiggleSpeed: 5
-  wiggleSegments: 20
+  enableWave: 1
+  amplitude: 0.5
+  wavelength: 0.5
+  frequency: 2
+  dampCoefficient: 9.34
+  numberOfSegments: 20
   particleSystemPrefab: {fileID: 7795755573084203614, guid: 9350a59251a24ce12941356807f57de5, type: 3}
-  enableParticles: 1
-  enableLights: 1
+  enableParticles: 0
+  enableLights: 0
   lightIntensityMultiplier: 0.5
   lightColor: {r: 1, g: 0.9007982, b: 0.10196078, a: 1}
 --- !u!4 &1370055745

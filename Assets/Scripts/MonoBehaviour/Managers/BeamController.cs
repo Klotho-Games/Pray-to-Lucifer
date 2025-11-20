@@ -1,12 +1,12 @@
+using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class BeamController : MonoBehaviour
 {
     public static BeamController instance;
 
-    [SerializeField] private int damagePerSecond = 10;
+    [SerializeField] private int _damagePerSecond = 10;
     [SerializeField] private int _intensity = 10;
     [SerializeField] private float beamConeAngle = 45f;
     [SerializeField] private Camera mainCamera;
@@ -15,25 +15,26 @@ public class BeamController : MonoBehaviour
     [SerializeField] private PlayerSoulState playerSoulState;
     [SerializeField] private Animator animator;
     
-    [Header("Beam Wiggle Settings")]
-    [SerializeField] private bool enableWiggle = true;
-    [SerializeField] private float wiggleAmplitude = 0.1f;
-    [SerializeField] private float wiggleFrequency = 10f;
-    [SerializeField] private float wiggleSpeed = 5f;
-    [SerializeField] private int wiggleSegments = 20;
+    [Header("Beam Wave Settings")]
+    [SerializeField] private bool enableWave = true;
+    [SerializeField] private float amplitude = 0.1f;
+    [SerializeField] private float wavelength = 1f;
+    [SerializeField] private float frequency = 1f;
+    [SerializeField] private int numberOfSegments = 20;
     
     [Header("Particle & Light Effects")]
     [SerializeField] private GameObject particleSystemPrefab;
     [SerializeField] private bool enableParticles = true;
     [SerializeField] private bool enableLights = true;
     [SerializeField] private float lightIntensityMultiplier = 0.5f;
-    [SerializeField] private Color lightColor = new Color(1f, 0.3f, 0.1f, 1f);
+    [SerializeField] private Color lightColor = new(1f, 0.3f, 0.1f, 1f);
 
-    public List<GameObject> SpawnedLineRenderers { get; private set; } = new();
-    private List<GameObject> spawnedEffects = new();
+    public List<LineRenderer> SpawnedLineRenderers { get; private set; } = new();
+    private readonly List<GameObject> spawnedEffects = new();
 
     private Vector2 facingDirection;
     private Vector2 lastBeamDirection = Vector2.zero;
+    private int spawnedLineRenderersNextToRedrawCache = 0;
 
     private readonly float[][] diffractionAngles = new float[][]
     {
@@ -66,7 +67,6 @@ public class BeamController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        DestroyOldLineRenderers();
         UpdateBeamPath();
     }
 
@@ -82,9 +82,9 @@ public class BeamController : MonoBehaviour
 
     private void DestroyOldLineRenderers()
     {
-        foreach (var obj in SpawnedLineRenderers)
+        foreach (var lr in SpawnedLineRenderers)
         {
-            Destroy(obj);
+            Destroy(lr.gameObject);
         }
         SpawnedLineRenderers.Clear();
         
@@ -156,6 +156,9 @@ public class BeamController : MonoBehaviour
 
     private void UpdateBeamPath()
     {
+        spawnedLineRenderersNextToRedrawCache = 0;
+        StartCoroutine(DestroyAdditionalLineRenderersAtTheEndOfFrame());
+
         if (!BeamOriginIsAllGood())
             return;
 
@@ -175,7 +178,7 @@ public class BeamController : MonoBehaviour
             lastBeamDirection = direction;
         }
 
-        DrawNextBeam(_intensity + 1, (Vector2)beamOriginTransform.position, playerSoulState.currentSoulState is null ? TranslateDirection(direction) : direction, null, damagePerSecond);
+        DrawNextBeam(_intensity + 1, (Vector2)beamOriginTransform.position, playerSoulState.currentSoulState is null ? TranslateDirection(direction) : direction, null, _damagePerSecond);
 
         Vector2 TranslateDirection(Vector2 direction)
         {
@@ -197,6 +200,19 @@ public class BeamController : MonoBehaviour
         }
     }
 
+    private IEnumerator DestroyAdditionalLineRenderersAtTheEndOfFrame()
+    {
+        yield return new WaitForEndOfFrame();
+        while (spawnedLineRenderersNextToRedrawCache < SpawnedLineRenderers.Count)
+        {
+            Destroy(SpawnedLineRenderers[spawnedLineRenderersNextToRedrawCache].gameObject);
+            SpawnedLineRenderers.RemoveAt(spawnedLineRenderersNextToRedrawCache);
+            Destroy(spawnedEffects[spawnedLineRenderersNextToRedrawCache]);
+            spawnedEffects.RemoveAt(spawnedLineRenderersNextToRedrawCache);
+            spawnedLineRenderersNextToRedrawCache++;
+        }
+    }
+
     private void DrawNextBeam(int intensity, Vector2 origin, Vector2 direction, GameObject ignoreObject, int damagePerSecond)
     {
         if (!BeamOriginIsAllGood())
@@ -205,11 +221,26 @@ public class BeamController : MonoBehaviour
         RaycastInfo raycastInfo = RaycastForFirstGateTypeOrTheBigDarknessTag(origin, direction, ignoreObject);
 
         #region Draw the line segment
-        LineRenderer segmentLR = Instantiate(lineRendererObjectPrefab, Vector3.zero, Quaternion.identity, beamOriginTransform).GetComponent<LineRenderer>();
-        
-        if (enableWiggle)
+        LineRenderer segmentLR;
+        if (spawnedLineRenderersNextToRedrawCache < SpawnedLineRenderers.Count)
         {
-            ApplyWiggleToLineRenderer(segmentLR, origin, raycastInfo.contactPoint);
+            segmentLR = SpawnedLineRenderers[spawnedLineRenderersNextToRedrawCache];
+        }
+        else
+        {
+            segmentLR = Instantiate(lineRendererObjectPrefab, Vector3.zero, Quaternion.identity, beamOriginTransform).GetComponent<LineRenderer>();
+            SpawnedLineRenderers.Add(segmentLR);
+        }
+        ++spawnedLineRenderersNextToRedrawCache;
+        
+        #region Pass on data to the new beam segment
+        BeamData beamData = segmentLR.GetComponent<BeamData>();
+        beamData.damagePerSecond = damagePerSecond;
+        #endregion
+
+        if (enableWave)
+        {
+            ApplyWaveToLineRenderer(segmentLR, origin, raycastInfo.contactPoint, damagePerSecond);
         }
         else
         {
@@ -219,7 +250,6 @@ public class BeamController : MonoBehaviour
         }
         
         segmentLR.widthMultiplier = Mathf.Log(intensity);
-        SpawnedLineRenderers.Add(segmentLR.gameObject);
         #endregion
         
         #region Spawn particle trail along beam
@@ -227,11 +257,6 @@ public class BeamController : MonoBehaviour
         {
             SpawnBeamEffects(origin, raycastInfo.contactPoint, intensity);
         }
-        #endregion
-
-        #region Pass on data to the new beam segment
-        BeamData beamData = segmentLR.GetComponent<BeamData>();
-        beamData.damagePerSecond = damagePerSecond;
         #endregion
 
         --intensity;
@@ -367,8 +392,7 @@ public class BeamController : MonoBehaviour
         {
             effectObj = Instantiate(particleSystemPrefab, new Vector3(lightPosition.x, lightPosition.y, 0f), Quaternion.Euler(0, 0, angle), beamOriginTransform);
             
-            ParticleSystem ps = effectObj.GetComponent<ParticleSystem>();
-            if (ps != null)
+            if (effectObj.TryGetComponent<ParticleSystem>(out var ps))
             {
                 var shape = ps.shape;
                 shape.scale = new Vector3(beamLength, 1f, 1f);
@@ -385,8 +409,8 @@ public class BeamController : MonoBehaviour
         {
             effectObj = new GameObject("BeamLight");
             effectObj.transform.SetParent(beamOriginTransform);
-            effectObj.transform.position = new Vector3(lightPosition.x, lightPosition.y, 0f);
-            effectObj.transform.rotation = Quaternion.Euler(0, 0, angle);
+            effectObj.transform.SetPositionAndRotation((Vector3)lightPosition, 
+                Quaternion.Euler(0, 0, angle));
         }
         
         // Add Light2D component programmatically
@@ -403,58 +427,36 @@ public class BeamController : MonoBehaviour
         spawnedEffects.Add(effectObj);
     }
     
-    private void ApplyWiggleToLineRenderer(LineRenderer lr, Vector2 startPos, Vector2 endPos)
+    private void ApplyWaveToLineRenderer(LineRenderer lr, Vector2 startPos, Vector2 endPos, int damagePerSecondOfSegment)
     {
         float beamLength = Vector2.Distance(startPos, endPos);
         Vector2 direction = (endPos - startPos).normalized;
-        Vector2 perpendicular = new Vector2(-direction.y, direction.x); // Perpendicular vector for offset
+        Vector2 perpendicular = new(-direction.y, direction.x); // Perpendicular vector for offset
         
-        int segments = Mathf.Max(2, wiggleSegments);
-        lr.positionCount = segments;
+        // Calculate segments based on beam length to maintain consistent wave sampling
+        int segments = Mathf.Max(2, Mathf.CeilToInt(beamLength / (wavelength * damagePerSecondOfSegment / _damagePerSecond / numberOfSegments)));
+        lr.positionCount = segments + 1;
         
-        float timeOffset = Time.time * wiggleSpeed;
+        float k = 2f * Mathf.PI / (wavelength * damagePerSecondOfSegment / _damagePerSecond);
+        float omega = 2f * Mathf.PI * frequency;
+        float time = Time.time;
         
-        for (int i = 0; i < segments; i++)
+        // Calculate step size in world units for consistent wave pattern
+        float stepSize = beamLength / segments;
+        
+        lr.SetPosition(0, new(startPos.x, startPos.y, 0f));
+        
+        for (int i = 1; i <= segments; i++)
         {
-            float t = (float)i / (segments - 1);
-            Vector2 basePosition = Vector2.Lerp(startPos, endPos, t);
+            float distanceAlongBeam = i * stepSize; // Absolute distance from start
+            Vector2 basePosition = startPos + direction * distanceAlongBeam;
             
-            // Calculate sine wave offset
-            float sineValue = Mathf.Sin(t * wiggleFrequency * Mathf.PI * 2f + timeOffset);
-            Vector2 offset = perpendicular * (sineValue * wiggleAmplitude);
+            // Calculate sine wave offset using absolute distance
+            float sineValue = amplitude * Mathf.Sin(k * distanceAlongBeam - omega * time);
+            Vector2 offset = perpendicular * sineValue;
             
             Vector2 finalPosition = basePosition + offset;
-            lr.SetPosition(i, new Vector3(finalPosition.x, finalPosition.y, 0f));
+            lr.SetPosition(i, finalPosition);
         }
     }
-    
-    
-    // /// <summary>
-    // /// Converts mouse screen position to world position for 2D.
-    // /// Works with both old Input Manager and new Input System.
-    // /// </summary>
-    // private Vector2 GetMouseWorldPosition()
-    // {
-    //     Vector3 mouseScreenPos = GetMouseScreenPosition();
-    //     if (enableDebugMousePosition) Debug.Log($"Mouse Screen Position: {mouseScreenPos}");
-        
-    //     return mainCamera.ScreenToWorldPoint(mouseScreenPos);
-    // }
-
-    // /// <summary>
-    // /// Gets mouse screen position using the appropriate input system.
-    // /// </summary>
-    // private Vector3 GetMouseScreenPosition()
-    // {
-    //     // New Input System
-    //     if (Mouse.current != null)
-    //     {
-    //         return Mouse.current.position.ReadValue();
-    //     }
-    //     if (Input.mousePosition != null)
-    //     {
-    //         return Input.mousePosition;
-    //     }
-    //     return Vector3.zero;
-    // }
 }
