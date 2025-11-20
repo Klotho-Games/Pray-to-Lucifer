@@ -25,7 +25,10 @@ public class PlayerAnimator : MonoBehaviour
     void Update()
     {
         if (soulState.currentSoulState is not null)
+        {
+            SetInt("isSoulState", (int)soulState.currentSoulState);
             return;
+        }
 
         Movement();
     }
@@ -156,6 +159,8 @@ public class PlayerAnimator : MonoBehaviour
             animator.SetInteger("isShootingWhileMovingInDirection", -1);
         if (parameterToKeep != "isShootingFacing")
             animator.SetInteger("isShootingFacing", -1);
+        if (parameterToKeep != "isSoulState")
+            animator.SetInteger("isSoulState", -1);
     }
 
     void SetInt(string parameter, int value)
