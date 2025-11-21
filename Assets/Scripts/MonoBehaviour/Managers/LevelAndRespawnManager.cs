@@ -107,13 +107,14 @@ public class LevelAndRespawnManager : MonoBehaviour
 
     private void SpawnEnemy(GameObject enemyToSpawn, Vector3 spawnPosition)
     {
-        if (Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity, transform).TryGetComponent(out EnergyMeleeAI energyMeleeAI))
+        var enemy = Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity, transform);
+        if (enemy.TryGetComponent(out EnergyMeleeAI energyMeleeAI))
             energyMeleeAI.Initialize(playerTransform);
-        else if (Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity, transform).TryGetComponent(out MaterialMeleeAI materialMeleeAI))
+        else if (enemy.TryGetComponent(out MaterialMeleeAI materialMeleeAI))
             materialMeleeAI.Initialize(playerTransform);
-        else if (Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity, transform).TryGetComponent(out MaterialProjectileAI materialProjectileAI))
+        else if (enemy.TryGetComponent(out MaterialProjectileAI materialProjectileAI))
             materialProjectileAI.Initialize(playerTransform);
-        else if (Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity, transform).TryGetComponent(out MaterialGrenadeAI materialGrenadeAI))
+        else if (enemy.TryGetComponent(out MaterialGrenadeAI materialGrenadeAI))
             materialGrenadeAI.Initialize(playerTransform);
         else
             Debug.LogError("Enemy prefab does not have a recognized AI component.");

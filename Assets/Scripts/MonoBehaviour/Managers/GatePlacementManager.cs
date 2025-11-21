@@ -22,6 +22,7 @@ public class GatePlacementManager : MonoBehaviour
     [SerializeField] private Transform parentForPlacedGates;
     [SerializeField] private LayerMask gateLayer;
     [SerializeField] private TMPro.TMP_Text currentGateTypeDisplayText;
+    [SerializeField] private GameObject MainMenu;
     // private LineRenderer debugLineRenderer;
 
     private readonly float[] diagonals = new float[] { 0f, 60f, 120f };
@@ -51,8 +52,23 @@ public class GatePlacementManager : MonoBehaviour
 
     void Start()
     {
+        OpenMainMenu();
         InputManager.instance.ItemRightAction.performed += ctx => OnGateTypeRight();
         InputManager.instance.ItemLeftAction.performed += ctx => OnGateTypeLeft();
+    }
+
+    void OpenMainMenu()
+    {
+        InputManager.instance.CancelAction.performed -= ctx => OpenMainMenu();
+        mainMenuCtxAttached = false;
+        MainMenu.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
+    void CloseMainMenu()
+    {
+        MainMenu.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     void OnGateTypeRight()
@@ -101,8 +117,35 @@ public class GatePlacementManager : MonoBehaviour
         InputManager.instance.ItemLeftAction.performed -= ctx => OnGateTypeLeft();
     }
 
+    private bool mainMenuCtxAttached = false;
+
+    void AttachMainMenuContextIfNeeded()
+    {
+        if (!mainMenuCtxAttached)
+        {
+            InputManager.instance.CancelAction.performed += ctx => OpenMainMenu();
+            mainMenuCtxAttached = true;
+        }
+    }
+
     void Update()
     {
+        if (MainMenu.activeSelf && InputManager.instance.DashInput)
+        {
+            CloseMainMenu();
+        }
+
+        if (!isInPlacementMode && !isInRotationMode)
+        {
+            AttachMainMenuContextIfNeeded();
+        }
+        else if (mainMenuCtxAttached)
+        {
+            InputManager.instance.CancelAction.performed -= ctx => OpenMainMenu();
+            mainMenuCtxAttached = false;
+        }
+            
+
         if (isInRotationMode)
         {
             RotationModeUpdate();
