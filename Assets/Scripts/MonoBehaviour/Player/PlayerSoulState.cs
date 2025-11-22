@@ -45,6 +45,10 @@ public class PlayerSoulState : MonoBehaviour
     [SerializeField] private float zapIndicatorMoveSpeed = 5f;
     [Tooltip("Speed at which zap indicator is moving while over an enemy, not yet implemented")]
     [SerializeField] private float zapIndicatorMoveOverEnemySpeed = 2f;
+    
+    [Header("Particle Effects")]
+    [SerializeField] private ParticleController fullChargeParticleController;
+    [SerializeField] private ParticleSystem healingParticleSystem;
 
     [Header("Don't mess with these")]
     [SerializeField] private PlayerStats playerStats;
@@ -96,6 +100,13 @@ public class PlayerSoulState : MonoBehaviour
         
         playerLight.intensity = basicPlayerLight.intensity;
         playerLight.pointLightOuterRadius = basicPlayerLight.outerRadius;
+        
+        // Stop healing particles when soul state is released
+        if (healingParticleSystem != null && healingParticleSystem.isPlaying)
+        {
+            healingParticleSystem.Stop();
+        }
+        
         // reset timer, give back Souls and other things
     }
 
@@ -107,14 +118,37 @@ public class PlayerSoulState : MonoBehaviour
                 currentSoulState = SoulState.Enter;
                 rb.linearVelocity = Vector2.zero;
                 playerMovement.enabled = false;
+                // Play full charge particle effect when entering soul state
+                if (fullChargeParticleController != null)
+                {
+                    fullChargeParticleController.PlayAllParticleSystems();
+                }
+                chargeTimer = 0;
                 Charge();
                 break;
 
             case SoulState.Enter:
                 Charge();
+                // After charging, always check for healing
+                if (currentSoulState == SoulState.Full)
+                {
+                    // Immediately check for healing after charge completes
+                    HandleFullyChargedState();
+                }
                 break;
 
-            case SoulState.Full or SoulState.Idle or SoulState.Heal:
+            case SoulState.Full:
+                // Always check for healing when fully charged
+                HandleFullyChargedState();
+                break;
+
+            case SoulState.Idle:
+                // Check for healing opportunity every frame
+                HandleFullyChargedState();
+                break;
+
+            case SoulState.Heal:
+                // Continue healing
                 HandleFullyChargedState();
                 break;
 
@@ -131,51 +165,35 @@ public class PlayerSoulState : MonoBehaviour
 
     private void Charge()
     {
-        if (allocatedSouls >= SoulEconomyManager.instance.FullSoulStateChargeCost)
+        // Only visual interpolation, no soul deduction or charge bar logic
+        chargeTimer += Time.deltaTime;
+
+        float chargeFraction = Mathf.Clamp01(chargeTimer / chargeDuration);
+        // Manually interpolate light values using the charge fraction with easing
+        float intensityEased = EvaluateEase(chargeFraction, intensityTweenEase);
+        playerLight.intensity = Mathf.Lerp(basicPlayerLight.intensity, chargedPlayerLight.intensity, intensityEased);
+
+        float outerRadiusEased = EvaluateEase(chargeFraction, outerRadiusTweenEase);
+        playerLight.pointLightOuterRadius = Mathf.Lerp(basicPlayerLight.outerRadius, chargedPlayerLight.outerRadius, outerRadiusEased);
+
+        // When charge completes, set state to Full
+        if (chargeFraction >= 1f)
         {
             currentSoulState = SoulState.Full;
-            allocatedSouls = SoulEconomyManager.instance.FullSoulStateChargeCost;
             chargeTimer = 0;
-            soulChargeTimer = 0;
-        }
-        else
-        {
-            chargeTimer += Time.deltaTime;
-
-            float chargeFraction = Mathf.Clamp01(chargeTimer / chargeDuration);
-            
-            // Manually interpolate light values using the charge fraction with easing
-            float intensityEased = EvaluateEase(chargeFraction, intensityTweenEase);
-            playerLight.intensity = Mathf.Lerp(basicPlayerLight.intensity, chargedPlayerLight.intensity, intensityEased);
-            
-            float outerRadiusEased = EvaluateEase(chargeFraction, outerRadiusTweenEase);
-            playerLight.pointLightOuterRadius = Mathf.Lerp(basicPlayerLight.outerRadius, chargedPlayerLight.outerRadius, outerRadiusEased);
-
-
-            soulChargeTimer += Time.deltaTime;
-
-            if (soulChargeTimer * SoulEconomyManager.instance.FullSoulStateChargeCost / chargeDuration >= 1)
-            {
-                int soulToAllocate = Mathf.FloorToInt(soulChargeTimer * SoulEconomyManager.instance.FullSoulStateChargeCost / chargeDuration);
-                if (allocatedSouls + soulToAllocate > SoulEconomyManager.instance.FullSoulStateChargeCost)
-                {
-                    soulToAllocate = SoulEconomyManager.instance.FullSoulStateChargeCost - allocatedSouls;
-                }
-                if (soulToAllocate > playerStats.CurrentSoul)
-                {
-                    return;
-                }
-                allocatedSouls += soulToAllocate;
-                playerStats.TakeSoul(soulToAllocate);
-                soulChargeTimer = 0;
-            }
         }
     }
 
     private void HandleFullyChargedState()
     {
         if (currentSoulState == SoulState.Idle)
+        {
+            if (healingParticleSystem != null && healingParticleSystem.isPlaying)
+            {
+                healingParticleSystem.Stop();
+            }
             return;
+        }
 
         if (currentSoulState == SoulState.Full)
         {
@@ -185,10 +203,20 @@ public class PlayerSoulState : MonoBehaviour
         if (playerStats.CurrentHealth < playerStats.MaxHealth && playerStats.CurrentSoul >= SoulEconomyManager.instance.CostPerHPHealed)
         {
             currentSoulState = SoulState.Heal;
+            if (healingParticleSystem != null && !healingParticleSystem.isPlaying)
+            {
+                healingParticleSystem.Play();
+            }
             Heal();
         }
         else
+        {
             currentSoulState = SoulState.Idle;
+            if (healingParticleSystem != null && healingParticleSystem.isPlaying)
+            {
+                healingParticleSystem.Stop();
+            }
+        }
     }
 
     private void CancelCharging()

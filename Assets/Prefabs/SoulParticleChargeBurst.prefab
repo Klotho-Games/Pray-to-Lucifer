@@ -50,8 +50,8 @@ MonoBehaviour:
   - particleSystem: {fileID: 6252108855930336405}
     delay: 0
   - particleSystem: {fileID: 8880882622627761865}
-    delay: 2.5
-  playOnStart: 1
+    delay: 0.3
+  playOnStart: 0
 --- !u!1 &4972101597231221158
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +94,7 @@ ParticleSystem:
   m_GameObject: {fileID: 4972101597231221158}
   serializedVersion: 8
   lengthInSec: 3
-  simulationSpeed: 1
+  simulationSpeed: 5
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -4997,7 +4997,7 @@ ParticleSystem:
   m_GameObject: {fileID: 8240229331400106935}
   serializedVersion: 8
   lengthInSec: 4
-  simulationSpeed: 1
+  simulationSpeed: 5
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
