@@ -447,11 +447,12 @@ public class BeamController : MonoBehaviour
         Vector2 direction = (endPos - startPos).normalized;
         Vector2 perpendicular = new(-direction.y, direction.x); // Perpendicular vector for offset
         
+        float scaledWavelength = wavelength * _damagePerSecond / damagePerSecondOfSegment;
         // Calculate segments based on beam length to maintain consistent wave sampling
-        int segments = Mathf.Max(2, Mathf.CeilToInt(beamLength / (wavelength * _damagePerSecond / damagePerSecondOfSegment / numberOfSegments)));
+        int segments = Mathf.Max(2, Mathf.CeilToInt(beamLength / (scaledWavelength / numberOfSegments)));
         lr.positionCount = segments + 1;
         
-        float k = 2f * Mathf.PI / (wavelength * damagePerSecondOfSegment / _damagePerSecond);
+        float k = 2f * Mathf.PI / scaledWavelength;
         float omega = 2f * Mathf.PI * frequency;
         float time = Time.time;
         

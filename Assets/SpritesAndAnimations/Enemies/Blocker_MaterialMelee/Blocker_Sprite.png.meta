@@ -1,19 +1,25 @@
 fileFormatVersion: 2
-guid: 87bdfecb59b28924f96ad2cd804d0b4e
+guid: 50d0afb5bd37a4046808189cefca15a6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6810562124576803412
-    second: Skeleton_Sprite_0
+      213: 1676555216383139468
+    second: Blocker_Sprite_0
   - first:
-      213: 1582193215415137876
-    second: Skeleton_Sprite_1
+      213: 5779329539841996543
+    second: Blocker_Sprite_1
   - first:
-      213: 4243425645688004236
-    second: Skeleton_Sprite_2
+      213: 6405474010972687787
+    second: Blocker_Sprite_2
   - first:
-      213: 5192450642820265293
-    second: Skeleton_Sprite_3
+      213: -3616458659652896175
+    second: Blocker_Sprite_3
+  - first:
+      213: -1691786045729738517
+    second: Blocker_Sprite_4
+  - first:
+      213: 1776249444831614264
+    second: Blocker_Sprite_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -135,13 +141,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Skeleton_Sprite_0
+      name: Blocker_Sprite_0
       rect:
         serializedVersion: 2
-        x: 41
-        y: 47
-        width: 116
-        height: 224
+        x: 69
+        y: 329
+        width: 182
+        height: 192
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 45a412c1b2af38e50800000000000000
-      internalID: 6810562124576803412
+      spriteID: c8e58d62612544710800000000000000
+      internalID: 1676555216383139468
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Sprite_1
+      name: Blocker_Sprite_1
       rect:
         serializedVersion: 2
-        x: 215
-        y: 47
-        width: 122
-        height: 224
+        x: 399
+        y: 359
+        width: 162
+        height: 187
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,20 +178,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4563adab85415f510800000000000000
-      internalID: 1582193215415137876
+      spriteID: ff63436a89d443050800000000000000
+      internalID: 5779329539841996543
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Sprite_2
+      name: Blocker_Sprite_2
       rect:
         serializedVersion: 2
-        x: 431
-        y: 47
-        width: 122
-        height: 224
+        x: 689
+        y: 339
+        width: 172
+        height: 182
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c8e1402642da3ea30800000000000000
-      internalID: 4243425645688004236
+      spriteID: bad0602eca0d4e850800000000000000
+      internalID: 6405474010972687787
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Sprite_3
+      name: Blocker_Sprite_3
       rect:
         serializedVersion: 2
-        x: 611
-        y: 47
-        width: 116
-        height: 224
+        x: 74
+        y: 9
+        width: 172
+        height: 202
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,8 +222,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d45fc0f495a4f0840800000000000000
-      internalID: 5192450642820265293
+      spriteID: 15af0868202cfcdc0800000000000000
+      internalID: -3616458659652896175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blocker_Sprite_4
+      rect:
+        serializedVersion: 2
+        x: 409
+        y: 39
+        width: 142
+        height: 192
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be0f05c0e819588e0800000000000000
+      internalID: -1691786045729738517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blocker_Sprite_5
+      rect:
+        serializedVersion: 2
+        x: 679
+        y: 19
+        width: 182
+        height: 202
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8355ca7857186a810800000000000000
+      internalID: 1776249444831614264
       vertices: []
       indices: 
       edges: []
@@ -236,10 +286,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Skeleton_Sprite_0: 6810562124576803412
-      Skeleton_Sprite_1: 1582193215415137876
-      Skeleton_Sprite_2: 4243425645688004236
-      Skeleton_Sprite_3: 5192450642820265293
+      Blocker_Sprite_0: 1676555216383139468
+      Blocker_Sprite_1: 5779329539841996543
+      Blocker_Sprite_2: 6405474010972687787
+      Blocker_Sprite_3: -3616458659652896175
+      Blocker_Sprite_4: -1691786045729738517
+      Blocker_Sprite_5: 1776249444831614264
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
