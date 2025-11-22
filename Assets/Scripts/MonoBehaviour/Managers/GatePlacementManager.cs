@@ -72,14 +72,12 @@ public class GatePlacementManager : MonoBehaviour
     {
         InputManager.instance.CancelAction.performed -= ctx => OpenMainMenu();
         mainMenuCtxAttached = false;
-        InputManager.instance.CancelAction.performed += ctx => CloseMainMenu();
         MainMenu.SetActive(true);
         Time.timeScale = 0f;
     }
 
     void CloseMainMenu()
     {
-        InputManager.instance.CancelAction.performed -= ctx => CloseMainMenu();
         MainMenu.SetActive(false);
         Time.timeScale = 1f;
     }

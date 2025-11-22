@@ -73,9 +73,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2177423447420503000, guid: 669e43b5082ba8141bb78c07a42463d4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 747719389983601310}
-    - targetCorrespondingSourceObject: {fileID: 2177423447420503000, guid: 669e43b5082ba8141bb78c07a42463d4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5601397310773927659}
   m_SourcePrefab: {fileID: 100100000, guid: 669e43b5082ba8141bb78c07a42463d4, type: 3}
 --- !u!1 &3254469212621952688 stripped
 GameObject:
@@ -208,16 +205,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5601397310773927659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3254469212621952688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0

@@ -76,9 +76,6 @@ PrefabInstance:
       addedObject: {fileID: 6720088762748438413}
     - targetCorrespondingSourceObject: {fileID: 2177423447420503000, guid: 669e43b5082ba8141bb78c07a42463d4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3831674366872796830}
-    - targetCorrespondingSourceObject: {fileID: 2177423447420503000, guid: 669e43b5082ba8141bb78c07a42463d4, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 6129007387123086845}
   m_SourcePrefab: {fileID: 100100000, guid: 669e43b5082ba8141bb78c07a42463d4, type: 3}
 --- !u!1 &3081488105636242715 stripped
@@ -190,19 +187,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3831674366872796830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3081488105636242715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
 --- !u!95 &6129007387123086845
 Animator:
   serializedVersion: 7

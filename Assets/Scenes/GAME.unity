@@ -3767,8 +3767,8 @@ MonoBehaviour:
   - Shoot the enemy with your mouse.
   - Collect the <i>Soul Shard</i> dropped by the enemy.
   - Enter <i>Soul State</i> and charge to fully heal.
-  - 'Place a <i>Densoul</i>: collect enough Soul; press Ctrl; click location; click
-    again to place in a rotation.'
+  - 'Place a <i>Densoul</i>: collect enough Soul; press Ctrl; click location; hit
+    Space to place with current rotation.'
   - Press Q or Tab to switch items.
   - Press the button to end the tutorial.
   tutorialInstructionText: {fileID: 1209037423}

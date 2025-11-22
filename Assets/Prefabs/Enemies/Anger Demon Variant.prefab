@@ -72,9 +72,6 @@ PrefabInstance:
       addedObject: {fileID: 2317428130703660120}
     - targetCorrespondingSourceObject: {fileID: 6361776168926915444, guid: 89b83a4eaf6955b4bbab2b5248c19fb8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7988649448666314471}
-    - targetCorrespondingSourceObject: {fileID: 6361776168926915444, guid: 89b83a4eaf6955b4bbab2b5248c19fb8, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7450266944590911216}
   m_SourcePrefab: {fileID: 100100000, guid: 89b83a4eaf6955b4bbab2b5248c19fb8, type: 3}
 --- !u!1 &5129285509365895479 stripped
@@ -186,19 +183,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7988649448666314471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5129285509365895479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
 --- !u!95 &7450266944590911216
 Animator:
   serializedVersion: 7
