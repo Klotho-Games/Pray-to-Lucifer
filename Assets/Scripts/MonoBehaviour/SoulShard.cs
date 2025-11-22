@@ -39,7 +39,7 @@ public class SoulShard : MonoBehaviour
     {
         isMerging = true;
         GetComponent<Collider2D>().enabled = false; // Prevent re-trigger
-        PrimeTween.Tween.Position(transform, target.position, duration, ease: Ease.InCubic)
+        Tween.Position(transform, target.position, duration, ease: Ease.InCubic)
             .OnComplete(() => Destroy(gameObject));
     }
 

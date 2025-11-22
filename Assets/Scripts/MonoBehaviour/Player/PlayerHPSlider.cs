@@ -17,6 +17,8 @@ public class PlayerHPSlider : MonoBehaviour
         hpLineRenderer.SetPosition(1, backgroundLineRenderer.GetPosition(1));
 
         playerStats.OnHealthChanged += UpdateHPSlider;
+
+        gameObject.SetActive(false);
     }
 
     void OnDestroy()

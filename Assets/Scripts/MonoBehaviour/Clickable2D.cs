@@ -9,6 +9,10 @@ public class Clickable2D : MonoBehaviour, IClickable {
     enum ButtonSpecialFunction {
         None,
         InvokeRotationMode,
+        PlayGame,
+        PlayGameFromTutorial,
+        PlayTutorial,
+        CloseGame
     }
     [Header("Click Settings")]
     [SerializeField] private AudioClip clickSound;
@@ -55,6 +59,21 @@ public class Clickable2D : MonoBehaviour, IClickable {
             case ButtonSpecialFunction.InvokeRotationMode:
                 Vector2 cellWorldPos = transform.position;
                 GatePlacementManager.instance.EnterGateRotationMode(cellWorldPos);
+                break;
+            case ButtonSpecialFunction.PlayGame:
+                transform.root.gameObject.SetActive(false);
+                LevelAndRespawnManager.instance.StartGame();
+                break;
+            case ButtonSpecialFunction.PlayTutorial:
+                transform.root.gameObject.SetActive(false);
+                LevelAndRespawnManager.instance.StartTutorial();
+                break;
+            case ButtonSpecialFunction.CloseGame:
+                Application.Quit();
+                break;
+            case ButtonSpecialFunction.PlayGameFromTutorial:
+                gameObject.SetActive(false);
+                LevelAndRespawnManager.instance.StartGame();
                 break;
         }
 

@@ -80,9 +80,6 @@ PrefabInstance:
       addedObject: {fileID: 8051217271974599450}
     - targetCorrespondingSourceObject: {fileID: 835567148765652125, guid: fb8ec0884f509c145a1d3c0c42c51cbb, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8953819320529378464}
-    - targetCorrespondingSourceObject: {fileID: 835567148765652125, guid: fb8ec0884f509c145a1d3c0c42c51cbb, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4466477938682139499}
     - targetCorrespondingSourceObject: {fileID: 835567148765652125, guid: fb8ec0884f509c145a1d3c0c42c51cbb, type: 3}
       insertIndex: -1
@@ -173,19 +170,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8953819320529378464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3542369998568306156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
 --- !u!61 &4466477938682139499
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -246,3 +230,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyEvolution
   evolvedEnemyPrefab: {fileID: 78532269484941420, guid: 7016aca09c37aac4e9db89d9179850a5, type: 3}
   chanceToEvolve: 0.01
+  enemyType: 0

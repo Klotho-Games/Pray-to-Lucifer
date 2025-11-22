@@ -47,6 +47,6 @@ MonoBehaviour:
   enemyData: {fileID: 0}
   coll: {fileID: 0}
   spriteRenderer: {fileID: 0}
-  redColorPercent: 0.6
+  redColorPercent: 0
   originalColor: {r: 0, g: 0, b: 0, a: 0}
   soulShardPrefab: {fileID: 4806209202584305610, guid: 275838ebd30f55c449bef93a9c6741fb, type: 3}

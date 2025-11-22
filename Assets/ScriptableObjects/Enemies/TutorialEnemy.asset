@@ -10,17 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60959e2dc67c838438f69088ce1ab5dc, type: 3}
-  m_Name: BigGhost
+  m_Name: TutorialEnemy
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  enemyName: Big Ghost
+  enemyName: Tutorial Enemy
   isLava: 0
-  maxHP: 100
-  speed: 1.2
+  maxHP: 30
+  speed: 0
   regeneration: 0
-  soulRewardAmount: 200
+  soulRewardAmount: 1000
   isEnergy: 1
-  attacks:
-  - attackType: 0
-    attackDamage: 150
-    attackRange: 0.4
-    attackCooldown: 0.5
+  attacks: []

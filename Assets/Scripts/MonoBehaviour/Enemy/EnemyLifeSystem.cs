@@ -61,7 +61,7 @@ public class EnemyLifeSystem : MonoBehaviour
     {
         if (soulShardPrefab != null)
         {
-            SoulShard shard = Instantiate(soulShardPrefab, transform.position, Quaternion.identity).GetComponent<SoulShard>();
+            SoulShard shard = Instantiate(soulShardPrefab, transform.position, Quaternion.identity, transform.parent).GetComponent<SoulShard>();
             shard.Initialize(enemyData.soulRewardAmount);
         }
     }

@@ -35,6 +35,8 @@ public class GatePlacementManager : MonoBehaviour
     private bool isInRotationMode = false;
     private readonly float diagonalLength = Mathf.Sqrt(3f); // length of diagonal in hex grid
 
+    public bool HasPlacedGate { get; private set; } = false;
+
     #region Instance
     void Awake()
     {
@@ -50,6 +52,15 @@ public class GatePlacementManager : MonoBehaviour
     }
     #endregion
 
+    public void DestroyAllPlacedGates()
+    {
+        foreach (Transform child in parentForPlacedGates)
+        {
+            Destroy(child.gameObject);
+        }
+        HasPlacedGate = false;
+    }
+
     void Start()
     {
         OpenMainMenu();
@@ -61,12 +72,14 @@ public class GatePlacementManager : MonoBehaviour
     {
         InputManager.instance.CancelAction.performed -= ctx => OpenMainMenu();
         mainMenuCtxAttached = false;
+        InputManager.instance.CancelAction.performed += ctx => CloseMainMenu();
         MainMenu.SetActive(true);
         Time.timeScale = 0f;
     }
 
     void CloseMainMenu()
     {
+        InputManager.instance.CancelAction.performed -= ctx => CloseMainMenu();
         MainMenu.SetActive(false);
         Time.timeScale = 1f;
     }
@@ -77,7 +90,7 @@ public class GatePlacementManager : MonoBehaviour
         {
             currentGateType = (GateType)(((int)currentGateType + 1) % gatePrefabs.Count);
         }
-        while (currentGateType == GateType.DivergingLens);
+        while (currentGateType == GateType.DivergingLens || currentGateType == GateType.OneWayMirror);
 
         if (currentGateTypeDisplayText != null)
         {
@@ -91,7 +104,7 @@ public class GatePlacementManager : MonoBehaviour
         {
             currentGateType = (GateType)(((int)currentGateType - 1 + gatePrefabs.Count) % gatePrefabs.Count);
         }
-        while (currentGateType == GateType.DivergingLens);
+        while (currentGateType == GateType.DivergingLens || currentGateType == GateType.OneWayMirror);
 
         if (currentGateTypeDisplayText != null)
         {
@@ -240,6 +253,8 @@ public class GatePlacementManager : MonoBehaviour
         {
             SetLayerRecursively(placedGate, LayerMaskToLayer(gateLayer));
         }
+
+        HasPlacedGate = true;
         
         CancelRotationMode();
     }

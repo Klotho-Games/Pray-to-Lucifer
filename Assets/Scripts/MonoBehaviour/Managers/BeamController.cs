@@ -448,7 +448,7 @@ public class BeamController : MonoBehaviour
         Vector2 perpendicular = new(-direction.y, direction.x); // Perpendicular vector for offset
         
         // Calculate segments based on beam length to maintain consistent wave sampling
-        int segments = Mathf.Max(2, Mathf.CeilToInt(beamLength / (wavelength * damagePerSecondOfSegment / _damagePerSecond / numberOfSegments)));
+        int segments = Mathf.Max(2, Mathf.CeilToInt(beamLength / (wavelength * _damagePerSecond / damagePerSecondOfSegment / numberOfSegments)));
         lr.positionCount = segments + 1;
         
         float k = 2f * Mathf.PI / (wavelength * damagePerSecondOfSegment / _damagePerSecond);

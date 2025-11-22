@@ -1,14 +1,38 @@
 using System.Collections;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LevelAndRespawnManager : MonoBehaviour
 {
     public static LevelAndRespawnManager instance;
     private int currentLevelIndex = 0;
     private float levelTimer = 0f;
-    private int currentTimelineElementIndex = 0;
+    private int currentElementIndex = 0;
+    [Header("Tutorial Settings")]
+    [SerializeField] private string[] tutorialInstructions = new string[]
+    {
+        "Use WASD to move around.",
+        "Shoot the enemy with your mouse.",
+        "Collect the <i>Soul Shard</i> dropped by the enemy to increase your Soul amount (slider in the top-left corner).",
+        "Enter <i>Soul State</i> and charge to fully heal (ignore weird behaviour on E or Right Mouse Button, it's under dev).",
+        "Place a <i>Densoul</i>: collect enough Soul; press Ctrl; click location; click again to place rotated accordingly.",
+        "Press Q or Tab to switch Densoul type (the selected type is displayed in the top-right corner)."
+    };
+    /*
+    0 WASD move, velocity check => next; 
+    1 spawn unmoving enemy, Mouse to shoot, destroyed => next
+    2 collect the soul shard => next (for all the following steps enemy respawns one sec after soul shard is collected)
+    3 enter soul state and charge, fully healed => next
+    4 place a densoul => next
+    5 input Q or Tab => next
+    6 show a button that plays game with text "End tutorial" => open main menu */
+    [SerializeField] private TMPro.TMP_Text tutorialInstructionText;
+    [SerializeField] private GameObject endTutorialButton;
+    [SerializeField] private Vector2 tutorialEnemySpawnPos;
+    [SerializeField] private GameObject TutorialEnemyPrefab;
+    private int currentTutorialStep = 0;
+    private bool tutorialEnemyIsRespawning = false;
+    private Transform ChildLastFrame;
+    [Header("Level Settings")]
     [SerializeField] private LevelTimeline[] levels;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Camera cam;
@@ -18,6 +42,7 @@ public class LevelAndRespawnManager : MonoBehaviour
     [SerializeField] private float levelCompleteScreenDuration = 3f;
     [SerializeField] private GameObject gameCompleteScreen;
     private PlayerStats playerStats;
+    private bool isTutorial = false;
     private bool isDead = false;
     
     #region Instance
@@ -38,11 +63,123 @@ public class LevelAndRespawnManager : MonoBehaviour
     void Start()
     {
         playerStats = playerTransform.GetComponent<PlayerStats>();
+    }
+
+    public void StartGame()
+    {
+        isTutorial = false;
+        currentLevelIndex = 0;
+        levelTimer = 0f;
+        currentElementIndex = 0;
+        endTutorialButton.SetActive(false);
+        tutorialInstructionText.gameObject.SetActive(false);
+        GatePlacementManager.instance.DestroyAllPlacedGates();
+        DestroyAllEnemiesAndSoulShards();
         StartCoroutine(ShowForSeconds(nextlevelScreen, levelCompleteScreenDuration));
         RespawnPlayer();
     }
 
+    public void StartTutorial()
+    {
+        isTutorial = true;
+        currentTutorialStep = 0;
+        tutorialInstructionText.gameObject.SetActive(true);
+        GatePlacementManager.instance.DestroyAllPlacedGates();
+        DestroyAllEnemiesAndSoulShards();
+        currentLevelIndex = 0;
+        RespawnPlayer();
+        playerStats.TakeDamage(200);
+    }
+
     void Update()
+    {
+        if (isTutorial)
+        {
+            TutorialUpdate();
+        }
+        else
+        {
+            bool flowControl = GameUpdate();
+            if (!flowControl)
+            {
+                return;
+            }
+        }
+    }
+
+    private bool TutorialUpdate()
+    {
+        if (!tutorialEnemyIsRespawning && transform.childCount == 0)
+        {
+            StartCoroutine(RespawnTutorialEnemyAfterDelay(1f));
+        }
+
+        if (currentTutorialStep >= 0 && currentTutorialStep < tutorialInstructions.Length)
+        {
+            tutorialInstructionText.text = tutorialInstructions[currentTutorialStep];
+        }
+        else
+        {
+            tutorialInstructionText.gameObject.SetActive(false);
+        }
+
+        switch (currentTutorialStep)
+        {
+            case 0:
+                if (playerStats.GetComponent<Rigidbody2D>().linearVelocity.magnitude > 0.1f)
+                {
+                    currentTutorialStep++;
+                }
+                break;
+            case 1:
+                if (ChildLastFrame != transform.GetChild(0))
+                {
+                    currentTutorialStep++;
+                }
+                break;
+            case 2:
+                if (transform.childCount == 0)
+                {
+                    currentTutorialStep++;
+                }
+                break;
+            case 3:
+                if (playerStats.CurrentHealth >= playerStats.MaxHealth)
+                {
+                    currentTutorialStep++;
+                }
+                break;
+            case 4:
+                if (GatePlacementManager.instance.HasPlacedGate)
+                {
+                    currentTutorialStep++;
+                }
+                break;
+            case 5:
+                if (InputManager.instance.ItemRightAction.IsPressed() || InputManager.instance.ItemLeftAction.IsPressed())
+                {
+                    currentTutorialStep++;
+                }
+                break;
+            case 6:
+                endTutorialButton.SetActive(true);
+                currentTutorialStep++; // Move past tutorial to prevent re-trigger
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    IEnumerator RespawnTutorialEnemyAfterDelay(float delay)
+    {
+        tutorialEnemyIsRespawning = true;
+        yield return new WaitForSeconds(delay);
+        Instantiate(TutorialEnemyPrefab, (Vector3)tutorialEnemySpawnPos, Quaternion.identity, transform);
+        tutorialEnemyIsRespawning = false;
+    }
+
+    private bool GameUpdate()
     {
         // check for player death
         if (playerStats.CurrentHealth <= 0 && !isDead)
@@ -51,7 +188,7 @@ public class LevelAndRespawnManager : MonoBehaviour
             if (currentLevelIndex >= levels.Length)
                 currentLevelIndex = levels.Length - 1;
             levelTimer = 0f;
-            currentTimelineElementIndex = 0;
+            currentElementIndex = 0;
         }
 
         // check for game completion
@@ -62,25 +199,27 @@ public class LevelAndRespawnManager : MonoBehaviour
                 Time.timeScale = 0f;
                 gameCompleteScreen.SetActive(true);
             }
-            return;
+            return false;
         }
 
         // Level progression
         levelTimer += Time.deltaTime;
-        while (transform.childCount <= 0 || levelTimer >= levels[currentLevelIndex].enemyGroups[currentTimelineElementIndex].spawnTime)
+        while (transform.childCount <= 0 || levelTimer >= levels[currentLevelIndex].enemyGroups[currentElementIndex].spawnTime)
         {
-            levelTimer = levels[currentLevelIndex].enemyGroups[currentTimelineElementIndex].spawnTime;
-            SpawnEnemyGroup(levels[currentLevelIndex].enemyGroups[currentTimelineElementIndex]);
-            ++currentTimelineElementIndex;
+            levelTimer = levels[currentLevelIndex].enemyGroups[currentElementIndex].spawnTime;
+            SpawnEnemyGroup(levels[currentLevelIndex].enemyGroups[currentElementIndex]);
+            ++currentElementIndex;
 
-            if (currentTimelineElementIndex >= levels[currentLevelIndex].enemyGroups.Count)
+            if (currentElementIndex >= levels[currentLevelIndex].enemyGroups.Count)
             {
                 LoadNextLevel();
-                currentTimelineElementIndex = 0;
+                currentElementIndex = 0;
                 levelTimer = 0f;
                 break;
             }
         }
+
+        return true;
     }
 
     private void SpawnEnemyGroup(LevelTimeline.EnemyGroup enemyGroup)
@@ -194,18 +333,18 @@ public class LevelAndRespawnManager : MonoBehaviour
     private void RespawnPlayer()
     {
         Time.timeScale = 1f;
-        DestroyAllEnemies();
+        DestroyAllEnemiesAndSoulShards();
         playerTransform.position = levels[currentLevelIndex].spawnPosition;
         playerStats.ResetCurrentHealth();
         youDiedScreen.SetActive(false);
         isDead = false;
     }
 
-    private void DestroyAllEnemies()
+    private void DestroyAllEnemiesAndSoulShards()
     {
-        foreach (Transform enemy in transform)
+        foreach (Transform enemyOrShard in transform)
         {
-            Destroy(enemy.gameObject);
+            Destroy(enemyOrShard.gameObject);
         }
     }
 }
