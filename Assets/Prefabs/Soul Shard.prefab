@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 111494388993205364}
   - component: {fileID: 46398925446780450}
-  - component: {fileID: 5478127988337894801}
   - component: {fileID: 3296392129381443262}
   - component: {fileID: 4977696853320109108}
   m_Layer: 10
@@ -93,19 +92,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5478127988337894801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4806209202584305610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
 --- !u!114 &3296392129381443262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e438778836c3e8a42947536060da63fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoulShard
+  isMerging: 0
   soulAmount: 0
   soulShardSpriteVariants:
   - {fileID: -1344155406, guid: 0f3a0cee8de2c6e43a3d9ae66966477d, type: 3}

@@ -12,7 +12,8 @@ public class Clickable2D : MonoBehaviour, IClickable {
         PlayGame,
         PlayGameFromTutorial,
         PlayTutorial,
-        CloseGame
+        CloseGame,
+        DestroyGate
     }
     [Header("Click Settings")]
     [SerializeField] private AudioClip clickSound;
@@ -75,10 +76,28 @@ public class Clickable2D : MonoBehaviour, IClickable {
                 gameObject.SetActive(false);
                 LevelAndRespawnManager.instance.StartGame();
                 break;
+            case ButtonSpecialFunction.DestroyGate:
+                Vector2 cellWorldPosition = transform.position;
+                DestroyGateAtPosition(cellWorldPosition);
+                break;
         }
 
         
         // Add your custom behavior here
         if (enableDebug) Debug.Log($"Add custom click behavior for {gameObject.name}");
     }
+
+    
+    private void DestroyGateAtPosition(Vector2 position)
+    {
+        Collider2D[] colliders = Physics2D.OverlapPointAll(position, LayerMask.GetMask("Gate"));
+        foreach (var col in colliders)
+        {
+            if (col.CompareTag("Gate"))
+            {
+                Destroy(col.gameObject);
+                return;
+            }
+        }
+    } 
 }

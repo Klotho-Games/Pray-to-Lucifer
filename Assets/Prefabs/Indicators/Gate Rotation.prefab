@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2918726319967517488}
   - component: {fileID: 5226909719814949837}
-  - component: {fileID: 4722420168811883941}
   m_Layer: 0
   m_Name: Gate Rotation
   m_TagString: Untagged
@@ -93,19 +92,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4722420168811883941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5941380524745284770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
 --- !u!1 &7954589807618415003
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,7 +102,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5307633923309948893}
   - component: {fileID: 7570713850823204250}
-  - component: {fileID: 8726934944460231352}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -197,19 +182,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8726934944460231352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7954589807618415003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
 --- !u!1 &8067191803336361716
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +192,6 @@ GameObject:
   m_Component:
   - component: {fileID: 250967154822356342}
   - component: {fileID: 9017124140425052887}
-  - component: {fileID: 6551891738961430868}
   m_Layer: 0
   m_Name: Triangle
   m_TagString: Untagged
@@ -301,16 +272,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6551891738961430868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8067191803336361716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0

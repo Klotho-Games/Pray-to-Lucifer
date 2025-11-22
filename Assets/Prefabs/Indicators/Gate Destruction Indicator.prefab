@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -7358045274362937056}
   - component: {fileID: 813436479599047137}
   m_Layer: 0
-  m_Name: Gate Placement Indicator
+  m_Name: Gate Destruction Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
-  m_Color: {r: 0, g: 0.7020221, b: 1, a: 0.05882353}
+  m_Color: {r: 0.50200003, g: 0.17268804, b: 0.17268804, a: 0.32156864}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -179,5 +179,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Clickable2D
   clickSound: {fileID: 0}
-  specialFunction: 1
+  specialFunction: 6
   enableDebug: 0

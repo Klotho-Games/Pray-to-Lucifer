@@ -13,7 +13,7 @@ public class GatePlacementManager : MonoBehaviour
     [SerializeField] private List<GameObject> gatePrefabs = new(); // List to hold gate prefabs
     [SerializeField] private Grid hexGrid;
     [SerializeField] private GameObject placementIndicatorPrefab;
-    [Range(0,1)][SerializeField] private float slowmoDuringRotation = 0.25f;
+    [SerializeField] private GameObject destructionIndicatorPrefab;
     [SerializeField] private GameObject rotationIndicatorPrefab;
     [SerializeField] private Transform player;
     [SerializeField] private PlayerStats playerStats;
@@ -202,7 +202,7 @@ public class GatePlacementManager : MonoBehaviour
         // Show places where you can build
         DestroyAllIndicators(); // children
         Vector2Int playerCell = (Vector2Int)hexGrid.WorldToCell(player.position);
-        SearchForAllCellsToIndicate(playerCell, 5);
+        SearchForAllCellsToIndicateAndShowThem(playerCell, 5);
     }
 
     private int GetGateCost(GateType gateType)
@@ -230,7 +230,7 @@ public class GatePlacementManager : MonoBehaviour
         isInPlacementMode = false;
         isInRotationMode = true;
         InputManager.instance.CancelAction.performed += ctx => CancelRotationMode();
-        Time.timeScale = slowmoDuringRotation;
+        Time.timeScale = 0;
         DestroyAllIndicators();
         currentRotationIndicator = Instantiate(rotationIndicatorPrefab).transform;
         currentRotationIndicator.position = cellWorldPos;
@@ -373,7 +373,7 @@ public class GatePlacementManager : MonoBehaviour
         }
     }
 
-    private void SearchForAllCellsToIndicate(Vector2Int playerCell, int radius)
+    private void SearchForAllCellsToIndicateAndShowThem(Vector2Int playerCell, int radius)
     {
         // if (debugLineRenderer != null)
         // {
@@ -472,9 +472,19 @@ public class GatePlacementManager : MonoBehaviour
 
         return true;
 
-        static bool CompareTags(GameObject obj)
+        bool CompareTags(GameObject obj)
         {
-            return obj.CompareTag("Player") || obj.CompareTag("Gate") || obj.CompareTag("Enemy");
+            if (obj.CompareTag("Gate"))
+            {
+                ShowGateDestructionIndicator();
+                return true;
+            }
+            return obj.CompareTag("Player") || obj.CompareTag("Enemy");
+        }
+        
+        void ShowGateDestructionIndicator()
+        {
+            Instantiate(destructionIndicatorPrefab, cellWorldPosition, Quaternion.identity, hexGrid.transform);
         }
     }
 
