@@ -1273,6 +1273,58 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 3416535561975290438, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
   m_PrefabInstance: {fileID: 872584069}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &948221398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 948221400}
+  - component: {fileID: 948221399}
+  m_Layer: 0
+  m_Name: ObjectPooler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &948221399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948221398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dd1e2730e5951003acf9304d35fa50d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPooler
+  enemyPrefabsToPool:
+  - prefab: {fileID: 0}
+    spawnWeight: 100
+  - prefab: {fileID: 0}
+    spawnWeight: 100
+  - prefab: {fileID: 0}
+    spawnWeight: 100
+  poolSize: 500
+--- !u!4 &948221400
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948221398}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.60993, y: -1.91617, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1034308728
 GameObject:
   m_ObjectHideFlags: 0
@@ -3923,8 +3975,10 @@ MonoBehaviour:
   endTutorialButton: {fileID: 1263849068}
   tutorialEnemySpawnPos: {x: 6, y: 0}
   TutorialEnemyPrefab: {fileID: 3443801245498474183, guid: f78d4218de36a464c807eaa25cdc2057, type: 3}
-  levels:
-  - {fileID: 11400000, guid: fa36b2998b57f314b8fb51c1b0130ac4, type: 2}
+  waves:
+  - {fileID: 11400000, guid: 9e98129607c7a92ebb5621de5713f428, type: 2}
+  currentWaveIndex: 0
+  autoStartWave: 1
   playerTransform: {fileID: 1552325820}
   cam: {fileID: 519420031}
   respawnDelay: 6
@@ -3932,6 +3986,8 @@ MonoBehaviour:
   nextlevelScreen: {fileID: 111005730}
   levelCompleteScreenDuration: 1.5
   gameCompleteScreen: {fileID: 1727602515}
+  objectPooler: {fileID: 948221399}
+  poolSize: 500
 --- !u!4 &1897987069
 Transform:
   m_ObjectHideFlags: 0
@@ -4757,3 +4813,4 @@ SceneRoots:
   - {fileID: 6631845881490349456}
   - {fileID: 1585594848}
   - {fileID: 4540798148290968415}
+  - {fileID: 948221400}

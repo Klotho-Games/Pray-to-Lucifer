@@ -16,6 +16,7 @@ public class LevelTimeline : ScriptableObject
         public int quantity;
         public bool scattered;
         [ShowIf("scattered", false)] public float groupRadius = 5f;
+        public int spawnWeight = 100;
     }
 
     public Vector2 spawnPosition = Vector2.zero;

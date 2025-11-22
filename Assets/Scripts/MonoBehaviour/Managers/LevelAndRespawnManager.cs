@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelAndRespawnManager : MonoBehaviour
@@ -32,8 +33,10 @@ public class LevelAndRespawnManager : MonoBehaviour
     private int currentTutorialStep = 0;
     private bool tutorialEnemyIsRespawning = false;
     private Transform ChildLastFrame;
-    [Header("Level Settings")]
-    [SerializeField] private LevelTimeline[] levels;
+    [Header("Wave Settings")]
+    [SerializeField] private List<WaveDataSO> waves;
+    [SerializeField] private int currentWaveIndex = 0;
+    [SerializeField] private bool autoStartWave = true;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Camera cam;
     [SerializeField] private float respawnDelay = 2f;
@@ -41,6 +44,9 @@ public class LevelAndRespawnManager : MonoBehaviour
     [SerializeField] private GameObject nextlevelScreen;
     [SerializeField] private float levelCompleteScreenDuration = 3f;
     [SerializeField] private GameObject gameCompleteScreen;
+    [Header("Pooling Settings")]
+    [SerializeField] private ObjectPooler objectPooler;
+    [SerializeField] private int poolSize = 100;
     private PlayerStats playerStats;
     private bool isTutorial = false;
     private bool isDead = false;
@@ -63,20 +69,88 @@ public class LevelAndRespawnManager : MonoBehaviour
     void Start()
     {
         playerStats = playerTransform.GetComponent<PlayerStats>();
+        if (autoStartWave && waves.Count > 0)
+        {
+            StartWave(currentWaveIndex);
+        }
     }
+    private Coroutine waveCoroutine;
+
+    public void StartWave(int waveIndex)
+    {
+        if (waveCoroutine != null)
+            StopCoroutine(waveCoroutine);
+        if (waveIndex < 0 || waveIndex >= waves.Count)
+            return;
+    waveCoroutine = StartCoroutine(SpawnWaveCoroutine(waves[waveIndex]));
+    }
+
+    private IEnumerator SpawnWaveCoroutine(WaveDataSO wave)
+    {
+        float timer = 0f;
+        float interval = wave.startingSpawnInterval;
+        while (timer < wave.waveDuration)
+        {
+            SpawnWeightedEnemy(wave);
+            yield return new WaitForSeconds(interval);
+            timer += interval;
+            interval = Mathf.Max(wave.minSpawnInterval, interval - wave.spawnIntervalDecrement);
+        }
+    }
+
+    private void SpawnWeightedEnemy(WaveDataSO wave)
+    {
+        int totalWeight = 0;
+        foreach (var entry in wave.prefabsWithWeights)
+            totalWeight += entry.spawnWeight;
+        if (totalWeight == 0) return;
+        int roll = UnityEngine.Random.Range(0, totalWeight);
+        int cumulative = 0;
+        GameObject selectedPrefab = null;
+        foreach (var entry in wave.prefabsWithWeights)
+        {
+            cumulative += entry.spawnWeight;
+            if (roll < cumulative)
+            {
+                selectedPrefab = entry.prefab;
+                break;
+            }
+        }
+        if (selectedPrefab != null)
+        {
+            Vector3 spawnPos = GetPointOutsideCameraView(0f); // You can adjust spawn logic as needed
+            var enemy = objectPooler.GetFromPool(selectedPrefab, spawnPos);
+            InitializeEnemyAI(enemy);
+        }
+    }
+
+    private GameObject GetFromPool(GameObject prefab, Vector3 position)
+    {
+        return objectPooler.GetFromPool(prefab, position);
+    }
+
+    public void ReturnToPool(GameObject prefab, GameObject obj)
+    {
+        objectPooler.ReturnToPool(prefab, obj);
+    }
+
+    // private void SetActiveTimelines(LevelTimeline[] timelines) { }
+
+    // Timeline-based spawning coroutine removed. Will be replaced by WaveData logic.
+
+    // Timeline-based level start removed. Will be replaced by WaveData logic.
 
     public void StartGame()
     {
         isTutorial = false;
-        currentLevelIndex = 0;
-        levelTimer = 0f;
-        currentElementIndex = 0;
+        currentWaveIndex = 0;
         endTutorialButton.SetActive(false);
         tutorialInstructionText.gameObject.SetActive(false);
         GatePlacementManager.instance.DestroyAllPlacedGates();
         DestroyAllEnemiesAndSoulShards();
         StartCoroutine(ShowForSeconds(nextlevelScreen, levelCompleteScreenDuration));
         RespawnPlayer();
+        StartWave(currentWaveIndex);
     }
 
     public void StartTutorial()
@@ -181,72 +255,15 @@ public class LevelAndRespawnManager : MonoBehaviour
 
     private bool GameUpdate()
     {
-        // check for player death
         if (playerStats.CurrentHealth <= 0 && !isDead)
         {
             OnPlayerDeath();
-            if (currentLevelIndex >= levels.Length)
-                currentLevelIndex = levels.Length - 1;
-            levelTimer = 0f;
-            currentElementIndex = 0;
         }
-
-        // check for game completion
-        if (currentLevelIndex >= levels.Length)
-        {
-            if (transform.childCount == 0 && !isDead)
-            {
-                Time.timeScale = 0f;
-                gameCompleteScreen.SetActive(true);
-            }
-            return false;
-        }
-
-        // Level progression
-        levelTimer += Time.deltaTime;
-        while (transform.childCount <= 0 || levelTimer >= levels[currentLevelIndex].enemyGroups[currentElementIndex].spawnTime)
-        {
-            levelTimer = levels[currentLevelIndex].enemyGroups[currentElementIndex].spawnTime;
-            SpawnEnemyGroup(levels[currentLevelIndex].enemyGroups[currentElementIndex]);
-            ++currentElementIndex;
-
-            if (currentElementIndex >= levels[currentLevelIndex].enemyGroups.Count)
-            {
-                LoadNextLevel();
-                currentElementIndex = 0;
-                levelTimer = 0f;
-                break;
-            }
-        }
-
         return true;
     }
 
-    private void SpawnEnemyGroup(LevelTimeline.EnemyGroup enemyGroup)
+    private void InitializeEnemyAI(GameObject enemy)
     {
-        if (enemyGroup.scattered)
-        {
-            for (int i = 0; i < enemyGroup.quantity; i++)
-            {
-                Vector3 spawnPosition = GetPointOutsideCameraView(0f);
-                SpawnEnemy(enemyGroup.enemyPrefab, spawnPosition);
-            }
-        }
-        else
-        {
-            Vector3 groupCenter = GetPointOutsideCameraView(enemyGroup.groupRadius);
-            for (int i = 0; i < enemyGroup.quantity; i++)
-            {
-                Vector2 spawnOffset = Random.insideUnitCircle * enemyGroup.groupRadius;
-                Vector3 spawnPosition = new(groupCenter.x + spawnOffset.x, groupCenter.y + spawnOffset.y, 0f);
-                SpawnEnemy(enemyGroup.enemyPrefab, spawnPosition);
-            }
-        }
-    }
-
-    private void SpawnEnemy(GameObject enemyToSpawn, Vector3 spawnPosition)
-    {
-        var enemy = Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity, transform);
         if (enemy.TryGetComponent(out EnergyMeleeAI energyMeleeAI))
             energyMeleeAI.Initialize(playerTransform);
         else if (enemy.TryGetComponent(out MaterialMeleeAI materialMeleeAI))
@@ -255,8 +272,6 @@ public class LevelAndRespawnManager : MonoBehaviour
             materialProjectileAI.Initialize(playerTransform);
         else if (enemy.TryGetComponent(out MaterialGrenadeAI materialGrenadeAI))
             materialGrenadeAI.Initialize(playerTransform);
-        else
-            Debug.LogError("Enemy prefab does not have a recognized AI component.");
     }
 
     private Vector3 GetPointOutsideCameraView(float groupSize)
@@ -297,16 +312,7 @@ public class LevelAndRespawnManager : MonoBehaviour
         return new Vector3(x, y, 0f);
     }
 
-    private void LoadNextLevel()
-    {
-        ++currentLevelIndex;
-        if (currentLevelIndex < levels.Length)
-        {
-            nextlevelScreen.GetComponent<TMPro.TextMeshProUGUI>().text = "Level " + (currentLevelIndex + 1);
-            StartCoroutine(ShowForSeconds(nextlevelScreen, levelCompleteScreenDuration));
-            // more level transition logic can be added here
-        }
-    }
+    // Timeline-based level loading removed. Use wave-based progression if needed.
 
     private IEnumerator ShowForSeconds(GameObject obj, float seconds)
     {
@@ -333,18 +339,22 @@ public class LevelAndRespawnManager : MonoBehaviour
     private void RespawnPlayer()
     {
         Time.timeScale = 1f;
-        DestroyAllEnemiesAndSoulShards();
-        playerTransform.position = levels[currentLevelIndex].spawnPosition;
-        playerStats.ResetCurrentHealth();
-        youDiedScreen.SetActive(false);
-        isDead = false;
+    DestroyAllEnemiesAndSoulShards();
+    playerTransform.position = Vector3.zero; // Set to default or configurable spawn position
+    playerStats.ResetCurrentHealth();
+    youDiedScreen.SetActive(false);
+    isDead = false;
     }
 
     private void DestroyAllEnemiesAndSoulShards()
     {
-        foreach (Transform enemyOrShard in transform)
+        foreach (var obj in GameObject.FindObjectsOfType<EnemyLifeSystem>())
         {
-            Destroy(enemyOrShard.gameObject);
+            if (obj.gameObject.activeSelf)
+            {
+                obj.gameObject.SetActive(false);
+                objectPooler.ReturnToPool(obj.gameObject, obj.gameObject);
+            }
         }
     }
 }
