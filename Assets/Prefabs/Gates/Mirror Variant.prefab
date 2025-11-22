@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mirror Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 6230790428672857733, guid: 41e7aae6b0dcd95428a322203c35dc4b, type: 3}
+      propertyPath: m_TagString
+      value: Gate
+      objectReference: {fileID: 0}
     - target: {fileID: 7612674064326284449, guid: 41e7aae6b0dcd95428a322203c35dc4b, type: 3}
       propertyPath: m_Splines.Array.data[0].m_Knots.Array.size
       value: 6
@@ -304,7 +308,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8756815199397217825, guid: 41e7aae6b0dcd95428a322203c35dc4b, type: 3}
+      propertyPath: m_TagString
+      value: Gate
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8008456037192460905, guid: 41e7aae6b0dcd95428a322203c35dc4b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
