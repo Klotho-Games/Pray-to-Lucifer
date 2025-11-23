@@ -5,9 +5,9 @@ using UnityEngine;
 public class LevelAndRespawnManager : MonoBehaviour
 {
     public static LevelAndRespawnManager instance;
-    private int currentLevelIndex = 0;
-    private float levelTimer = 0f;
-    private int currentElementIndex = 0;
+    // private int currentLevelIndex = 0;
+    // private float levelTimer = 0f;
+    // private int currentElementIndex = 0;
     [Header("Tutorial Settings")]
     [SerializeField] private string[] tutorialInstructions = new string[]
     {
@@ -32,7 +32,7 @@ public class LevelAndRespawnManager : MonoBehaviour
     [SerializeField] private GameObject TutorialEnemyPrefab;
     private int currentTutorialStep = 0;
     private bool tutorialEnemyIsRespawning = false;
-    private Transform ChildLastFrame;
+    private readonly Transform childLastFrame;
     [Header("Wave Settings")]
     [SerializeField] private List<WaveDataSO> waves;
     [SerializeField] private int currentWaveIndex = 0;
@@ -41,8 +41,8 @@ public class LevelAndRespawnManager : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private float respawnDelay = 2f;
     [SerializeField] private GameObject youDiedScreen;
-    [SerializeField] private GameObject nextlevelScreen;
-    [SerializeField] private float levelCompleteScreenDuration = 3f;
+    [SerializeField] private TMPro.TMP_Text nextWaveText;
+    [SerializeField] private float nextWaveTextShowDuration = 3f;
     [SerializeField] private GameObject gameCompleteScreen;
     [Header("Pooling Settings")]
     [SerializeField] private ObjectPooler objectPooler;
@@ -82,7 +82,15 @@ public class LevelAndRespawnManager : MonoBehaviour
             StopCoroutine(waveCoroutine);
         if (waveIndex < 0 || waveIndex >= waves.Count)
             return;
-    waveCoroutine = StartCoroutine(SpawnWaveCoroutine(waves[waveIndex]));
+        
+        ShowNextWaveText();
+        waveCoroutine = StartCoroutine(SpawnWaveCoroutine(waves[waveIndex]));
+
+        void ShowNextWaveText()
+        {
+            nextWaveText.text = $"Wave {waveIndex + 1}";
+            StartCoroutine(ShowForSeconds(nextWaveText.gameObject, nextWaveTextShowDuration));
+        }
     }
 
     private IEnumerator SpawnWaveCoroutine(WaveDataSO wave)
@@ -104,7 +112,7 @@ public class LevelAndRespawnManager : MonoBehaviour
         foreach (var entry in wave.prefabsWithWeights)
             totalWeight += entry.spawnWeight;
         if (totalWeight == 0) return;
-        int roll = UnityEngine.Random.Range(0, totalWeight);
+        int roll = Random.Range(0, totalWeight);
         int cumulative = 0;
         GameObject selectedPrefab = null;
         foreach (var entry in wave.prefabsWithWeights)
@@ -148,7 +156,7 @@ public class LevelAndRespawnManager : MonoBehaviour
         tutorialInstructionText.gameObject.SetActive(false);
         GatePlacementManager.instance.DestroyAllPlacedGates();
         DestroyAllEnemiesAndSoulShards();
-        StartCoroutine(ShowForSeconds(nextlevelScreen, levelCompleteScreenDuration));
+        StartCoroutine(ShowForSeconds(nextWaveText.gameObject, nextWaveTextShowDuration));
         RespawnPlayer();
         StartWave(currentWaveIndex);
     }
@@ -160,7 +168,7 @@ public class LevelAndRespawnManager : MonoBehaviour
         tutorialInstructionText.gameObject.SetActive(true);
         GatePlacementManager.instance.DestroyAllPlacedGates();
         DestroyAllEnemiesAndSoulShards();
-        currentLevelIndex = 0;
+        // currentLevelIndex = 0;
         RespawnPlayer();
         playerStats.TakeDamage(200);
     }
@@ -206,7 +214,7 @@ public class LevelAndRespawnManager : MonoBehaviour
                 }
                 break;
             case 1:
-                if (ChildLastFrame != transform.GetChild(0))
+                if (transform.GetChild(0).GetComponent<SoulShard>() != null)
                 {
                     currentTutorialStep++;
                 }
@@ -339,21 +347,28 @@ public class LevelAndRespawnManager : MonoBehaviour
     private void RespawnPlayer()
     {
         Time.timeScale = 1f;
-    DestroyAllEnemiesAndSoulShards();
-    playerTransform.position = Vector3.zero; // Set to default or configurable spawn position
-    playerStats.ResetCurrentHealth();
-    youDiedScreen.SetActive(false);
-    isDead = false;
+        DestroyAllEnemiesAndSoulShards();
+        playerTransform.position = Vector3.zero; // Set to default or configurable spawn position
+        playerStats.ResetCurrentHealth();
+        youDiedScreen.SetActive(false);
+        isDead = false;
     }
 
     private void DestroyAllEnemiesAndSoulShards()
     {
-        foreach (var obj in GameObject.FindObjectsOfType<EnemyLifeSystem>())
+        foreach (var enemy in FindObjectsByType<EnemyLifeSystem>(FindObjectsSortMode.None))
         {
-            if (obj.gameObject.activeSelf)
+            if (enemy.gameObject.activeSelf)
             {
-                obj.gameObject.SetActive(false);
-                objectPooler.ReturnToPool(obj.gameObject, obj.gameObject);
+                enemy.gameObject.SetActive(false);
+                objectPooler.ReturnToPool(enemy.gameObject, enemy.gameObject);
+            }
+        }
+        foreach (var shard in FindObjectsByType<SoulShard>(FindObjectsSortMode.None))
+        {
+            if (shard.gameObject.activeSelf)
+            {
+                Destroy(shard.gameObject);
             }
         }
     }
