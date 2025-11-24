@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 111005734}
   - component: {fileID: 111005733}
   m_Layer: 5
-  m_Name: Next Level Info
+  m_Name: Next Wave Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Level 1
+  m_text: Wave 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2226,7 +2226,7 @@ GameObject:
   - component: {fileID: 1450780081}
   - component: {fileID: 1450780085}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: General
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2889,7 +2889,7 @@ MonoBehaviour:
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 13107
+    ctime0: 13041
     ctime1: 65535
     ctime2: 0
     ctime3: 0
@@ -3773,17 +3773,21 @@ MonoBehaviour:
   - Press the button to end the tutorial.
   tutorialInstructionText: {fileID: 1209037423}
   endTutorialButton: {fileID: 1263849068}
-  tutorialEnemySpawnPos: {x: 6, y: 0}
+  tutorialEnemySpawnPos: {x: 5, y: 0}
   TutorialEnemyPrefab: {fileID: 3443801245498474183, guid: f78d4218de36a464c807eaa25cdc2057, type: 3}
-  levels:
-  - {fileID: 11400000, guid: fa36b2998b57f314b8fb51c1b0130ac4, type: 2}
+  waves:
+  - {fileID: 11400000, guid: 9e98129607c7a92ebb5621de5713f428, type: 2}
+  currentWaveIndex: 0
+  autoStartWave: 0
   playerTransform: {fileID: 1552325820}
   cam: {fileID: 519420031}
   respawnDelay: 6
   youDiedScreen: {fileID: 391916037}
-  nextlevelScreen: {fileID: 111005730}
-  levelCompleteScreenDuration: 1.5
+  nextWaveText: {fileID: 111005733}
+  nextWaveTextShowDuration: 3
   gameCompleteScreen: {fileID: 1727602515}
+  objectPooler: {fileID: 948221399}
+  poolSize: 500
 --- !u!4 &1897987069
 Transform:
   m_ObjectHideFlags: 0
@@ -4526,10 +4530,9 @@ SceneRoots:
   - {fileID: 1897987069}
   - {fileID: 1897022498}
   - {fileID: 133823648}
-  - {fileID: 1450780084}
-  - {fileID: 2083989087}
   - {fileID: 1286122612}
   - {fileID: 2106973146}
+  - {fileID: 948221400}
   - {fileID: 1546054142}
   - {fileID: 6631845881490349456}
   - {fileID: 1585594848}

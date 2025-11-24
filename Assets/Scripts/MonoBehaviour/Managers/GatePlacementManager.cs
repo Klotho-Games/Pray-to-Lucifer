@@ -17,13 +17,13 @@ public class GatePlacementManager : MonoBehaviour
     [SerializeField] private GameObject rotationIndicatorPrefab;
     [SerializeField] private Transform player;
     [SerializeField] private PlayerStats playerStats;
-    [SerializeField] private float minimumLightIntensity = 0.5f;
+    [SerializeField] private readonly float minimumLightIntensity = 0.5f;
     [SerializeField] private Camera cam;
     [SerializeField] private Transform parentForPlacedGates;
     [SerializeField] private LayerMask gateLayer;
     [SerializeField] private TMPro.TMP_Text currentGateTypeDisplayText;
     [SerializeField] private GameObject MainMenu;
-    // private LineRenderer debugLineRenderer;
+    private LineRenderer debugLineRenderer;
 
     private readonly float[] diagonals = new float[] { 0f, 60f, 120f };
     /// <summary>
@@ -33,7 +33,9 @@ public class GatePlacementManager : MonoBehaviour
     private Transform currentRotationIndicator = null;
     private bool isInPlacementMode = false;
     private bool isInRotationMode = false;
-    private readonly float diagonalLength = Mathf.Sqrt(3f); // length of diagonal in hex grid
+    private static readonly float diagonalLength = Mathf.Sqrt(3f); // length of diagonal in hex grid
+    private static readonly float sideLength = diagonalLength/2;
+    private static readonly float subtriangleHeight = sideLength * Mathf.Sqrt(3) / 2;
 
     public bool HasPlacedGate { get; private set; } = false;
 
@@ -84,30 +86,39 @@ public class GatePlacementManager : MonoBehaviour
 
     void OnGateTypeRight()
     {
-        do
-        {
-            currentGateType = (GateType)(((int)currentGateType + 1) % gatePrefabs.Count);
-        }
-        while (currentGateType == GateType.DivergingLens || currentGateType == GateType.OneWayMirror);
-
-        if (currentGateTypeDisplayText != null)
-        {
-            currentGateTypeDisplayText.text = GetCurrentGateTypeString();
-        }
+        OnGateTypeChange(toRight: true);
     }
 
     void OnGateTypeLeft()
     {
+        OnGateTypeChange(toRight: false);
+    }
+    
+    private void OnGateTypeChange(bool toRight)
+    {
+        GateType gateToChangeTo = currentGateType;
         do
         {
-            currentGateType = (GateType)(((int)currentGateType - 1 + gatePrefabs.Count) % gatePrefabs.Count);
+            if (toRight)
+                gateToChangeTo = (GateType)(((int)gateToChangeTo + 1) % gatePrefabs.Count);
+            else
+                gateToChangeTo = (GateType)(((int)gateToChangeTo - 1 + gatePrefabs.Count) % gatePrefabs.Count);
+            
+            if (gateToChangeTo == currentGateType)
+                return;
         }
-        while (currentGateType == GateType.DivergingLens || currentGateType == GateType.OneWayMirror);
+        while ( gateToChangeTo == GateType.DivergingLens 
+                || gateToChangeTo == GateType.OneWayMirror 
+                || (isInRotationMode 
+                    && GetGateCost(gateToChangeTo) > playerStats.CurrentSoul));
+
+        currentGateType = gateToChangeTo;
 
         if (currentGateTypeDisplayText != null)
         {
             currentGateTypeDisplayText.text = GetCurrentGateTypeString();
         }
+    
     }
 
     private string GetCurrentGateTypeString()
@@ -337,6 +348,11 @@ public class GatePlacementManager : MonoBehaviour
             }
         }
         
+        if (!IsPossibleToPlaceGateOnDiagonal(closestIndex, cellWorldPosition: (Vector2)currentRotationIndicator.position))
+        {
+            Debug.LogWarning("Diagonal unavailable, there's a collider blocking it");
+            return;
+        }
         // Update rotation indicator
         currentRotationIndicator.rotation = Quaternion.Euler(0, 0, closestAngle);
         lastTimesRotated = closestIndex;
@@ -346,7 +362,7 @@ public class GatePlacementManager : MonoBehaviour
     {
         for (int i = 0; i < 6; i++)
         {
-            if (IsPossibleToPlaceGateOnDiagonal((Vector2Int)hexGrid.WorldToCell(cellWorldPos), lastTimesRotated < diagonals.Length ? lastTimesRotated : lastTimesRotated/2))
+            if (IsPossibleToPlaceGateOnDiagonal(lastTimesRotated < diagonals.Length ? lastTimesRotated : lastTimesRotated/2, cellWorldPosition: cellWorldPos))
             {
                 for (int _ = 0; _ < lastTimesRotated; ++_)
                 {
@@ -445,7 +461,7 @@ public class GatePlacementManager : MonoBehaviour
 
         for (int i = 0; i < diagonals.Length; i++)
         {
-            if (IsPossibleToPlaceGateOnDiagonal(cellPosition, i))
+            if (IsPossibleToPlaceGateOnDiagonal(i, cellGridPosition: cellPosition))
             {
                 return true;
             }
@@ -454,17 +470,44 @@ public class GatePlacementManager : MonoBehaviour
         Debug.Log("Cannot place gate on any diagonal at " + cellPosition);
         return false;
     }
-
-    private bool IsPossibleToPlaceGateOnDiagonal(Vector2Int cellPosition, int diagonalIndex)
+    
+    private bool IsPossibleToPlaceGateOnDiagonal(int diagonalIndex, Vector2Int? cellGridPosition = null, Vector2? cellWorldPosition = null)
     {
-        Vector2 cellWorldPosition = hexGrid.GetCellCenterWorld((Vector3Int)cellPosition);
-        Vector2 diagonalStart = cellWorldPosition + (diagonalIndex == 0 ? new(0, -hexGrid.cellSize.y/2) : new (-hexGrid.cellSize.x/2, -(diagonals[diagonalIndex]/30 + 3)*diagonalLength/2));
-        Vector2 diagonalEnd = cellWorldPosition + (diagonalIndex == 0 ? new(0, hexGrid.cellSize.y/2) : new (hexGrid.cellSize.x/2, (diagonals[diagonalIndex]/30 + 3)*diagonalLength/2));
-        RaycastHit2D[] hits = Physics2D.LinecastAll(diagonalStart, diagonalEnd);
+        if (cellWorldPosition.HasValue == false)
+        {
+            if (cellGridPosition.HasValue == false)
+            {
+                Debug.LogError("[GatePlacementManager]: Neither cellPosition nor cellWorldPosition has been specified");
+                return false;
+            }
+            cellWorldPosition = hexGrid.GetCellCenterWorld((Vector3Int)cellGridPosition.Value);
+        }
 
+        Vector2 diagonalStart = cellWorldPosition.Value + GetStartOffset(diagonalIndex);
+        Vector2 diagonalEnd = cellWorldPosition.Value + GetEndOffset(diagonalIndex);
+        /* 
+        if (debugLineRenderer == null)
+        {
+            debugLineRenderer = GetComponent<LineRenderer>();
+            if (debugLineRenderer == null)
+                debugLineRenderer = gameObject.AddComponent<LineRenderer>();
+        }
+        debugLineRenderer.positionCount = 2;
+        debugLineRenderer.SetPosition(0, diagonalStart);
+        debugLineRenderer.SetPosition(1, diagonalEnd);
+ */
+        // Gate check must be before linecast check to show gate destruction indicator
+        Collider2D gateHit = Physics2D.OverlapPoint(cellWorldPosition.Value, gateLayer);
+        if (gateHit != null)
+        {
+            ShowGateDestructionIndicator();
+            return false;
+        }
+
+        RaycastHit2D[] hits = Physics2D.LinecastAll(diagonalStart, diagonalEnd);
         foreach (RaycastHit2D hit in hits)
         {
-            if (hit.collider != null && CompareTags(hit.collider.gameObject))
+            if (hit.collider != null && IsOneOfTags(hit.collider.gameObject, new[]{"Player", "Enemy", "Projectile"}))
             {
                 return false;
             }
@@ -472,19 +515,47 @@ public class GatePlacementManager : MonoBehaviour
 
         return true;
 
-        bool CompareTags(GameObject obj)
+        bool IsOneOfTags(GameObject obj, string[] tags)
         {
-            if (obj.CompareTag("Gate"))
+            foreach (string tag in tags)
             {
-                ShowGateDestructionIndicator();
-                return true;
+                if (obj.CompareTag(tag))
+                {
+                    return true;
+                }
             }
-            return obj.CompareTag("Player") || obj.CompareTag("Enemy");
+            return false;
         }
         
         void ShowGateDestructionIndicator()
         {
-            Instantiate(destructionIndicatorPrefab, cellWorldPosition, Quaternion.identity, hexGrid.transform);
+            Instantiate(destructionIndicatorPrefab, cellWorldPosition.Value, Quaternion.identity, hexGrid.transform);
+        }
+
+        Vector2 GetStartOffset(int id)
+        {
+            id %= 3;
+
+            return id switch
+            {
+                0 => new(0, -sideLength),
+                1 => new(-subtriangleHeight, sideLength / 2),
+                2 => new(-subtriangleHeight, -sideLength / 2),
+                _ => Vector2.zero,
+            };
+        }
+
+        Vector2 GetEndOffset(int id)
+        {
+            id %= 3;
+
+            return id switch
+            {
+                0 => new(0, diagonalLength / 2),
+                1 => new(subtriangleHeight, -sideLength / 2),
+                2 => new(subtriangleHeight, sideLength / 2),
+                _ => Vector2.zero,
+            };
         }
     }
 
