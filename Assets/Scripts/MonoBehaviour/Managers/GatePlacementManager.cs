@@ -17,7 +17,7 @@ public class GatePlacementManager : MonoBehaviour
     [SerializeField] private GameObject rotationIndicatorPrefab;
     [SerializeField] private Transform player;
     [SerializeField] private PlayerStats playerStats;
-    [SerializeField] private float minimumLightIntensity = 0.5f;
+    [SerializeField] private readonly float minimumLightIntensity = 0.5f;
     [SerializeField] private Camera cam;
     [SerializeField] private Transform parentForPlacedGates;
     [SerializeField] private LayerMask gateLayer;
@@ -496,12 +496,18 @@ public class GatePlacementManager : MonoBehaviour
         debugLineRenderer.SetPosition(0, diagonalStart);
         debugLineRenderer.SetPosition(1, diagonalEnd);
  */
+        // Gate check must be before linecast check to show gate destruction indicator
+        Collider2D gateHit = Physics2D.OverlapPoint(cellWorldPosition.Value, gateLayer);
+        if (gateHit != null)
+        {
+            ShowGateDestructionIndicator();
+            return false;
+        }
 
         RaycastHit2D[] hits = Physics2D.LinecastAll(diagonalStart, diagonalEnd);
-
         foreach (RaycastHit2D hit in hits)
         {
-            if (hit.collider != null && CompareTags(hit.collider.gameObject))
+            if (hit.collider != null && IsOneOfTags(hit.collider.gameObject, new[]{"Player", "Enemy", "Projectile"}))
             {
                 return false;
             }
@@ -509,14 +515,16 @@ public class GatePlacementManager : MonoBehaviour
 
         return true;
 
-        bool CompareTags(GameObject obj)
+        bool IsOneOfTags(GameObject obj, string[] tags)
         {
-            if (obj.CompareTag("Gate"))
+            foreach (string tag in tags)
             {
-                ShowGateDestructionIndicator();
-                return true;
+                if (obj.CompareTag(tag))
+                {
+                    return true;
+                }
             }
-            return obj.CompareTag("Player") || obj.CompareTag("Enemy");
+            return false;
         }
         
         void ShowGateDestructionIndicator()

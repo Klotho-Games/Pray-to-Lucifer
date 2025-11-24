@@ -1094,6 +1094,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &683373457
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 683373458}
+  m_Layer: 0
+  m_Name: ---CANVAS---
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &683373458
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683373457}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.60849, y: -0.25774, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &698991557
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2419,7 +2450,7 @@ GameObject:
   - component: {fileID: 1450780081}
   - component: {fileID: 1450780085}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: General
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3082,7 +3113,7 @@ MonoBehaviour:
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 13107
+    ctime0: 13041
     ctime1: 65535
     ctime2: 0
     ctime3: 0
@@ -4798,12 +4829,13 @@ SceneRoots:
   - {fileID: 1897987069}
   - {fileID: 1897022498}
   - {fileID: 133823648}
-  - {fileID: 1450780084}
-  - {fileID: 2083989087}
   - {fileID: 1286122612}
   - {fileID: 2106973146}
+  - {fileID: 948221400}
   - {fileID: 1546054142}
   - {fileID: 6631845881490349456}
   - {fileID: 1585594848}
   - {fileID: 4540798148290968415}
-  - {fileID: 948221400}
+  - {fileID: 683373458}
+  - {fileID: 1450780084}
+  - {fileID: 2083989087}
