@@ -2208,7 +2208,7 @@ MonoBehaviour:
   highlightAnchor: {fileID: 0}
   highlightScale: 1.1
   isTint: 1
-  highlightColor: {r: 1.2, g: 1.2, b: 1.2, a: 1}
+  highlightColor: {r: 1, g: 1, b: 1, a: 1}
   PreHighlightColors: []
   PreHighlightScale: {x: 1, y: 1}
   PreHighlightScaleCached: 0
@@ -4240,7 +4240,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2083989083
 MonoBehaviour:
   m_ObjectHideFlags: 0

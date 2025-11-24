@@ -169,71 +169,138 @@ public class HighlightedElement2DController : MonoBehaviour
     /// </summary>
     void AnimateHighlightedElement2D([NotNull] HighlightableElement2D h, bool isHighlighted)
     {
+        if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Starting animation for '{h.gameObject.name}' | isHighlighted={isHighlighted}");
+        
         // Color tint animation
         if (isHighlighted)
         {
+            if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] HIGHLIGHTING '{h.gameObject.name}'");
+            
             // Cache anchor scale if not already cached
             if (!h.PreHighlightScaleCached)
             {
                 h.PreHighlightScale = h.highlightAnchor.localScale;
-                Tween.ScaleX(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseIn);
-                Tween.ScaleY(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseIn);
+                if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Caching original scale: {h.PreHighlightScale} | Target scale multiplier: {h.highlightScale}");
+                
+                Vector2 targetScale = new(h.highlightScale * h.PreHighlightScale.x, h.highlightScale * h.PreHighlightScale.y);
+                if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Tweening scale TO: {targetScale} over {sizeTweenDuration}s with ease {sizeTweenEaseIn}");
+                
+                Tween.ScaleX(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseIn, useUnscaledTime: true);
+                Tween.ScaleY(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseIn, useUnscaledTime: true);
                 h.PreHighlightScaleCached = true;
             }
             else
             {
-                Tween.ScaleX(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseIn);
-                Tween.ScaleY(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseIn);
+                if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Scale already cached: {h.PreHighlightScale} | Re-applying highlight scale: {h.highlightScale}");
+                
+                Tween.ScaleX(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseIn, useUnscaledTime: true);
+                Tween.ScaleY(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseIn, useUnscaledTime: true);
             }
 
             if (h.PreHighlightColors == null || h.PreHighlightColors.Count == 0)
             {
+                if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] No cached colors found. Caching colors for {h.Models.Length} components...");
+                
                 h.PreHighlightColors = new List<Color>();
+                int cachedCount = 0;
                 foreach (var component in h.Models)
                 {
                     Color? currentColor = GetColor(component);
-                    if (currentColor == null) continue;
+                    if (currentColor == null)
+                    {
+                        if (enableDebug) Debug.LogWarning($"[AnimateHighlightedElement2D] Could not get color from component: {component.GetType().Name} on '{component.gameObject.name}'");
+                        continue;
+                    }
 
                     h.PreHighlightColors.Add(currentColor.Value);
-                    TweenExt.Color(component, h.isTint ? OverlayColor(currentColor.Value, h.highlightColor) : h.highlightColor, colorTweenDuration, colorTweenEaseIn);
+                    Color targetColor = h.isTint ? OverlayColor(currentColor.Value, h.highlightColor) : h.highlightColor;
+                    
+                    if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Component[{cachedCount}] {component.GetType().Name}: {currentColor.Value} → {targetColor} | isTint={h.isTint} | Duration={colorTweenDuration}s | Ease={colorTweenEaseIn}");
+                    
+                    TweenExt.Color(component, targetColor, colorTweenDuration, colorTweenEaseIn, useUnscaledTime: true);
+                    cachedCount++;
                 }
+                
+                if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Cached {cachedCount} colors total");
             }
             else
             {
+                if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Using {h.PreHighlightColors.Count} cached colors for re-highlighting");
+                
                 for (int i = 0; i < h.Models.Length; i++)
                 {
                     Component component = h.Models[i];
-                    TweenExt.Color(component, h.isTint ? OverlayColor(h.PreHighlightColors[i], h.highlightColor) : h.highlightColor, colorTweenDuration, colorTweenEaseIn);
+                    Color targetColor = h.isTint ? OverlayColor(h.PreHighlightColors[i], h.highlightColor) : h.highlightColor;
+                    
+                    if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Re-highlighting Component[{i}] {component.GetType().Name}: Cached={h.PreHighlightColors[i]} → Target={targetColor}");
+                    
+                    TweenExt.Color(component, targetColor, colorTweenDuration, colorTweenEaseIn, useUnscaledTime: true);
                 }
             }
         }
         else
         {
+            if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] UN-HIGHLIGHTING '{h.gameObject.name}'");
+            
             if (h.PreHighlightScaleCached)
             {
+                if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Restoring scale FROM current to CACHED: {h.PreHighlightScale} over {sizeTweenDuration}s with ease {sizeTweenEaseOut}");
+                
                 // Restore to pre-highlight scale
-                Tween.ScaleX(h.highlightAnchor, h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseOut);
-                Tween.ScaleY(h.highlightAnchor, h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseOut);
+                Tween.ScaleX(h.highlightAnchor, h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseOut, useUnscaledTime: true);
+                Tween.ScaleY(h.highlightAnchor, h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseOut, useUnscaledTime: true);
+            }
+            else
+            {
+                if (enableDebug) Debug.LogWarning($"[AnimateHighlightedElement2D] No cached scale found to restore for '{h.gameObject.name}'");
             }
 
             if (h.PreHighlightColors != null && h.PreHighlightColors.Count > 0)
             {
+                if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Restoring {h.PreHighlightColors.Count} cached colors...");
+                
+                int restoredCount = 0;
+                int skippedCount = 0;
+                int failedCount = 0;
+                
                 for (int i = 0; i < h.Models.Length; i++)
                 {
                     Component component = h.Models[i];
                     
                     Color? currentColor = GetColor(component);
-                    if (currentColor == null) continue;
+                    if (currentColor == null)
+                    {
+                        if (enableDebug) Debug.LogWarning($"[AnimateHighlightedElement2D] Component[{i}] {component.GetType().Name}: Could not get current color");
+                        failedCount++;
+                        continue;
+                    }
                     
-                    if (h.PreHighlightColors[i] == currentColor.Value) continue;
+                    if (h.PreHighlightColors[i] == currentColor.Value)
+                    {
+                        if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Component[{i}] {component.GetType().Name}: Already at cached color {currentColor.Value}, skipping tween");
+                        skippedCount++;
+                        continue;
+                    }
                     
-                    TweenExt.Color(component, h.PreHighlightColors[i], colorTweenDuration, colorTweenEaseOut);
+                    if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Component[{i}] {component.GetType().Name}: Restoring {currentColor.Value} → {h.PreHighlightColors[i]} over {colorTweenDuration}s with ease {colorTweenEaseOut}");
+                    
+                    TweenExt.Color(component, h.PreHighlightColors[i], colorTweenDuration, colorTweenEaseOut, useUnscaledTime: true);
+                    restoredCount++;
                 }
+                
+                if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Color restoration summary: Restored={restoredCount}, Skipped={skippedCount}, Failed={failedCount}");
 
                 // Schedule a check after all tweens complete to see if we can clear the list and restore scale
+                if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Starting coroutine to monitor and clear cache after {colorTweenDuration}s");
                 StartCoroutine(CheckAndClearPreHighlightColorsAfterDelay(h, colorTweenDuration));
             }
+            else
+            {
+                if (enableDebug) Debug.LogWarning($"[AnimateHighlightedElement2D] No cached colors to restore for '{h.gameObject.name}'");
+            }
         }
+        
+        if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Finished animation setup for '{h.gameObject.name}'");
     }
 
     /// <summary>
