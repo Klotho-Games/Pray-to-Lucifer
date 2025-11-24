@@ -9,6 +9,7 @@ public class PlayerAnimator : MonoBehaviour
     // [SerializeField] private Rigidbody2D rb;
     // [SerializeField] private GameObject BeamController;
     [SerializeField] private PlayerSoulState soulState;
+    private bool wasSoulStateLastFrame = false;
 
     // private const float threshold = 1e-4f;
 
@@ -28,28 +29,30 @@ public class PlayerAnimator : MonoBehaviour
     {
         if (soulState.currentSoulState is not null)
         {
+            if (!wasSoulStateLastFrame)
+            {
+                animator.SetTrigger("startSoulState");
+            }
+
             animator.SetBool("isSoulState", true);
+
             if (soulState.currentSoulState == PlayerSoulState.SoulState.Heal)
             {
                 animator.SetBool("isHealing", true);
-                if (!healingParticleSystem.isPlaying)
-                {
-                    healingParticleSystem.Play();
-                }
             }
             else
             {
                 animator.SetBool("isHealing", false);
-                if (healingParticleSystem.isPlaying)
-                {
-                    healingParticleSystem.Stop();
-                }
             }
+
+            wasSoulStateLastFrame = true;
         }
         else
         {
             animator.SetBool("isHealing", false);
             animator.SetBool("isSoulState", false);
+
+            wasSoulStateLastFrame = false;
         }  
     }
 
