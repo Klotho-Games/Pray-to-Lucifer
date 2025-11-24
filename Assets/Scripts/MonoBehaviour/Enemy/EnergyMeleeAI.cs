@@ -4,12 +4,14 @@ public class EnergyMeleeAI : MonoBehaviour
 {
     [SerializeField] private Enemy enemyData;
     public Transform PlayerTransform { get; private set; }
+    private Animator animator;
     private PlayerStats playerStats;
     private float attackCooldownTimer = 0f;
 
     public void Initialize(Transform playerTransform)
     {
         PlayerTransform = playerTransform;
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -40,8 +42,12 @@ public class EnergyMeleeAI : MonoBehaviour
     {
         if (attackCooldownTimer <= 0f)
         {
-            playerStats ??= PlayerTransform.GetComponent<PlayerStats>();
+            if (playerStats == null)
+                playerStats = PlayerTransform.GetComponent<PlayerStats>();
+
             playerStats.TakeDamage(attack.attackDamage);
+
+            animator.SetTrigger("Attack");
 
             attackCooldownTimer = attack.attackCooldown;
         }

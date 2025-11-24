@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8917078941216918274}
   - component: {fileID: 5429368600319987125}
-  - component: {fileID: 6710703279615763566}
   m_Layer: 3
   m_Name: Legs
   m_TagString: Untagged
@@ -91,19 +90,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6710703279615763566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2540520322793040318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
 --- !u!1 &2829184657925035632
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,9 +167,9 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1213773247
+  m_SortingLayer: 1
+  m_SortingOrder: -2
   m_Positions:
   - {x: -0.625, y: 0, z: 0}
   - {x: 0.625, y: 0, z: 0}
@@ -256,7 +242,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8121162668706106309}
   - component: {fileID: 3435566453917037033}
-  - component: {fileID: 1643739163394746160}
   m_Layer: 3
   m_Name: Head
   m_TagString: Untagged
@@ -337,19 +322,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1643739163394746160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2853844523695994237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
 --- !u!1 &2933308486764469535
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,9 +399,9 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: -1213773247
+  m_SortingLayer: 1
+  m_SortingOrder: 0
   m_Positions:
   - {x: -0.625, y: 0, z: 0}
   - {x: 0.625, y: 0, z: 0}
@@ -502,7 +474,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5761014990987108725}
   - component: {fileID: 2823529967635974004}
-  - component: {fileID: 7736370005783898256}
   m_Layer: 3
   m_Name: Torso
   m_TagString: Untagged
@@ -583,19 +554,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7736370005783898256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3084922898771071937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
 --- !u!1 &4798920741710631599
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,7 +569,6 @@ GameObject:
   - component: {fileID: 2646984301710225942}
   - component: {fileID: 7980285924594942875}
   - component: {fileID: 2781263532108048181}
-  - component: {fileID: 5295677065880096852}
   - component: {fileID: 4234237008254334338}
   - component: {fileID: 4231523406323050221}
   m_Layer: 3
@@ -638,6 +595,8 @@ Transform:
   - {fileID: 7802901582386597992}
   - {fileID: 3044345142413526650}
   - {fileID: 6156121722079381249}
+  - {fileID: 984124486245168458}
+  - {fileID: 1605540548716806612}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8823131666906846602
@@ -732,6 +691,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ac8187ad5f80004eb5cb5b53981fc8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  enterSoulStateParticleController: {fileID: 106881890044998149}
+  healingParticleSystem: {fileID: 3153647412768357042}
   animator: {fileID: 3006775643509551036}
   rb: {fileID: 2781263532108048181}
   BeamController: {fileID: 0}
@@ -815,19 +776,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &5295677065880096852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4798920741710631599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
 --- !u!114 &4234237008254334338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -948,9 +896,9 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: -1213773247
+  m_SortingLayer: 1
+  m_SortingOrder: -1
   m_Positions:
   - {x: -0.625, y: 0, z: 0}
   - {x: 0.625, y: 0, z: 0}
@@ -1168,7 +1116,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3044345142413526650}
   - component: {fileID: 8841856407970603457}
-  - component: {fileID: 5120493348648773215}
   m_Layer: 3
   m_Name: Player Light
   m_TagString: Untagged
@@ -1243,16 +1190,151 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
---- !u!114 &5120493348648773215
-MonoBehaviour:
+--- !u!1001 &337199742379745524
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3896316022695118728}
+    m_Modifications:
+    - target: {fileID: 1361775930080862496, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1361775930080862496, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1361775930080862496, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1361775930080862496, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1361775930080862496, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1361775930080862496, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1361775930080862496, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1361775930080862496, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1361775930080862496, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1361775930080862496, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3416535561975290438, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5413838539168171410, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994496516984977751, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+      propertyPath: m_Name
+      value: SoulParticlesHealingContinuous
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+--- !u!4 &1605540548716806612 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1361775930080862496, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+  m_PrefabInstance: {fileID: 337199742379745524}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8804669711102153893}
+--- !u!198 &3153647412768357042 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3416535561975290438, guid: 837cd056217b31db0981c9cba2f18fa0, type: 3}
+  m_PrefabInstance: {fileID: 337199742379745524}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7500955208956828475
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3896316022695118728}
+    m_Modifications:
+    - target: {fileID: 3035566656835107020, guid: 382fa539ae6c81d2b86370ec55c602bd, type: 3}
+      propertyPath: m_Name
+      value: SoulParticleChargeBurst
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327619397421690481, guid: 382fa539ae6c81d2b86370ec55c602bd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327619397421690481, guid: 382fa539ae6c81d2b86370ec55c602bd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327619397421690481, guid: 382fa539ae6c81d2b86370ec55c602bd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327619397421690481, guid: 382fa539ae6c81d2b86370ec55c602bd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327619397421690481, guid: 382fa539ae6c81d2b86370ec55c602bd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327619397421690481, guid: 382fa539ae6c81d2b86370ec55c602bd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327619397421690481, guid: 382fa539ae6c81d2b86370ec55c602bd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327619397421690481, guid: 382fa539ae6c81d2b86370ec55c602bd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327619397421690481, guid: 382fa539ae6c81d2b86370ec55c602bd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327619397421690481, guid: 382fa539ae6c81d2b86370ec55c602bd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 382fa539ae6c81d2b86370ec55c602bd, type: 3}
+--- !u!114 &106881890044998149 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7593921669068040510, guid: 382fa539ae6c81d2b86370ec55c602bd, type: 3}
+  m_PrefabInstance: {fileID: 7500955208956828475}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
+  m_Script: {fileID: 11500000, guid: fb05b2c67d7560f4bb9d09b0bd01e759, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
+  m_EditorClassIdentifier: Assembly-CSharp::ParticleController
+--- !u!4 &984124486245168458 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7327619397421690481, guid: 382fa539ae6c81d2b86370ec55c602bd, type: 3}
+  m_PrefabInstance: {fileID: 7500955208956828475}
+  m_PrefabAsset: {fileID: 0}
