@@ -57,25 +57,31 @@ public class Clickable2D : MonoBehaviour, IClickable {
             case ButtonSpecialFunction.None:
                 // No special function, do nothing
                 break;
+
             case ButtonSpecialFunction.InvokeRotationMode:
                 Vector2 cellWorldPos = transform.position;
                 GatePlacementManager.instance.EnterGateRotationMode(cellWorldPos);
                 break;
+
             case ButtonSpecialFunction.PlayGame:
                 transform.root.gameObject.SetActive(false);
-                LevelAndRespawnManager.instance.StartGame();
+                LevelManager.instance.StartGame();
                 break;
+
             case ButtonSpecialFunction.PlayTutorial:
                 transform.root.gameObject.SetActive(false);
-                LevelAndRespawnManager.instance.StartTutorial();
+                LevelManager.instance.StartTutorial();
                 break;
+
             case ButtonSpecialFunction.CloseGame:
                 Application.Quit();
                 break;
+
             case ButtonSpecialFunction.PlayGameFromTutorial:
                 gameObject.SetActive(false);
-                LevelAndRespawnManager.instance.StartGame();
+                LevelManager.instance.StartGame();
                 break;
+
             case ButtonSpecialFunction.DestroyGate:
                 Vector2 cellWorldPosition = transform.position;
                 DestroyGateAtPosition(cellWorldPosition);

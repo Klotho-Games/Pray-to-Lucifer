@@ -5056,7 +5056,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3025212621449414742}
   - component: {fileID: 3447664583373056810}
-  - component: {fileID: 8654890547894712756}
   m_Layer: 0
   m_Name: Sketch lvl 2
   m_TagString: Untagged
@@ -5137,19 +5136,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8654890547894712756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3196025134735185997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
 --- !u!1 &4716848260315200120
 GameObject:
   m_ObjectHideFlags: 0
@@ -10206,7 +10192,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5306560268877706029}
   - component: {fileID: 2923226620155565127}
-  - component: {fileID: 7538326073768994042}
   m_Layer: 0
   m_Name: Sketch lvl 4
   m_TagString: Untagged
@@ -10287,19 +10272,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7538326073768994042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6733166921415463235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
 --- !u!1 &7245949048872921755
 GameObject:
   m_ObjectHideFlags: 0
@@ -20402,7 +20374,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5982278039262226979}
   - component: {fileID: 973446437527136425}
-  - component: {fileID: 7296127372257848009}
   m_Layer: 0
   m_Name: Sketch lvl 3
   m_TagString: Untagged
@@ -20483,19 +20454,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7296127372257848009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7931072367920094879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
 --- !u!1 &8006499260770106871
 GameObject:
   m_ObjectHideFlags: 0
@@ -25552,7 +25510,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4862560397101581130}
   - component: {fileID: 3522536982850377199}
-  - component: {fileID: 1971513733074336889}
   m_Layer: 0
   m_Name: Sketch lvl 5
   m_TagString: Untagged
@@ -25633,19 +25590,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1971513733074336889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8627468606604487392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9e3e36d7c97d64fb7aca216a68e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwatchColorReference
-  manualSwatchesUpdate: 0
 --- !u!1 &8877502251676690858
 GameObject:
   m_ObjectHideFlags: 0

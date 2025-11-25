@@ -1,10 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelAndRespawnManager : MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
-    public static LevelAndRespawnManager instance;
+    public static LevelManager instance;
     // private int currentLevelIndex = 0;
     // private float levelTimer = 0f;
     // private int currentElementIndex = 0;
@@ -33,7 +32,8 @@ public class LevelAndRespawnManager : MonoBehaviour
     private int currentTutorialStep = 0;
     private bool tutorialEnemyIsRespawning = false;
     [Header("Wave Settings")]
-    [SerializeField] private List<WaveDataSO> waves;
+    [SerializeField] private LevelSO[] levels;
+    [SerializeField] private int currentLevelIndex = 0;
     [SerializeField] private int currentWaveIndex = 0;
     [SerializeField] private bool autoStartWave = true;
     [SerializeField] private Transform playerTransform;
@@ -43,10 +43,12 @@ public class LevelAndRespawnManager : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text nextWaveText;
     [SerializeField] private float nextWaveTextShowDuration = 3f;
     [SerializeField] private GameObject gameCompleteScreen;
+    [SerializeField] private SpriteRenderer floorRenderer;
     [Header("Pooling Settings")]
     [SerializeField] private ObjectPooler objectPooler;
     [SerializeField] private int poolSize = 100;
     private PlayerStats playerStats;
+    private bool isPlaying = false;
     private bool isTutorial = false;
     private bool isDead = false;
     
@@ -68,22 +70,58 @@ public class LevelAndRespawnManager : MonoBehaviour
     void Start()
     {
         playerStats = playerTransform.GetComponent<PlayerStats>();
-        if (autoStartWave && waves.Count > 0)
+        if (autoStartWave && levels.Length > 0 && levels[currentLevelIndex].waves.Length > 0)
         {
             StartWave(currentWaveIndex);
         }
     }
     private Coroutine waveCoroutine;
 
+    public void StartLevel(int levelIndex)
+    {
+        Debug.Log($"Starting Level {levelIndex + 1}");
+
+        currentLevelIndex = levelIndex;
+
+        // Complete cleanup
+        DestroyAllEnemiesAndSoulShards();
+        GatePlacementManager.instance.DestroyAllPlacedGates();
+
+        playerTransform.position = levels[currentLevelIndex].playerSpawnPosition;
+        floorRenderer.sprite = levels[currentLevelIndex].floorMap;
+
+        StartWave(0);
+    }
+
+    private void ResetLevel()
+    {
+        Debug.Log($"Resetting Level {currentLevelIndex}");
+        DestroyAllEnemiesAndSoulShards();
+        StartWave(0);
+    }
+
     public void StartWave(int waveIndex)
     {
+        Debug.Log($"Starting Wave {waveIndex + 1} of Level {currentLevelIndex + 1}");
+
         if (waveCoroutine != null)
             StopCoroutine(waveCoroutine);
-        if (waveIndex < 0 || waveIndex >= waves.Count)
-            return;
+
+        if (waveIndex >= levels[currentLevelIndex].waves.Length)
+        {
+            waveIndex = levels[currentLevelIndex].waves.Length - 1;
+            Debug.LogWarning("Wave index exceeded max wave count. Continuing with last wave.");
+        }
+
+        if (waveIndex < 0)
+        {
+            waveIndex = 0;
+            Debug.LogWarning("Wave index was less than 0. Continuing with wave equal 0.");
+        }
         
+        currentWaveIndex = waveIndex;
+        waveCoroutine = StartCoroutine(SpawnWaveCoroutine(levels[currentLevelIndex].waves[currentWaveIndex].waveData));
         ShowNextWaveText();
-        waveCoroutine = StartCoroutine(SpawnWaveCoroutine(waves[waveIndex]));
 
         void ShowNextWaveText()
         {
@@ -103,6 +141,19 @@ public class LevelAndRespawnManager : MonoBehaviour
             timer += interval;
             interval = Mathf.Max(wave.minSpawnInterval, interval - wave.spawnIntervalDecrement);
         }
+        waveCoroutine = null;
+    }
+
+    private Coroutine startNextWaveCoroutine;
+
+    private IEnumerator StartNextWaveAfterSeconds(float seconds)
+    {
+        if (startNextWaveCoroutine != null)
+            yield break;
+        
+        yield return new WaitForSeconds(seconds);
+        StartWave(currentWaveIndex + 1);
+        startNextWaveCoroutine = null;
     }
 
     private void SpawnWeightedEnemy(WaveDataSO wave)
@@ -126,42 +177,42 @@ public class LevelAndRespawnManager : MonoBehaviour
         if (selectedPrefab != null)
         {
             Vector3 spawnPos = GetPointOutsideCameraView(0f); // You can adjust spawn logic as needed
-            var enemy = objectPooler.GetFromPool(selectedPrefab, spawnPos);
+            var enemy = objectPooler.GetFromPool(selectedPrefab, spawnPos, transform);
             InitializeEnemyAI(enemy);
         }
     }
 
-    private GameObject GetFromPool(GameObject prefab, Vector3 position)
-    {
-        return objectPooler.GetFromPool(prefab, position);
-    }
-
-    public void ReturnToPool(GameObject prefab, GameObject obj)
-    {
-        objectPooler.ReturnToPool(prefab, obj);
-    }
-
-    // private void SetActiveTimelines(LevelTimeline[] timelines) { }
-
-    // Timeline-based spawning coroutine removed. Will be replaced by WaveData logic.
-
-    // Timeline-based level start removed. Will be replaced by WaveData logic.
-
     public void StartGame()
     {
-        isTutorial = false;
+        Debug.Log("Starting Game");
+
+        Time.timeScale = 1f;
+
+        isPlaying = true;
+        if (isTutorial)
+        {
+            DisableTutorialElements();
+            isTutorial = false;
+        }
+        currentLevelIndex = 0; // Marking this place for it will be changed if we make a save system of progress to start from the level they finished at
         currentWaveIndex = 0;
-        endTutorialButton.SetActive(false);
-        tutorialInstructionText.gameObject.SetActive(false);
-        GatePlacementManager.instance.DestroyAllPlacedGates();
-        DestroyAllEnemiesAndSoulShards();
-        StartCoroutine(ShowForSeconds(nextWaveText.gameObject, nextWaveTextShowDuration));
-        RespawnPlayer();
-        StartWave(currentWaveIndex);
+
+        StartLevel(currentLevelIndex);
+
+        void DisableTutorialElements()
+        {
+            endTutorialButton.SetActive(false);
+            tutorialInstructionText.gameObject.SetActive(false);
+        }
     }
 
     public void StartTutorial()
     {
+        Debug.Log("Starting Tutorial");
+
+        Time.timeScale = 1f;
+
+        isPlaying = true;
         isTutorial = true;
         currentTutorialStep = 0;
         tutorialInstructionText.gameObject.SetActive(true);
@@ -173,15 +224,61 @@ public class LevelAndRespawnManager : MonoBehaviour
 
     void Update()
     {
+        if (!isPlaying)
+            return;
+
         if (isTutorial)
         {
             TutorialUpdate();
+        }
+        else
+        {
+            UpdateGame();
         }
 
         if (playerStats.CurrentHealth <= 0 && !isDead)
         {
             OnPlayerDeath();
         }
+    }
+
+    private void UpdateGame()
+    {
+        if (waveCoroutine == null && AllEnemiesAreDefeated())
+        {
+            Debug.Log($"Wave coroutine is null and all enemies are defeated for Wave {currentWaveIndex + 1} of Level {currentLevelIndex + 1}");
+            if (currentWaveIndex + 1 < levels[currentLevelIndex].waves.Length)
+            {
+                Debug.Log($"Scheduling next wave: Wave {currentWaveIndex + 2} of Level {currentLevelIndex + 1}");
+                startNextWaveCoroutine ??= StartCoroutine(StartNextWaveAfterSeconds(levels[currentLevelIndex].waves[currentWaveIndex + 1].delayAfterPreviousWave));
+            }
+            else
+            {
+                if (currentLevelIndex + 1 < levels.Length)
+                {
+                    StartLevel(currentLevelIndex + 1);
+                }
+                else
+                {
+                    OnGameComplete();
+                }
+            }
+        }
+    }
+
+    private void OnGameComplete()
+    {
+        gameCompleteScreen.SetActive(true);
+    }
+
+    private bool AllEnemiesAreDefeated()
+    {
+        var EnemyLifeSystem = GetComponentInChildren<EnemyLifeSystem>(false);
+        
+        if (EnemyLifeSystem == null)
+            return true;
+
+        return false;
     }
 
     private bool TutorialUpdate()
@@ -367,21 +464,18 @@ public class LevelAndRespawnManager : MonoBehaviour
 
     private void RespawnPlayer()
     {
-        DestroyAllEnemiesAndSoulShards();
         playerStats.ResetCurrentHealth();
-        playerTransform.position = Vector3.zero; // Set to default or configurable spawn position
         youDiedScreen.SetActive(false);
+        isDead = false;
+        Time.timeScale = 1f;
         if (isTutorial)
         {
             StartCoroutine(RespawnTutorialEnemyAfterDelay(0f));
         }
         else
         {
-            StartWave(currentWaveIndex);
-            StartCoroutine(ShowForSeconds(nextWaveText.gameObject, nextWaveTextShowDuration));
+            ResetLevel();
         }
-        isDead = false;
-        Time.timeScale = 1f;
     }
 
     private void DestroyAllEnemiesAndSoulShards()

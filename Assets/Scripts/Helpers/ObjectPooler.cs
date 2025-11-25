@@ -39,6 +39,7 @@ public class ObjectPooler : MonoBehaviour
         {
             var obj = Instantiate(prefab);
             obj.SetActive(false);
+            obj.transform.parent = transform;
             var pooledObj = obj.AddComponent<PooledObject>();
             pooledObj.prefabReference = prefab;
             queue.Enqueue(obj);
@@ -48,7 +49,7 @@ public class ObjectPooler : MonoBehaviour
 
     // Weighted prefab selection is now handled by the manager using scriptable objects.
 
-    public GameObject GetFromPool(GameObject prefab, Vector3 position)
+    public GameObject GetFromPool(GameObject prefab, Vector3 position, Transform parent)
     {
         if (!pools.ContainsKey(prefab))
             CreatePool(prefab, poolSize);
@@ -64,8 +65,8 @@ public class ObjectPooler : MonoBehaviour
             var pooledObj = obj.AddComponent<PooledObject>();
             pooledObj.prefabReference = prefab;
         }
-        obj.transform.position = position;
-        obj.transform.rotation = Quaternion.identity;
+        obj.transform.SetPositionAndRotation(position, Quaternion.identity);
+        obj.transform.parent = parent;
         obj.SetActive(true);
         return obj;
     }
@@ -75,11 +76,12 @@ public class ObjectPooler : MonoBehaviour
     public void ReturnToPool(GameObject prefab, GameObject obj)
     {
         obj.SetActive(false);
+        obj.transform.parent = transform;
         var pooledObj = obj.GetComponent<PooledObject>();
         if (pooledObj != null && pooledObj.prefabReference != null && pools.ContainsKey(pooledObj.prefabReference))
         {
             pools[pooledObj.prefabReference].Enqueue(obj);
-        }
+        };
     }
 
     public void ActivateEnemiesForGroup(GameObject prefab, int quantity, Vector3[] positions)

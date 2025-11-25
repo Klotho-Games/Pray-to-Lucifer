@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37a197cb98bc793af9149a5083064b0f, type: 3}
-  m_Name: Wave1
+  m_Name: Wave1_2
   m_EditorClassIdentifier: Assembly-CSharp::WaveDataSO
-  waveDuration: 60
+  waveDuration: 2
   startingSpawnInterval: 1
-  spawnIntervalDecrement: 0.01
+  spawnIntervalDecrement: 0.02
   minSpawnInterval: 0.4
   prefabsWithWeights:
   - prefab: {fileID: 3542369998568306156, guid: 5122c29a66701d14584bf6c12a8a9b7e, type: 3}

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20ff7c4cd28f8ea44b2a627d0103c212, type: 3}
-  m_Name: Level1
-  m_EditorClassIdentifier: Assembly-CSharp::LevelTimeline
+  m_Name: Level2
+  m_EditorClassIdentifier: Assembly-CSharp::LevelSO
   waves:
   - delayAfterPreviousWave: 0
-    waveData: {fileID: 11400000, guid: 9e98129607c7a92ebb5621de5713f428, type: 2}
-  - delayAfterPreviousWave: 10
-    waveData: {fileID: 11400000, guid: 1a5786e91d9de654993e775d11850c70, type: 2}
-  playerSpawnPosition: {x: 0, y: 0}
-  floorMap: {fileID: 21300000, guid: c3ca552c1b9fb2e42b6c83414cdabe42, type: 3}
+    waveData: {fileID: 11400000, guid: dc3a7e317470b634ba5e46ea40721a05, type: 2}
+  - delayAfterPreviousWave: 5
+    waveData: {fileID: 11400000, guid: c8746398f46f4a94aac7049ac23cfb75, type: 2}
+  playerSpawnPosition: {x: 4, y: 0}
+  floorMap: {fileID: 21300000, guid: bda27afb6e96b9f4f9804adcdf989e44, type: 3}
