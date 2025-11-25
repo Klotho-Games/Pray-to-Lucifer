@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnergyMeleeAI : MonoBehaviour
 {
-    [SerializeField] private Enemy enemyData;
+    [SerializeField] private EnemySO enemyData;
     public Transform PlayerTransform;
     private Animator animator;
     private PlayerStats playerStats;
@@ -27,7 +27,7 @@ public class EnergyMeleeAI : MonoBehaviour
         bool isInRange = false;
         foreach (var attack in enemyData.attacks)
         {
-            if (attack.attackType == Enemy.AttackType.Melee && distanceToPlayer <= attack.attackRange)
+            if (attack.attackType == EnemySO.AttackType.Melee && distanceToPlayer <= attack.attackRange)
             {
                 PerformAttack(attack);
                 isInRange = true;
@@ -40,7 +40,7 @@ public class EnergyMeleeAI : MonoBehaviour
         }
     }
 
-    private void PerformAttack(Enemy.Attack attack)
+    private void PerformAttack(EnemySO.Attack attack)
     {
         if (attackCooldownTimer <= 0f)
         {

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyLifeSystem : MonoBehaviour
 {
-    [SerializeField] private Enemy enemyData;
+    [SerializeField] private EnemySO enemyData;
     [SerializeField] private Collider2D coll;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField, Range(0f, 1f)] private float redColorPercent = 0.6f; // Percent HP at which color is fully red

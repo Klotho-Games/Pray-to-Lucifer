@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Enemy", menuName = "Scriptable Objects/Enemy")]
-public class Enemy : ScriptableObject
+public class EnemySO : ScriptableObject
 {
     public enum AttackType { Melee, Projectile, Grenade }
     
