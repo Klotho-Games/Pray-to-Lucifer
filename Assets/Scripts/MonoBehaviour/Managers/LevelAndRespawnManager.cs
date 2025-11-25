@@ -32,7 +32,6 @@ public class LevelAndRespawnManager : MonoBehaviour
     [SerializeField] private GameObject TutorialEnemy;
     private int currentTutorialStep = 0;
     private bool tutorialEnemyIsRespawning = false;
-    private readonly Transform childLastFrame;
     [Header("Wave Settings")]
     [SerializeField] private List<WaveDataSO> waves;
     [SerializeField] private int currentWaveIndex = 0;
@@ -178,13 +177,10 @@ public class LevelAndRespawnManager : MonoBehaviour
         {
             TutorialUpdate();
         }
-        else
+
+        if (playerStats.CurrentHealth <= 0 && !isDead)
         {
-            bool flowControl = GameUpdate();
-            if (!flowControl)
-            {
-                return;
-            }
+            OnPlayerDeath();
         }
     }
 
@@ -258,20 +254,14 @@ public class LevelAndRespawnManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         TutorialEnemy.SetActive(true);
         TutorialEnemy.transform.parent = transform;
+
+        EnemyLifeSystem lifeSystem = TutorialEnemy.GetComponent<EnemyLifeSystem>();
+        lifeSystem.ResetHealth();
         
         // Re-initialize the enemy AI when respawning
         InitializeEnemyAI(TutorialEnemy);
         
         tutorialEnemyIsRespawning = false;
-    }
-
-    private bool GameUpdate()
-    {
-        if (playerStats.CurrentHealth <= 0 && !isDead)
-        {
-            OnPlayerDeath();
-        }
-        return true;
     }
 
     private void InitializeEnemyAI(GameObject enemy)
@@ -333,10 +323,37 @@ public class LevelAndRespawnManager : MonoBehaviour
         obj.SetActive(false);
     }
 
+    [SerializeField] private TMPro.TMP_Text respawnCounterText;
+
+    private IEnumerator CountdownMetersAsRespawnCounter()
+    {
+        float countdown = 0;
+        float g = 9.81f;
+        while (countdown <= respawnDelay)
+        {
+            respawnCounterText.text = RoundToTwoDecimalPlacesAndToString(0.5f * g * (respawnDelay - countdown) * (respawnDelay + countdown)) + " meters to ground";
+            yield return null;
+            countdown += Time.unscaledDeltaTime;
+        }
+
+        static string RoundToTwoDecimalPlacesAndToString(float value)
+        {
+            int times100 = Mathf.RoundToInt(value * 100f);
+            if (times100 % 100 == 0)
+                return (times100 / 100).ToString() + ".00";
+            else if (times100 % 10 == 0)
+                return (times100 / 100).ToString() + "." + (times100 % 10).ToString() + "0";
+            else
+                return (times100 / 100).ToString() + "." + (times100 % 100).ToString();
+                
+        }
+    }
+
     public void OnPlayerDeath()
     {
         isDead = true;
         youDiedScreen.SetActive(true);
+        StartCoroutine(CountdownMetersAsRespawnCounter());
         StartCoroutine(WaitAndRespawnPlayer());
         // more player death handling logic can be added here
     }
@@ -350,12 +367,21 @@ public class LevelAndRespawnManager : MonoBehaviour
 
     private void RespawnPlayer()
     {
-        Time.timeScale = 1f;
         DestroyAllEnemiesAndSoulShards();
-        playerTransform.position = Vector3.zero; // Set to default or configurable spawn position
         playerStats.ResetCurrentHealth();
+        playerTransform.position = Vector3.zero; // Set to default or configurable spawn position
         youDiedScreen.SetActive(false);
+        if (isTutorial)
+        {
+            StartCoroutine(RespawnTutorialEnemyAfterDelay(0f));
+        }
+        else
+        {
+            StartWave(currentWaveIndex);
+            StartCoroutine(ShowForSeconds(nextWaveText.gameObject, nextWaveTextShowDuration));
+        }
         isDead = false;
+        Time.timeScale = 1f;
     }
 
     private void DestroyAllEnemiesAndSoulShards()

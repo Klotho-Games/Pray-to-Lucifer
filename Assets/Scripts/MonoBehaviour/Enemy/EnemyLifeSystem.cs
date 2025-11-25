@@ -16,6 +16,15 @@ public class EnemyLifeSystem : MonoBehaviour
     private float timeSinceLastDamage = 0f;
     private float timeSinceLastRegeneration = 0f;
 
+    public void ResetHealth()
+    {
+        currentHP = enemyData.maxHP;
+        averageDamageThisSecond = 0f;
+        timeSinceLastDamage = 0f;
+        timeSinceLastRegeneration = 0f;
+        spriteRenderer.color = originalColor;
+    }
+
     void Awake()
     {
         if (coll == null)
