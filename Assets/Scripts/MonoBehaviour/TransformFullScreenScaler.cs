@@ -7,6 +7,9 @@ public class TransformFullScreenScaler : MonoBehaviour
     [SerializeField] private Camera cam;
     private Transform tr;
 
+    private int lastWidth;
+    private int lastHeight;
+
     void Start()
     {
         if (tr == null)
@@ -23,6 +26,15 @@ public class TransformFullScreenScaler : MonoBehaviour
         Resize();
     }
 
+    private void Update()
+    {
+        if (Screen.width != lastWidth || Screen.height != lastHeight)
+        {
+            lastWidth = Screen.width;
+            lastHeight = Screen.height;
+            Resize();
+        }
+    }
 
     private void Resize()
     {

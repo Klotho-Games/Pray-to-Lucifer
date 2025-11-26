@@ -367,12 +367,13 @@ public class LevelManager : MonoBehaviour
 
     private bool AllEnemiesAreDefeated()
     {
-        var EnemyLifeSystem = GetComponentInChildren<EnemyLifeSystem>(false);
-        
-        if (EnemyLifeSystem == null)
-            return true;
+        foreach (Transform child in transform)
+        {
+            if (child.CompareTag("Enemy"))
+                return false;
+        }
 
-        return false;
+        return true;
     }
 
     private void OnGameComplete()

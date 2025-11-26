@@ -65,7 +65,7 @@ public class SplineParticleEmitter : MonoBehaviour
             EmitParticleInSpline();
         }
         
-        // Update particle colors based on local X position
+        // Update particle colors based on local Y position
         UpdateParticleColors();
     }
     
@@ -198,9 +198,26 @@ public class SplineParticleEmitter : MonoBehaviour
     
     private Color GetColorForPosition(Vector3 worldPosition)
     {
-        // Normalize X position within spline bounds to 0-1 range
-        float normalizedX = Mathf.InverseLerp(splineBounds.min.x, splineBounds.max.x, worldPosition.x);
-        return colorGradient.Evaluate(normalizedX);
+        // Convert to local space so rotation doesn't affect color mapping
+        Vector3 localPosition = splineContainer.transform.InverseTransformPoint(worldPosition);
+        
+        // Calculate local bounds from cached polygon
+        float minY = float.MaxValue;
+        float maxY = float.MinValue;
+        
+        List<Vector3> polygon = isStatic ? cachedSplinePolygon : SampleSplineToPolygon();
+        if (polygon != null && polygon.Count > 0)
+        {
+            foreach (Vector3 point in polygon)
+            {
+                if (point.y < minY) minY = point.y;
+                if (point.y > maxY) maxY = point.y;
+            }
+        }
+        
+        // Normalize Y position within local spline bounds to 0-1 range
+        float normalizedY = Mathf.InverseLerp(minY, maxY, localPosition.y);
+        return colorGradient.Evaluate(normalizedY);
     }
     
     void OnDrawGizmosSelected()

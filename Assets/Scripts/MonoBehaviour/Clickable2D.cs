@@ -13,7 +13,8 @@ public class Clickable2D : MonoBehaviour, IClickable {
         PlayGameFromTutorial,
         PlayTutorial,
         CloseGame,
-        DestroyGate
+        DestroyGate,
+        PlaceGate
     }
     [Header("Click Settings")]
     [SerializeField] private AudioClip clickSound;
@@ -85,6 +86,11 @@ public class Clickable2D : MonoBehaviour, IClickable {
             case ButtonSpecialFunction.DestroyGate:
                 Vector2 cellWorldPosition = transform.position;
                 DestroyGateAtPosition(cellWorldPosition);
+                break;
+
+            case ButtonSpecialFunction.PlaceGate:
+                gameObject.SetActive(false);
+                GatePlacementManager.instance.PlaceGate();
                 break;
         }
 

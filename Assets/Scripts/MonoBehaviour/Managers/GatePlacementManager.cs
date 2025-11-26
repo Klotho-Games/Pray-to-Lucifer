@@ -23,6 +23,7 @@ public class GatePlacementManager : MonoBehaviour
     [SerializeField] private LayerMask gateLayer;
     [SerializeField] private TMPro.TMP_Text currentGateTypeDisplayText;
     [SerializeField] private GameObject MainMenu;
+    [SerializeField] private GameObject placeGateButton; // A workaround for mouse click input, probably better to do it properly with InputManager someday
     private LineRenderer debugLineRenderer;
 
     private readonly float[] diagonals = new float[] { 0f, 60f, 120f };
@@ -245,12 +246,16 @@ public class GatePlacementManager : MonoBehaviour
         DestroyAllIndicators();
         currentRotationIndicator = Instantiate(rotationIndicatorPrefab).transform;
         currentRotationIndicator.position = cellWorldPos;
+        placeGateButton.SetActive(true); // A workaround for mouse click input, probably better to do it properly with InputManager someday
     }
 
-    private void PlaceGate()
+    public void PlaceGate()
     {
         if (currentRotationIndicator == null)
+        {
+            Debug.Log("No rotation indicator present, cannot place gate");
             return;
+        }
 
         playerStats.TakeSoul(GetGateCost(currentGateType));
 
@@ -350,7 +355,7 @@ public class GatePlacementManager : MonoBehaviour
         
         if (!IsPossibleToPlaceGateOnDiagonal(closestIndex, cellWorldPosition: (Vector2)currentRotationIndicator.position))
         {
-            Debug.LogWarning("Diagonal unavailable, there's a collider blocking it");
+            Debug.Log("Diagonal unavailable, there's a collider blocking it");
             return;
         }
         // Update rotation indicator

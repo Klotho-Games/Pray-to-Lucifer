@@ -14,9 +14,10 @@ public class SoulShard : MonoBehaviour
 
     public void Initialize(int amount)
     {
+        GetComponent<Collider2D>().enabled = true;
         soulAmount = amount;
         CheckToMerge();
-        GetComponent<Transform>().localScale = Vector3.one * Mathf.Log10(soulAmount / 10f);
+        GetComponent<Transform>().localScale = Vector3.one * Mathf.Log10(soulAmount);
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = soulShardSpriteVariants[Random.Range(0, soulShardSpriteVariants.Length)];
     }
@@ -40,7 +41,7 @@ public class SoulShard : MonoBehaviour
         isMerging = true;
         GetComponent<Collider2D>().enabled = false; // Prevent re-trigger
         Tween.Position(transform, target.position, duration, ease: Ease.InCubic)
-            .OnComplete(() => Destroy(gameObject));
+            .OnComplete(() => ObjectPooler.instance.ReturnToPool(gameObject, gameObject));
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -73,6 +74,6 @@ public class SoulShard : MonoBehaviour
             yield return null;
         }
         
-        Destroy(gameObject);
+        ObjectPooler.instance.ReturnToPool(gameObject, gameObject);
     }
 }

@@ -12,7 +12,6 @@ public class EnemyLifeSystem : MonoBehaviour
     
     [Header("Pooling Settings")]
     [SerializeField] private int poolSize = 100;
-    private ObjectPooler objectPooler;
 
     private int currentHP;
 
@@ -39,11 +38,7 @@ public class EnemyLifeSystem : MonoBehaviour
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
-        if (objectPooler == null)
-        {
-            objectPooler = ObjectPooler.instance;
-            objectPooler.CreatePool(soulShardPrefab, poolSize);
-        }
+        
     }
 
     void Start()
@@ -52,8 +47,9 @@ public class EnemyLifeSystem : MonoBehaviour
         {
             new System.Exception("Enemy data is not assigned in EnemyLifeSystem.");
         }
-        currentHP = enemyData.maxHP;
+
         originalColor = spriteRenderer.color;
+        ResetHealth();
     }
 
     void Update()
@@ -82,14 +78,14 @@ public class EnemyLifeSystem : MonoBehaviour
         }
 
         ResetHealth();
-        objectPooler.ReturnToPool(gameObject, gameObject);
+        ObjectPooler.instance.ReturnToPool(gameObject, gameObject);
     }
 
     private void SpawnSoulShard()
     {
         if (soulShardPrefab != null)
         {
-            SoulShard shard = objectPooler.GetFromPool(soulShardPrefab, transform.position, transform.parent).GetComponent<SoulShard>();
+            SoulShard shard = ObjectPooler.instance.GetFromPool(soulShardPrefab, transform.position, transform.parent).GetComponent<SoulShard>();
             shard.Initialize(enemyData.soulRewardAmount);
         }
     }
