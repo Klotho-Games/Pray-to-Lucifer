@@ -55,5 +55,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6055560758000326917, guid: 4e30b45abe44a9246bdec6fc6c69aa7e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8885697770321389918}
   m_SourcePrefab: {fileID: 100100000, guid: 4e30b45abe44a9246bdec6fc6c69aa7e, type: 3}
+--- !u!1 &2177423447420503000 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6055560758000326917, guid: 4e30b45abe44a9246bdec6fc6c69aa7e, type: 3}
+  m_PrefabInstance: {fileID: 5349835978170997469}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8885697770321389918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2177423447420503000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f08cc93961c88aa4da9e008ac4605366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PathfinderForMaterialEnemies
+  boxColliderSize: {x: 1, y: 1}
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
