@@ -4,9 +4,14 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
-    // private int currentLevelIndex = 0;
-    // private float levelTimer = 0f;
-    // private int currentElementIndex = 0;
+
+    #region Serialized Fields
+    
+    [Header("Level & Wave Settings")]
+    [SerializeField] private LevelSO[] levels;
+    [SerializeField] private bool autoStartWave = true;
+    [SerializeField] private SpriteRenderer floorRenderer;
+    
     [Header("Tutorial Settings")]
     [SerializeField] private string[] tutorialInstructions = new string[]
     {
@@ -17,42 +22,50 @@ public class LevelManager : MonoBehaviour
         "Place a <i>Densoul</i>: collect enough Soul; press Ctrl; click location; click again to place rotated accordingly.",
         "Press Q or Tab to switch Densoul type (the selected type is displayed in the top-right corner)."
     };
-    /*
-    0 WASD move, velocity check => next; 
-    1 spawn unmoving enemy, Mouse to shoot, destroyed => next
-    2 collect the soul shard => next (for all the following steps enemy respawns one sec after soul shard is collected)
-    3 enter soul state and charge, fully healed => next
-    4 place a densoul => next
-    5 input Q or Tab => next
-    6 show a button that plays game with text "End tutorial" => open main menu */
     [SerializeField] private TMPro.TMP_Text tutorialInstructionText;
     [SerializeField] private GameObject endTutorialButton;
     [SerializeField] private Vector2 tutorialEnemySpawnPos;
     [SerializeField] private GameObject TutorialEnemy;
-    private int currentTutorialStep = 0;
-    private bool tutorialEnemyIsRespawning = false;
-    [Header("Wave Settings")]
-    [SerializeField] private LevelSO[] levels;
-    [SerializeField] private int currentLevelIndex = 0;
-    [SerializeField] private int currentWaveIndex = 0;
-    [SerializeField] private bool autoStartWave = true;
+    
+    [Header("Player & Camera")]
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Camera cam;
-    [SerializeField] private float respawnDelay = 2f;
-    [SerializeField] private GameObject youDiedScreen;
+    
+    [Header("UI Elements")]
     [SerializeField] private TMPro.TMP_Text waveText;
     [SerializeField] private float waveTextShowDuration = 3f;
+    [SerializeField] private GameObject youDiedScreen;
+    [SerializeField] private TMPro.TMP_Text respawnCounterText;
     [SerializeField] private GameObject gameCompleteScreen;
-    [SerializeField] private SpriteRenderer floorRenderer;
+    
+    [Header("Death & Respawn")]
+    [SerializeField] private float respawnDelay = 2f;
+    
     [Header("Pooling Settings")]
     [SerializeField] private ObjectPooler objectPooler;
     [SerializeField] private int poolSize = 100;
+    
+    #endregion
+
+    #region Private Variables
+    
     private PlayerStats playerStats;
+    private int currentLevelIndex = 0;
+    private int currentWaveIndex = 0;
+    private int currentTutorialStep = 0;
+    
     private bool isPlaying = false;
     private bool isTutorial = false;
     private bool isDead = false;
     
-    #region Instance
+    private Coroutine waveCoroutine;
+    private Coroutine startNextWaveCoroutine;
+    private Coroutine tutorialEnemyRespawnCoroutine;
+    
+    #endregion
+    
+    #region Unity Lifecycle
+    
     void Awake()
     {
         if (instance == null)
@@ -65,7 +78,6 @@ public class LevelManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    #endregion
 
     void Start()
     {
@@ -75,7 +87,91 @@ public class LevelManager : MonoBehaviour
             StartWave(currentWaveIndex);
         }
     }
-    private Coroutine waveCoroutine;
+
+    void Update()
+    {
+        if (!isPlaying)
+            return;
+
+        if (isTutorial)
+        {
+            TutorialUpdate();
+        }
+        else
+        {
+            UpdateGame();
+        }
+
+        if (playerStats.CurrentHealth <= 0 && !isDead)
+        {
+            OnPlayerDeath();
+        }
+    }
+    
+    #endregion
+
+    #region Game Flow - Start/Stop
+
+    public void StartGame()
+    {
+        Debug.Log("Starting Game");
+
+        Time.timeScale = 1f;
+
+        isPlaying = true;
+        if (isTutorial)
+        {
+            DisableTutorialElements();
+            isTutorial = false;
+        }
+        currentLevelIndex = 0; // Marking this place for it will be changed if we make a save system of progress to start from the level they finished at
+        currentWaveIndex = 0;
+
+        StartLevel(currentLevelIndex);
+
+        void DisableTutorialElements()
+        {
+            endTutorialButton.SetActive(false);
+            tutorialInstructionText.gameObject.SetActive(false);
+            
+        }
+    }
+
+    public void StartTutorial()
+    {
+        Debug.Log("Starting Tutorial");
+
+        Time.timeScale = 1f;
+
+        if (isTutorial)
+        {
+            if (waveCoroutine != null)
+            {
+                StopCoroutine(waveCoroutine);
+                waveCoroutine = null;
+            }
+
+            if (startNextWaveCoroutine != null)
+            {
+                StopCoroutine(startNextWaveCoroutine);
+                startNextWaveCoroutine = null;
+            }
+        }
+
+        isPlaying = true;
+        isTutorial = true;
+        currentTutorialStep = 0;
+        tutorialInstructionText.gameObject.SetActive(true);
+        GatePlacementManager.instance.DestroyAllPlacedGates();
+        DestroyAllEnemiesAndSoulShards();
+        RespawnPlayer();
+        playerStats.TakeDamage(200);
+        tutorialEnemyRespawnCoroutine = StartCoroutine(RespawnTutorialEnemyAfterDelay(0f));
+    }
+    
+    #endregion
+
+    #region Level Management
 
     public void StartLevel(int levelIndex)
     {
@@ -99,6 +195,10 @@ public class LevelManager : MonoBehaviour
         DestroyAllEnemiesAndSoulShards();
         StartWave(0);
     }
+    
+    #endregion
+
+    #region Wave Management
 
     public void StartWave(int waveIndex)
     {
@@ -147,8 +247,6 @@ public class LevelManager : MonoBehaviour
         waveCoroutine = null;
     }
 
-    private Coroutine startNextWaveCoroutine;
-
     private IEnumerator StartNextWaveAfterSeconds(float seconds)
     {
         if (startNextWaveCoroutine != null)
@@ -158,6 +256,10 @@ public class LevelManager : MonoBehaviour
         StartWave(currentWaveIndex + 1);
         startNextWaveCoroutine = null;
     }
+    
+    #endregion
+
+    #region Enemy Spawning
 
     private void SpawnWeightedEnemy(WaveDataSO wave)
     {
@@ -179,86 +281,65 @@ public class LevelManager : MonoBehaviour
         }
         if (selectedPrefab != null)
         {
-            Vector3 spawnPos = GetPointOutsideCameraView(0f); // You can adjust spawn logic as needed
+            Vector3 spawnPos = GetPointOutsideCameraView(0f);
             var enemy = objectPooler.GetFromPool(selectedPrefab, spawnPos, transform);
             InitializeEnemyAI(enemy);
         }
     }
 
-    public void StartGame()
+    private void InitializeEnemyAI(GameObject enemy)
     {
-        Debug.Log("Starting Game");
-
-        Time.timeScale = 1f;
-
-        isPlaying = true;
-        if (isTutorial)
-        {
-            DisableTutorialElements();
-            isTutorial = false;
-        }
-        currentLevelIndex = 0; // Marking this place for it will be changed if we make a save system of progress to start from the level they finished at
-        currentWaveIndex = 0;
-
-        StartLevel(currentLevelIndex);
-
-        void DisableTutorialElements()
-        {
-            endTutorialButton.SetActive(false);
-            tutorialInstructionText.gameObject.SetActive(false);
-        }
+        if (enemy.TryGetComponent(out EnergyMeleeAI energyMeleeAI))
+            energyMeleeAI.Initialize(playerTransform);
+        else if (enemy.TryGetComponent(out MaterialMeleeAI materialMeleeAI))
+            materialMeleeAI.Initialize(playerTransform);
+        else if (enemy.TryGetComponent(out MaterialProjectileAI materialProjectileAI))
+            materialProjectileAI.Initialize(playerTransform);
+        else if (enemy.TryGetComponent(out MaterialGrenadeAI materialGrenadeAI))
+            materialGrenadeAI.Initialize(playerTransform);
     }
 
-    public void StartTutorial()
+    private Vector3 GetPointOutsideCameraView(float groupSize)
     {
-        Debug.Log("Starting Tutorial");
+        float camHeight = 2f * cam.orthographicSize;
+        float camWidth = camHeight * cam.aspect;
 
-        Time.timeScale = 1f;
+        camWidth += 2f + groupSize;
+        camHeight += 2f + groupSize;
 
-        if (isTutorial)
+        float x, y;
+        int side = Random.Range(0, 4);
+
+        switch (side)
         {
-            if (waveCoroutine != null)
-            {
-                StopCoroutine(waveCoroutine);
-                waveCoroutine = null;
-            }
-
-            if (startNextWaveCoroutine != null)
-            {
-                StopCoroutine(startNextWaveCoroutine);
-                startNextWaveCoroutine = null;
-            }
+            case 0: // Top
+                x = Random.Range(cam.transform.position.x - camWidth / 2, cam.transform.position.x + camWidth / 2);
+                y = cam.transform.position.y + camHeight / 2 + 1f;
+                break;
+            case 1: // Bottom
+                x = Random.Range(cam.transform.position.x - camWidth / 2, cam.transform.position.x + camWidth / 2);
+                y = cam.transform.position.y - camHeight / 2 - 1f;
+                break;
+            case 2: // Left
+                x = cam.transform.position.x - camWidth / 2 - 1f;
+                y = Random.Range(cam.transform.position.y - camHeight / 2, cam.transform.position.y + camHeight / 2);
+                break;
+            case 3: // Right
+                x = cam.transform.position.x + camWidth / 2 + 1f;
+                y = Random.Range(cam.transform.position.y - camHeight / 2, cam.transform.position.y + camHeight / 2);
+                break;
+            default:
+                x = 0f;
+                y = 0f;
+                break;
         }
 
-        isPlaying = true;
-        isTutorial = true;
-        currentTutorialStep = 0;
-        tutorialInstructionText.gameObject.SetActive(true);
-        GatePlacementManager.instance.DestroyAllPlacedGates();
-        RespawnPlayer();
-        playerStats.TakeDamage(200);
-        StartCoroutine(RespawnTutorialEnemyAfterDelay(0f));
+        return new Vector3(x, y, 0f);
     }
+    
+    #endregion
 
-    void Update()
-    {
-        if (!isPlaying)
-            return;
-
-        if (isTutorial)
-        {
-            TutorialUpdate();
-        }
-        else
-        {
-            UpdateGame();
-        }
-
-        if (playerStats.CurrentHealth <= 0 && !isDead)
-        {
-            OnPlayerDeath();
-        }
-    }
+    #region Game Update Loop
 
     private void UpdateGame()
     {
@@ -284,11 +365,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void OnGameComplete()
-    {
-        gameCompleteScreen.SetActive(true);
-    }
-
     private bool AllEnemiesAreDefeated()
     {
         var EnemyLifeSystem = GetComponentInChildren<EnemyLifeSystem>(false);
@@ -299,11 +375,20 @@ public class LevelManager : MonoBehaviour
         return false;
     }
 
+    private void OnGameComplete()
+    {
+        gameCompleteScreen.SetActive(true);
+    }
+    
+    #endregion
+
+    #region Tutorial
+
     private bool TutorialUpdate()
     {
-        if (!tutorialEnemyIsRespawning && transform.childCount == 0)
+        if (tutorialEnemyRespawnCoroutine == null && transform.childCount == 0)
         {
-            StartCoroutine(RespawnTutorialEnemyAfterDelay(1f));
+            tutorialEnemyRespawnCoroutine = StartCoroutine(RespawnTutorialEnemyAfterDelay(1f));
         }
 
         if (currentTutorialStep >= 0 && currentTutorialStep < tutorialInstructions.Length)
@@ -365,7 +450,6 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator RespawnTutorialEnemyAfterDelay(float delay)
     {
-        tutorialEnemyIsRespawning = true;
         yield return new WaitForSeconds(delay);
         TutorialEnemy.SetActive(true);
         TutorialEnemy.transform.parent = transform;
@@ -373,72 +457,14 @@ public class LevelManager : MonoBehaviour
         EnemyLifeSystem lifeSystem = TutorialEnemy.GetComponent<EnemyLifeSystem>();
         lifeSystem.ResetHealth();
         
-        // Re-initialize the enemy AI when respawning
         InitializeEnemyAI(TutorialEnemy);
         
-        tutorialEnemyIsRespawning = false;
+        tutorialEnemyRespawnCoroutine = null;
     }
+    
+    #endregion
 
-    private void InitializeEnemyAI(GameObject enemy)
-    {
-        if (enemy.TryGetComponent(out EnergyMeleeAI energyMeleeAI))
-            energyMeleeAI.Initialize(playerTransform);
-        else if (enemy.TryGetComponent(out MaterialMeleeAI materialMeleeAI))
-            materialMeleeAI.Initialize(playerTransform);
-        else if (enemy.TryGetComponent(out MaterialProjectileAI materialProjectileAI))
-            materialProjectileAI.Initialize(playerTransform);
-        else if (enemy.TryGetComponent(out MaterialGrenadeAI materialGrenadeAI))
-            materialGrenadeAI.Initialize(playerTransform);
-    }
-
-    private Vector3 GetPointOutsideCameraView(float groupSize)
-    {
-        float camHeight = 2f * cam.orthographicSize;
-        float camWidth = camHeight * cam.aspect;
-
-        camWidth += 2f + groupSize; // Extra buffer
-        camHeight += 2f + groupSize; // Extra buffer
-
-        float x, y;
-        int side = Random.Range(0, 4); // 0: top, 1: bottom, 2: left, 3: right
-
-        switch (side)
-        {
-            case 0: // Top
-                x = Random.Range(cam.transform.position.x - camWidth / 2, cam.transform.position.x + camWidth / 2);
-                y = cam.transform.position.y + camHeight / 2 + 1f;
-                break;
-            case 1: // Bottom
-                x = Random.Range(cam.transform.position.x - camWidth / 2, cam.transform.position.x + camWidth / 2);
-                y = cam.transform.position.y - camHeight / 2 - 1f;
-                break;
-            case 2: // Left
-                x = cam.transform.position.x - camWidth / 2 - 1f;
-                y = Random.Range(cam.transform.position.y - camHeight / 2, cam.transform.position.y + camHeight / 2);
-                break;
-            case 3: // Right
-                x = cam.transform.position.x + camWidth / 2 + 1f;
-                y = Random.Range(cam.transform.position.y - camHeight / 2, cam.transform.position.y + camHeight / 2);
-                break;
-            default:
-                x = 0f;
-                y = 0f;
-                break;
-        }
-
-        return new Vector3(x, y, 0f);
-    }
-
-    // Timeline-based level loading removed. Use wave-based progression if needed.
-
-    private IEnumerator ShowForSeconds(GameObject obj, float seconds)
-    {
-        obj.SetActive(true);
-        yield return new WaitForSeconds(seconds);
-        obj.SetActive(false);
-    }
-
-    [SerializeField] private TMPro.TMP_Text respawnCounterText;
+    #region Death & Respawn
 
     private IEnumerator CountdownMetersAsRespawnCounter()
     {
@@ -488,13 +514,17 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 1f;
         if (isTutorial)
         {
-            StartCoroutine(RespawnTutorialEnemyAfterDelay(0f));
+            tutorialEnemyRespawnCoroutine = StartCoroutine(RespawnTutorialEnemyAfterDelay(0f));
         }
         else
         {
             ResetLevel();
         }
     }
+    
+    #endregion
+
+    #region Utility Methods
 
     private void DestroyAllEnemiesAndSoulShards()
     {
@@ -510,8 +540,18 @@ public class LevelManager : MonoBehaviour
         {
             if (shard.gameObject.activeSelf)
             {
-                Destroy(shard.gameObject);
+                shard.gameObject.SetActive(false);
+                objectPooler.ReturnToPool(shard.gameObject, shard.gameObject);
             }
         }
     }
+
+    private IEnumerator ShowForSeconds(GameObject obj, float seconds)
+    {
+        obj.SetActive(true);
+        yield return new WaitForSeconds(seconds);
+        obj.SetActive(false);
+    }
+    
+    #endregion
 }

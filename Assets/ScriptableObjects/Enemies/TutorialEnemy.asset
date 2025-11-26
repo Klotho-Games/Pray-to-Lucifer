@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   enemyName: Tutorial Enemy
   isLava: 0
-  maxHP: 30
+  maxHP: 1
   speed: 0
   regeneration: 0
   soulRewardAmount: 1000

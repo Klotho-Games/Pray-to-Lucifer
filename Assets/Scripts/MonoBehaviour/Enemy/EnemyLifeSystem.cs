@@ -9,6 +9,10 @@ public class EnemyLifeSystem : MonoBehaviour
     [SerializeField] private Color originalColor;
     [SerializeField] private GameObject soulShardPrefab;
     [SerializeField] private bool isTutorialEnemy = false;
+    
+    [Header("Pooling Settings")]
+    [SerializeField] private int poolSize = 100;
+    private ObjectPooler objectPooler;
 
     private int currentHP;
 
@@ -34,6 +38,11 @@ public class EnemyLifeSystem : MonoBehaviour
         if (spriteRenderer == null)
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+        if (objectPooler == null)
+        {
+            objectPooler = ObjectPooler.instance;
+            objectPooler.CreatePool(soulShardPrefab, poolSize);
         }
     }
 
@@ -72,14 +81,15 @@ public class EnemyLifeSystem : MonoBehaviour
             return;
         }
 
-        Destroy(gameObject);
+        ResetHealth();
+        objectPooler.ReturnToPool(gameObject, gameObject);
     }
 
     private void SpawnSoulShard()
     {
         if (soulShardPrefab != null)
         {
-            SoulShard shard = Instantiate(soulShardPrefab, transform.position, Quaternion.identity, transform.parent).GetComponent<SoulShard>();
+            SoulShard shard = objectPooler.GetFromPool(soulShardPrefab, transform.position, transform.parent).GetComponent<SoulShard>();
             shard.Initialize(enemyData.soulRewardAmount);
         }
     }
@@ -125,23 +135,6 @@ public class EnemyLifeSystem : MonoBehaviour
                 }
             }
         }
-    }
-
-    private bool DoesLineIntersectCollider(Vector3 start, Vector3 end)
-    {
-        // Use Physics2D.LinecastAll to get ALL colliders the line passes through
-        RaycastHit2D[] hits = Physics2D.LinecastAll(start, end);
-        
-        // Check if any of the hits is this enemy's collider
-        foreach (RaycastHit2D hit in hits)
-        {
-            if (hit.collider == coll)
-            {
-                return true;
-            }
-        }
-        
-        return false;
     }
     
     private bool DoesLineIntersectCollider(LineRenderer lr)

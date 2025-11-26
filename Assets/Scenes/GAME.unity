@@ -2454,7 +2454,7 @@ MonoBehaviour:
   amplitude: 0.2
   wavelength: 2
   frequency: 1.5
-  numberOfSegments: 20
+  numberOfSegments: 10
   particleSystemPrefab: {fileID: 7795755573084203614, guid: 9350a59251a24ce12941356807f57de5, type: 3}
   enableParticles: 0
   enableLights: 1
@@ -4422,6 +4422,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e565ef011fa6331499b25685949ac3e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  levels:
+  - {fileID: 11400000, guid: fa36b2998b57f314b8fb51c1b0130ac4, type: 2}
+  - {fileID: 11400000, guid: 0aa5ce241fa077b4c901ec2eebc5f34b, type: 2}
+  autoStartWave: 0
+  floorRenderer: {fileID: 1286122611}
   tutorialInstructions:
   - Use WASD to move around.
   - Shoot the enemy with your mouse.
@@ -4435,23 +4440,16 @@ MonoBehaviour:
   endTutorialButton: {fileID: 1263849068}
   tutorialEnemySpawnPos: {x: 5, y: 0}
   TutorialEnemy: {fileID: 1712254273}
-  levels:
-  - {fileID: 11400000, guid: fa36b2998b57f314b8fb51c1b0130ac4, type: 2}
-  - {fileID: 11400000, guid: 0aa5ce241fa077b4c901ec2eebc5f34b, type: 2}
-  currentLevelIndex: 0
-  currentWaveIndex: 0
-  autoStartWave: 0
   playerTransform: {fileID: 7645830644634311192}
   cam: {fileID: 519420031}
-  respawnDelay: 6
-  youDiedScreen: {fileID: 391916037}
   waveText: {fileID: 111005735}
   waveTextShowDuration: 3
+  youDiedScreen: {fileID: 391916037}
+  respawnCounterText: {fileID: 1487059689}
   gameCompleteScreen: {fileID: 1727602515}
-  floorRenderer: {fileID: 1286122611}
+  respawnDelay: 4
   objectPooler: {fileID: 127907762}
   poolSize: 500
-  respawnCounterText: {fileID: 1487059689}
 --- !u!4 &1897987069
 Transform:
   m_ObjectHideFlags: 0

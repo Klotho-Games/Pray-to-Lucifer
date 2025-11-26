@@ -10,6 +10,8 @@ public class PoolEntry
 
 public class ObjectPooler : MonoBehaviour
 {
+    public static ObjectPooler instance;
+
     [Header("Enemy Pooling")]
     [SerializeField] private int poolSize = 100;
     private Dictionary<GameObject, Queue<GameObject>> pools = new();
@@ -17,6 +19,15 @@ public class ObjectPooler : MonoBehaviour
 
     void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         // Pools should be created by manager using scriptable object configuration
     }
 
