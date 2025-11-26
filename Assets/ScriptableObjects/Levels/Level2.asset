@@ -15,7 +15,13 @@ MonoBehaviour:
   waves:
   - delayAfterPreviousWave: 0
     waveData: {fileID: 11400000, guid: dc3a7e317470b634ba5e46ea40721a05, type: 2}
-  - delayAfterPreviousWave: 5
+  - delayAfterPreviousWave: 7
     waveData: {fileID: 11400000, guid: c8746398f46f4a94aac7049ac23cfb75, type: 2}
-  playerSpawnPosition: {x: 4, y: 0}
+  - delayAfterPreviousWave: 10
+    waveData: {fileID: 11400000, guid: eabf49d722d69fb40baaf6531f9b6759, type: 2}
+  - delayAfterPreviousWave: 7
+    waveData: {fileID: 11400000, guid: 09588f830ef70684e85b5036201f7de1, type: 2}
+  - delayAfterPreviousWave: 10
+    waveData: {fileID: 11400000, guid: 376bf6347ee11e34d920fb20e1cbfd21, type: 2}
+  playerSpawnPosition: {x: 0, y: 0}
   floorMap: {fileID: 21300000, guid: bda27afb6e96b9f4f9804adcdf989e44, type: 3}

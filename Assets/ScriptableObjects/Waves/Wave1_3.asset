@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37a197cb98bc793af9149a5083064b0f, type: 3}
   m_Name: Wave1_3
   m_EditorClassIdentifier: Assembly-CSharp::WaveDataSO
-  waveDuration: 2
+  waveDuration: 45
   startingSpawnInterval: 1
-  spawnIntervalDecrement: 0.01
-  minSpawnInterval: 0.4
+  spawnIntervalDecrement: 0.03
+  minSpawnInterval: 0.35
   prefabsWithWeights:
   - prefab: {fileID: 3542369998568306156, guid: 5122c29a66701d14584bf6c12a8a9b7e, type: 3}
     spawnWeight: 100
