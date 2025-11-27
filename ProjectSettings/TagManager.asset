@@ -38,7 +38,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - InteractWithPlayerOnly
   - Uninteractive
   m_SortingLayers:
   - name: Default

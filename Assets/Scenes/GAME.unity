@@ -3000,6 +3000,10 @@ PrefabInstance:
       propertyPath: PlayerTransform
       value: 
       objectReference: {fileID: 7645830644634311192}
+    - target: {fileID: 4597141816962447215, guid: 7016aca09c37aac4e9db89d9179850a5, type: 3}
+      propertyPath: enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: f56ec255eb3eebe47b48e907361bed04, type: 2}
     - target: {fileID: 5923828071285120862, guid: 7016aca09c37aac4e9db89d9179850a5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8

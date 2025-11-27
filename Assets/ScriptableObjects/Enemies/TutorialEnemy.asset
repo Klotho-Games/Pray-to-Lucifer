@@ -12,15 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60959e2dc67c838438f69088ce1ab5dc, type: 3}
   m_Name: TutorialEnemy
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  enemyName: Tutorial Enemy
-  isLava: 0
-  maxHP: 20
-  speed: 0
-  regeneration: 0
-  soulRewardAmount: 1000
-  isEnergy: 1
-  attacks:
-  - attackType: 0
-    attackDamage: 50
-    attackRange: 1.2
-    attackCooldown: 0.5
+  IsLava: 0
+  MaxHP: 20
+  Speed: 0
+  Regeneration: 0
+  SoulRewardAmount: 1000
+  IsEnergy: 1
+  Attacks:
+  - Type: 0
+    Damage: 20
+    Cooldown: 0
+    DelayAfterTrigger: 0

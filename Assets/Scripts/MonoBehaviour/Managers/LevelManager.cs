@@ -55,6 +55,7 @@ public class LevelManager : MonoBehaviour
     #region Private Variables
     
     private PlayerStats playerStats;
+    private Collider2D playerCollider;
     private int currentLevelIndex = 0;
     private int currentWaveIndex = 0;
     private int currentTutorialStep = 0;
@@ -295,14 +296,19 @@ public class LevelManager : MonoBehaviour
 
     private void InitializeEnemyAI(GameObject enemy)
     {
-        if (enemy.TryGetComponent(out EnergyMeleeAI energyMeleeAI))
-            energyMeleeAI.Initialize(playerTransform);
-        else if (enemy.TryGetComponent(out MaterialMeleeAI materialMeleeAI))
-            materialMeleeAI.Initialize(playerTransform);
-        else if (enemy.TryGetComponent(out MaterialProjectileAI materialProjectileAI))
-            materialProjectileAI.Initialize(playerTransform);
-        else if (enemy.TryGetComponent(out MaterialGrenadeAI materialGrenadeAI))
-            materialGrenadeAI.Initialize(playerTransform);
+        if (playerCollider == null)
+        {
+            playerCollider = playerTransform.GetComponent<Collider2D>();
+        }
+        if (playerStats == null)
+        {
+            playerStats = playerTransform.GetComponent<PlayerStats>();
+        }
+
+        if (enemy.TryGetComponent(out EnergyAI energyAI))
+            energyAI.Initialize(playerTransform);
+        if (enemy.TryGetComponent(out MeleeAttack meleeAttack))
+            meleeAttack.Initialize(playerCollider, playerStats);
     }
 
     private Vector3 GetPointOutsideCameraView(float groupSize)

@@ -66,5 +66,5 @@
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "Pray-to-Lucifer.sln"
+    "dotnet.defaultSolution": "GameOff-2025-Waves.sln"
 }

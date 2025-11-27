@@ -21,7 +21,7 @@ public class EnemyLifeSystem : MonoBehaviour
 
     public void ResetHealth()
     {
-        currentHP = enemyData.maxHP;
+        currentHP = enemyData.MaxHP;
         averageDamageThisSecond = 0f;
         timeSinceLastDamage = 0f;
         timeSinceLastRegeneration = 0f;
@@ -86,7 +86,7 @@ public class EnemyLifeSystem : MonoBehaviour
         if (soulShardPrefab != null)
         {
             SoulShard shard = ObjectPooler.instance.GetFromPool(soulShardPrefab, transform.position, transform.parent).GetComponent<SoulShard>();
-            shard.Initialize(enemyData.soulRewardAmount);
+            shard.Initialize(enemyData.SoulRewardAmount);
         }
     }
 
@@ -160,11 +160,11 @@ public class EnemyLifeSystem : MonoBehaviour
 
     private void RegenerateHealth()
     {
-        if (currentHP < enemyData.maxHP)
+        if (currentHP < enemyData.MaxHP)
         {
             int amountRegenerated = currentHP;
-            currentHP += Mathf.FloorToInt(enemyData.regeneration * (Time.deltaTime + timeSinceLastRegeneration));
-            currentHP = Mathf.Min(currentHP, enemyData.maxHP);
+            currentHP += Mathf.FloorToInt(enemyData.Regeneration * (Time.deltaTime + timeSinceLastRegeneration));
+            currentHP = Mathf.Min(currentHP, enemyData.MaxHP);
             amountRegenerated = currentHP - amountRegenerated;
 
             if (amountRegenerated > 0)
@@ -176,7 +176,7 @@ public class EnemyLifeSystem : MonoBehaviour
             {
                 timeSinceLastRegeneration += Time.deltaTime;
 
-                if (currentHP == enemyData.maxHP)
+                if (currentHP == enemyData.MaxHP)
                 {
                     // Optional: Handle fully regenerated effects
                 }
@@ -186,7 +186,7 @@ public class EnemyLifeSystem : MonoBehaviour
 
     private void ChangeColor()
     {
-        float hpPercent = (float)currentHP / enemyData.maxHP;
+        float hpPercent = (float)currentHP / enemyData.MaxHP;
         
         // Gradient: originalColor (100% HP) -> red (redColorPercent HP) -> white (0% HP)
         if (hpPercent > redColorPercent)

@@ -9,41 +9,40 @@ public class EnemySO : ScriptableObject
     [System.Serializable]
     public class Attack
     {
-        public AttackType attackType = AttackType.Melee;
-        public int attackDamage = 20;
+        public AttackType Type = AttackType.Melee;
         
-        [Tooltip("How close the enemy needs to be to attack")]
-        public float attackRange = 10f;
+        public int Damage = 20;
         
         [Tooltip("Time between attacks")]
-        public float attackCooldown = 1.5f;
+        public float Cooldown = 1.5f;
+
+        [Tooltip("The delay between attack geting triggered to dealing damage.\n\nSynchronize with animation")]
+        public float DelayAfterTrigger = 0.15f;
     }
     
     [Header("Identity")]
-
-    public string enemyName = "New Enemy";
-    public bool isLava = false;
+    public bool IsLava = false;
 
 
     [Header("Stats")]
-    public int maxHP = 100;
-    public float speed = 5f;
+    public int MaxHP = 100;
+    public float Speed = 5f;
     
     /// <summary>
     /// How much health is regenerated per second
     /// </summary>
     [Tooltip("How much health is regenerated per second")]
-    public float regeneration = 0f;
+    public float Regeneration = 0f;
     
-    public int soulRewardAmount = 10;
+    public int SoulRewardAmount = 10;
 
 
     [Header("Behavior")]
     
     [SetValue("isPlacer", false, false)]
-    public bool isEnergy = false;
+    public bool IsEnergy = false;
 
 
     [Header("Attack")]
-    public List<Attack> attacks = new();
+    public List<Attack> Attacks = new();
 }
