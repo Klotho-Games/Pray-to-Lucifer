@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   IsLava: 0
   MaxHP: 100
-  Speed: 1.5
+  Speed: 1.6
   Regeneration: 0
-  SoulRewardAmount: 100
+  SoulRewardAmount: 400
   IsEnergy: 0
   Attacks:
   - Type: 0
