@@ -3,6 +3,8 @@
 /// It manages move and button inputs, and provides them through properties.
 /// Uses the singleton pattern to ensure only one instance exists.
 /// </summary>
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,6 +47,7 @@ public class InputManager : MonoBehaviour
     private InputAction preciseControlAction;
     public InputAction ItemRightAction {get; private set; } // for cycling through items
     public InputAction ItemLeftAction {get; private set; } // for cycling through items
+    private InputAction MenuAction; // for opening menu
 
     private void Awake()
     {
@@ -75,11 +78,69 @@ public class InputManager : MonoBehaviour
             cam = Camera.main;
             if (EnableDebug) Debug.Log("[InputManager] Camera not assigned, using main camera");
         }
+        Time.timeScale = 1f;
+        
+        OpenMainMenu(true);
     }
+
+    #region MainMenu
+    [Header("Main Menu")]
+    [SerializeField] private GameObject MainMenu;
+    [SerializeField] private TMP_Text pressMToResumeText;
+    [SerializeField] private string startPressMToResumeText;
+    [SerializeField] private TMP_Text controlsText;
+    [SerializeField] private string startControlsText;
+
+    private float timeScaleBeforeMenu;
+    private bool isMenuOpen = false;
+
+    private void OnMenuActionPerformed(InputAction.CallbackContext ctx)
+    {
+        if (isMenuOpen)
+        {
+            CloseMainMenu();
+        }
+        else
+        {
+            OpenMainMenu();
+        }
+    }
+
+    private void OpenMainMenu(bool fromStart = false)
+    {
+        if (isMenuOpen) return;
+
+        timeScaleBeforeMenu = Time.timeScale;
+        isMenuOpen = true;
+
+        MainMenu.SetActive(true);
+        if (fromStart)
+        {
+            pressMToResumeText.text = startPressMToResumeText;
+            controlsText.text = startControlsText;
+        }
+        Time.timeScale = 0f;
+    }
+
+    public void CloseMainMenu()
+    {
+        if (!isMenuOpen) return;
+
+        isMenuOpen = false;
+        MainMenu.SetActive(false);
+        Time.timeScale = timeScaleBeforeMenu;
+    }
+    #endregion
 
     void OnDestroy()
     {
         if (EnableDebug) Debug.Log("[InputManager] OnDestroy called");
+        
+        // Unsubscribe from menu action
+        if (MenuAction != null)
+        {
+            MenuAction.performed -= OnMenuActionPerformed;
+        }
     }
 
     private void Update()
@@ -127,5 +188,9 @@ public class InputManager : MonoBehaviour
         preciseControlAction = playerInput.actions["PreciseControl"];
         ItemRightAction = playerInput.actions["ItemRight"];
         ItemLeftAction = playerInput.actions["ItemLeft"];
+        MenuAction = playerInput.actions["Menu"];
+        
+        // Subscribe to menu action once during setup
+        MenuAction.performed += OnMenuActionPerformed;
     }
 }

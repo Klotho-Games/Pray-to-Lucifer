@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -22,7 +23,7 @@ public class LevelManager : MonoBehaviour
         "Place a <i>Densoul</i>: collect enough Soul; press Ctrl; click location; click again to place rotated accordingly.",
         "Press Q or Tab to switch Densoul type (the selected type is displayed in the top-right corner)."
     };
-    [SerializeField] private TMPro.TMP_Text tutorialInstructionText;
+    [SerializeField] private TMP_Text tutorialInstructionText;
     [SerializeField] private GameObject endTutorialButton;
     [SerializeField] private Vector2 tutorialEnemySpawnPos;
     [SerializeField] private GameObject TutorialEnemy;
@@ -32,11 +33,15 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Camera cam;
     
     [Header("UI Elements")]
-    [SerializeField] private TMPro.TMP_Text waveText;
+    [SerializeField] private TMP_Text waveText;
     [SerializeField] private float waveTextShowDuration = 3f;
     [SerializeField] private GameObject youDiedScreen;
-    [SerializeField] private TMPro.TMP_Text respawnCounterText;
+    [SerializeField] private TMP_Text respawnCounterText;
     [SerializeField] private GameObject gameCompleteScreen;
+    [SerializeField] private TMP_Text pressMToResumeText;
+    [SerializeField] private string updatedPressMToResumeText;
+    [SerializeField] private TMP_Text controlsText;
+    [SerializeField] private string controlsCheatSheet;
     
     [Header("Death & Respawn")]
     [SerializeField] private float respawnDelay = 2f;
@@ -115,6 +120,7 @@ public class LevelManager : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("Starting Game");
+        ChangeMainMenuUI();
 
         Time.timeScale = 1f;
 
@@ -133,13 +139,13 @@ public class LevelManager : MonoBehaviour
         {
             endTutorialButton.SetActive(false);
             tutorialInstructionText.gameObject.SetActive(false);
-            
         }
     }
 
     public void StartTutorial()
     {
         Debug.Log("Starting Tutorial");
+        ChangeMainMenuUI();
 
         Time.timeScale = 1f;
 
@@ -552,6 +558,12 @@ public class LevelManager : MonoBehaviour
         obj.SetActive(true);
         yield return new WaitForSeconds(seconds);
         obj.SetActive(false);
+    }
+
+    private void ChangeMainMenuUI()
+    {
+        pressMToResumeText.text = updatedPressMToResumeText;
+        controlsText.text = controlsCheatSheet;
     }
     
     #endregion

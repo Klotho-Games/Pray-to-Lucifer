@@ -65,12 +65,12 @@ public class Clickable2D : MonoBehaviour, IClickable {
                 break;
 
             case ButtonSpecialFunction.PlayGame:
-                transform.root.gameObject.SetActive(false);
+                InputManager.instance.CloseMainMenu();
                 LevelManager.instance.StartGame();
                 break;
 
             case ButtonSpecialFunction.PlayTutorial:
-                transform.root.gameObject.SetActive(false);
+                InputManager.instance.CloseMainMenu();
                 LevelManager.instance.StartTutorial();
                 break;
 

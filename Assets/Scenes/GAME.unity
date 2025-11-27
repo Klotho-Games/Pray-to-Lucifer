@@ -397,7 +397,7 @@ GameObject:
   - component: {fileID: 135543871}
   - component: {fileID: 135543870}
   m_Layer: 5
-  m_Name: Space to resume
+  m_Name: Press M to resume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -420,7 +420,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 8, y: 5}
-  m_SizeDelta: {x: 6, y: 3}
+  m_SizeDelta: {x: 8, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &135543870
 MonoBehaviour:
@@ -442,7 +442,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <b>SPACE</b> to resume
+  m_text: Remnost <b>Fell</b>\nfrom Heaven
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -469,13 +469,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 9
+  m_fontSizeBase: 9
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 32
+  m_fontStyle: 16
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -688,7 +688,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 35.464912, y: 19.939276, z: 0}
+  m_LocalScale: {x: 35.4476, y: 19.939276, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -953,6 +953,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
   EnableDebug: 0
   cam: {fileID: 519420031}
+  MainMenu: {fileID: 2083989082}
+  pressMToResumeText: {fileID: 135543870}
+  startPressMToResumeText: Remnost <b>Fell</b>\nfrom Heaven
+  controlsText: {fileID: 1130674644}
+  startControlsText: '<i>Controller isn''t fully supported yet</i>\n\n. . . . . .
+    . . . . . . . . . . . . . . . . . . . . . . . . . \n:     Controls cheat sheet
+    is locked\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t    
+    <b>Play the tutorial</b>\t\t: \n: . . . . . . . . . . . . . . . . . . . . . .
+    . . . . . . . : '
 --- !u!114 &229292615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1329,7 +1338,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 9}
-  m_LocalScale: {x: 35.464912, y: 19.939276, z: 0}
+  m_LocalScale: {x: 35.4476, y: 19.939276, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2083989087}
@@ -1635,10 +1644,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<i>Controller isn't fully supported yet</i>\n\n\n<b>Controls cheat sheet:</b>\n\n<b>WASD</b>
-    - move\n<b>Left Mouse</b> - shoot\n\n<b>Shift</b> - charge using soul, heal and/or
-    (coming soon) use special attacks\n\n<b>Densoul indicator in top-right</b>\n<b>Ctrl</b>
-    - choose densoul placement, \n<b>Tab</b> / <b>Q</b> - switch densoul type"
+  m_text: '<i>Controller isn''t fully supported yet</i>\n\n. . . . . . . . . . .
+    . . . . . . . . . . . . . . . . . . . . \n:     Controls cheat sheet is locked\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t\t\t\t\t\t:\n:\t    
+    <b>Play the tutorial</b>\t\t: \n: . . . . . . . . . . . . . . . . . . . . . .
+    . . . . . . . : '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1901,34 +1910,34 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 1170239318}
     m_ColliderPaths:
-    - - X: 195057024
+    - - X: 194961808
         Y: 109666024
-      - X: -195057024
+      - X: -194961808
         Y: 109666024
-      - X: -195057024
+      - X: -194961808
         Y: -109666024
-      - X: 195057024
+      - X: 194961808
         Y: -109666024
   - m_Collider: {fileID: 1170239317}
     m_ColliderPaths:
-    - - X: 177324560
+    - - X: 177238000
         Y: 99696376
-      - X: -177324560
+      - X: -177238000
         Y: 99696376
-      - X: -177324560
+      - X: -177238000
         Y: -99696376
-      - X: 177324560
+      - X: 177238000
         Y: -99696376
   m_CompositePaths:
     m_Paths:
-    - - {x: 19.505674, y: -10.966602}
-      - {x: 19.505674, y: 10.966602}
-      - {x: -19.505703, y: 10.966573}
-      - {x: -19.505674, y: -10.966602}
-    - - {x: 17.732456, y: -9.969608}
-      - {x: -17.732456, y: -9.969608}
-      - {x: -17.732428, y: 9.969638}
-      - {x: 17.732456, y: 9.969608}
+    - - {x: 19.496153, y: -10.966602}
+      - {x: 19.496153, y: 10.966602}
+      - {x: -19.496181, y: 10.966573}
+      - {x: -19.496153, y: -10.966602}
+    - - {x: 17.7238, y: -9.969608}
+      - {x: -17.7238, y: -9.969608}
+      - {x: -17.723772, y: 9.969638}
+      - {x: 17.7238, y: 9.969608}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
@@ -2075,7 +2084,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 35.464912, y: 19.939276, z: 0}
+  m_LocalScale: {x: 35.4476, y: 19.939276, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2952,7 +2961,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 35.464912, y: 19.939276}
+  m_SizeDelta: {x: 35.4476, y: 19.939276}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1450780085
 MonoBehaviour:
@@ -3310,7 +3319,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 9}
-  m_LocalScale: {x: 35.464912, y: 19.939276, z: 0}
+  m_LocalScale: {x: 35.4476, y: 19.939276, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 391916038}
@@ -3449,34 +3458,34 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 1585594846}
     m_ColliderPaths:
-    - - X: 354649120
+    - - X: 354476000
         Y: 199392752
-      - X: -354649120
+      - X: -354476000
         Y: 199392752
-      - X: -354649120
+      - X: -354476000
         Y: -199392752
-      - X: 354649120
+      - X: 354476000
         Y: -199392752
   - m_Collider: {fileID: 1585594845}
     m_ColliderPaths:
-    - - X: 195057024
+    - - X: 194961808
         Y: 109666024
-      - X: -195057024
+      - X: -194961808
         Y: 109666024
-      - X: -195057024
+      - X: -194961808
         Y: -109666024
-      - X: 195057024
+      - X: 194961808
         Y: -109666024
   m_CompositePaths:
     m_Paths:
-    - - {x: 35.46488, y: -19.939276}
-      - {x: 35.46488, y: 19.939276}
-      - {x: -35.464912, y: 19.939247}
-      - {x: -35.46488, y: -19.939276}
-    - - {x: 19.505703, y: -10.966573}
-      - {x: -19.505703, y: -10.966573}
-      - {x: -19.505674, y: 10.966602}
-      - {x: 19.505703, y: 10.966573}
+    - - {x: 35.44757, y: -19.939276}
+      - {x: 35.44757, y: 19.939276}
+      - {x: -35.4476, y: 19.939247}
+      - {x: -35.44757, y: -19.939276}
+    - - {x: 19.496181, y: -10.966573}
+      - {x: -19.496181, y: -10.966573}
+      - {x: -19.496153, y: 10.966602}
+      - {x: 19.496181, y: 10.966573}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
@@ -3623,7 +3632,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 35.464912, y: 19.939276, z: 0}
+  m_LocalScale: {x: 35.4476, y: 19.939276, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4873,6 +4882,14 @@ MonoBehaviour:
   youDiedScreen: {fileID: 391916037}
   respawnCounterText: {fileID: 1487059689}
   gameCompleteScreen: {fileID: 1727602515}
+  pressMToResumeText: {fileID: 135543870}
+  updatedPressMToResumeText: Press <b>M</b>\nTo Resume
+  controlsText: {fileID: 1130674644}
+  controlsCheatSheet: <i>Controller isn't fully supported yet</i>\n\n\n<b>Controls
+    cheat sheet:</b> \n\n <b>WASD</b> - move \n <b>Left Mouse</b> - shoot\n  \n <b>Shift</b>
+    - charge using soul, heal and/or\n (coming soon) use special attacks\n\n <b>Densoul
+    indicator in top-right</b>\n  <b>Ctrl</b> - choose densoul placement,  \n  <b>Tab</b>
+    / <b>Q</b> - switch densoul type
   respawnDelay: 4
   objectPooler: {fileID: 127907762}
   poolSize: 500
@@ -5086,7 +5103,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 9}
-  m_LocalScale: {x: 35.464912, y: 19.939276, z: 0}
+  m_LocalScale: {x: 35.4476, y: 19.939276, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 391916038}
@@ -5210,7 +5227,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   currentGateTypeDisplayText: {fileID: 1956055834}
-  MainMenu: {fileID: 2083989082}
   placeGateButton: {fileID: 152246874}
 --- !u!4 &1976485765
 Transform:
@@ -5676,7 +5692,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 35.464912, y: 19.939276}
+  m_SizeDelta: {x: 35.4476, y: 19.939276}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2106973143
 GameObject:
