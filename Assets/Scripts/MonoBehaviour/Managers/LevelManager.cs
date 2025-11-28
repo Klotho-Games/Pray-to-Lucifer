@@ -302,7 +302,7 @@ public class LevelManager : MonoBehaviour
         if (selectedPrefab != null)
         {
             Vector3 spawnPos = GetPointOutsideCameraView(0f);
-            var enemy = objectPooler.GetFromPool(selectedPrefab, spawnPos, transform);
+            var enemy = objectPooler.GetFromPool(selectedPrefab, spawnPos, transform, poolSize);
             InitializeEnemyAI(enemy);
         }
     }

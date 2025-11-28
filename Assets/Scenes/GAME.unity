@@ -329,7 +329,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd1e2730e5951003acf9304d35fa50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPooler
-  poolSize: 50
 --- !u!4 &127907763
 Transform:
   m_ObjectHideFlags: 0
@@ -3490,6 +3489,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1579627182
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1579627184}
+  - component: {fileID: 1579627183}
+  m_Layer: 0
+  m_Name: SFX Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1579627183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579627182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 231d55de3e954f54fac013006f5f6082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SFXManager
+  sfxAudioSourcePrefab: {fileID: 692123601540664126, guid: a4ac298fecfb2b14cac402f8cd0b7f52, type: 3}
+  poolSize: 5
+--- !u!4 &1579627184
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579627182}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1585594842
 GameObject:
   m_ObjectHideFlags: 0
@@ -6048,6 +6093,7 @@ SceneRoots:
   - {fileID: 1802261714}
   - {fileID: 229292616}
   - {fileID: 1897987069}
+  - {fileID: 1579627184}
   - {fileID: 1897022498}
   - {fileID: 133823648}
   - {fileID: 1286122612}

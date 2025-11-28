@@ -93,7 +93,7 @@ public class EnemyLifeSystem : MonoBehaviour
     {
         if (soulShardPrefab != null)
         {
-            SoulShard shard = ObjectPooler.instance.GetFromPool(soulShardPrefab, transform.position, transform.parent).GetComponent<SoulShard>();
+            SoulShard shard = ObjectPooler.instance.GetFromPool(soulShardPrefab, transform.position, transform.parent, poolSize).GetComponent<SoulShard>();
             shard.Initialize(enemyData.SoulRewardAmount);
         }
     }

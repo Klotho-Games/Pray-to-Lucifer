@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,9 +14,9 @@ public class ObjectPooler : MonoBehaviour
     public static ObjectPooler instance;
 
     [Header("Enemy Pooling")]
-    [SerializeField] private int poolSize = 100;
+    [SerializeField] private const int defaultPoolSize = 100;
     private Dictionary<GameObject, Queue<GameObject>> pools = new();
-    private List<GameObject> inactiveEnemies = new();
+    private List<GameObject> inactiveObjects = new();
 
     void Awake()
     {
@@ -60,7 +61,7 @@ public class ObjectPooler : MonoBehaviour
 
     // Weighted prefab selection is now handled by the manager using scriptable objects.
 
-    public GameObject GetFromPool(GameObject prefab, Vector3 position, Transform parent)
+    public GameObject GetFromPool(GameObject prefab, Vector3 position, Transform parent, int poolSize = defaultPoolSize)
     {
         if (!pools.ContainsKey(prefab))
             CreatePool(prefab, poolSize);
@@ -95,15 +96,21 @@ public class ObjectPooler : MonoBehaviour
         };
     }
 
+    public IEnumerator ReturnToPool(GameObject prefab, GameObject obj, float delay, bool isRealtime)
+    {
+        yield return isRealtime ? new WaitForSecondsRealtime(delay) : new WaitForSeconds(delay);
+        ReturnToPool(prefab, obj);
+    }
+
     public void ActivateEnemiesForGroup(GameObject prefab, int quantity, Vector3[] positions)
     {
         int activated = 0;
-        for (int i = 0; i < inactiveEnemies.Count && activated < quantity; i++)
+        for (int i = 0; i < inactiveObjects.Count && activated < quantity; i++)
         {
-            if (!inactiveEnemies[i].activeSelf && inactiveEnemies[i].GetComponent<PooledObject>().prefabReference == prefab)
+            if (!inactiveObjects[i].activeSelf && inactiveObjects[i].GetComponent<PooledObject>().prefabReference == prefab)
             {
-                inactiveEnemies[i].transform.position = positions[activated];
-                inactiveEnemies[i].SetActive(true);
+                inactiveObjects[i].transform.position = positions[activated];
+                inactiveObjects[i].SetActive(true);
                 activated++;
             }
         }
