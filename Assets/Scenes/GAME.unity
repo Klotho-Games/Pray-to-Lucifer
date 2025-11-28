@@ -2927,7 +2927,7 @@ MonoBehaviour:
   enableWave: 1
   amplitude: 0.2
   wavelength: 2
-  frequency: 1.5
+  frequency: 5
   numberOfSegments: 10
   particleSystemPrefab: {fileID: 7795755573084203614, guid: 9350a59251a24ce12941356807f57de5, type: 3}
   enableParticles: 0
