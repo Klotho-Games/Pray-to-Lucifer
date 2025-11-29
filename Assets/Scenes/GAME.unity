@@ -3526,6 +3526,11 @@ MonoBehaviour:
     - {fileID: 0}
     Volume: {x: 1, y: 1}
     Pitch: {x: 1, y: 1}
+  - Name: Gargoyle
+    Clips:
+    - {fileID: 0}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
 --- !u!4 &1579627184
 Transform:
   m_ObjectHideFlags: 0
