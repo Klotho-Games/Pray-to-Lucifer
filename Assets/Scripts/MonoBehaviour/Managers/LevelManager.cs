@@ -203,11 +203,12 @@ public class LevelManager : MonoBehaviour
         currentLevelIndex = levelIndex;
 
         // In case there are less music clips than levels, we take modulo
-        musicSource.clip = musicClips[levelIndex % musicClips.Length];
-        if (!musicSource.isPlaying)
-        {
-            musicSource.Play();
-        }
+
+        //musicSource.clip = musicClips[levelIndex % musicClips.Length];
+        //if (!musicSource.isPlaying)
+        //{
+        //    musicSource.Play();
+        //}
 
         // Complete cleanup
         DestroyAllEnemiesAndSoulShards();
@@ -244,6 +245,16 @@ public class LevelManager : MonoBehaviour
         waveIndex = 0;
 
     currentWaveIndex = waveIndex;
+
+    // 🎵 Change music instantly based on wave index
+	
+    if (musicClips.Length > 0)
+    {
+    int idx = currentWaveIndex % musicClips.Length;
+    musicSource.clip = musicClips[idx];
+    musicSource.Play();
+    }
+
 
     waveCoroutine = StartCoroutine(
         SpawnWaveCoroutine(levels[currentLevelIndex].waves[currentWaveIndex].waveData)
