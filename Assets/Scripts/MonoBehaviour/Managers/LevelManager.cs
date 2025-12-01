@@ -242,6 +242,10 @@ public class LevelManager : MonoBehaviour
         currentWaveIndex = waveIndex;
         waveCoroutine = StartCoroutine(SpawnWaveCoroutine(levels[currentLevelIndex].waves[currentWaveIndex].waveData));
         ShowWaveText();
+        // Change to the new wave music
+        // waves 1-5 have indexes 0-4
+        // levels 1-2 have indexes 0-1
+        // Use currentWaveIndex and currentLevelIndex to determine music
 
         void ShowWaveText()
         {
