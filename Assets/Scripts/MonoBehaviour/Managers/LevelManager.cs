@@ -55,6 +55,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private AudioSource wave1music;
     [SerializeField] private AudioSource wave2music;
 
+   
     #endregion
 
     #region Private Variables
@@ -245,6 +246,9 @@ public class LevelManager : MonoBehaviour
         currentWaveIndex = waveIndex;
         waveCoroutine = StartCoroutine(SpawnWaveCoroutine(levels[currentLevelIndex].waves[currentWaveIndex].waveData));
         ShowWaveText();
+	// PLAY WAVE MUSIC
+	
+
         // Change to the new wave music
         // waves 1-5 have indexes 0-4
         // levels 1-2 have indexes 0-1
