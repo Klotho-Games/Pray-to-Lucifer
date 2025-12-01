@@ -3791,9 +3791,9 @@ MonoBehaviour:
     Volume: {x: 0.3, y: 0.3}
     Pitch: {x: 1, y: 1}
   GatePlacementModeLoopSFX:
-    Name: GatePlace
+    Name: 
     Clips:
-    - {fileID: 8300000, guid: c817238ab9ac624469fb55cabffdb3b4, type: 3}
+    - {fileID: 0}
     Volume: {x: 1, y: 1}
     Pitch: {x: 1, y: 1}
   LeaveGatePlacementModeSFX:
@@ -3839,21 +3839,23 @@ MonoBehaviour:
   TutorialButtonSFX:
     Name: TutorialButton
     Clips:
-    - {fileID: 8300000, guid: 08805c26f86a502498b5375082e008a1, type: 3}
+    - {fileID: 8300000, guid: 5e03252d9c995dd40b38c7e47a993ea0, type: 3}
     Volume: {x: 0.3, y: 0.3}
     Pitch: {x: 1, y: 1}
   PlayButtonSFX:
     Name: PlayButton
     Clips:
-    - {fileID: 8300000, guid: 1ea401e1772c6f34a82a9a190affc58f, type: 3}
+    - {fileID: 8300000, guid: df360ac781345c7409d3995be074f1dc, type: 3}
     Volume: {x: 0.3, y: 0.3}
     Pitch: {x: 1, y: 1}
   ExitButtonSFX:
     Name: ExitButton
     Clips:
-    - {fileID: 8300000, guid: 9ac7af46e84189f4189c4a4d84490b18, type: 3}
+    - {fileID: 8300000, guid: 7fd93c871a2eda4449f56cf7d408d456, type: 3}
     Volume: {x: 0.3, y: 0.3}
     Pitch: {x: 1, y: 1}
+  mainMixerGroup: {fileID: 0}
+  stepVolumeChange: 8.47
 --- !u!4 &1579627184
 Transform:
   m_ObjectHideFlags: 0
