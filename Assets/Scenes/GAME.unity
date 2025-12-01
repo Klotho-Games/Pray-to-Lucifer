@@ -586,7 +586,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a5991eaa78a0f43926890592d685a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Clickable2D
-  clickSound: {fileID: 0}
   specialFunction: 7
   enableDebug: 0
 --- !u!114 &152246876
@@ -2363,7 +2362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a5991eaa78a0f43926890592d685a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Clickable2D
-  clickSound: {fileID: 0}
   specialFunction: 3
   enableDebug: 0
 --- !u!61 &1263849072
@@ -2821,7 +2819,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a5991eaa78a0f43926890592d685a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Clickable2D
-  clickSound: {fileID: 0}
   specialFunction: 4
   enableDebug: 0
 --- !u!61 &1365788411
@@ -3769,6 +3766,105 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 63913fc7f75983c4e8e56675e9f0bdee, type: 3}
     Volume: {x: 1, y: 1}
     Pitch: {x: 1, y: 1}
+  BeamStartSFX:
+    Name: Beam Start SFX
+    Clips:
+    - {fileID: 8300000, guid: b099284419d7da348a1bd351ecebfee2, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  BeamLoopSFX:
+    Name: Beam Loop SFX
+    Clips:
+    - {fileID: 8300000, guid: d1481883fa854f04db0d3e61d03f8499, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  BeamEndSFX:
+    Name: Beam End SFX
+    Clips:
+    - {fileID: 8300000, guid: 729e1ca85fec41a4bbffc4538ca6e67d, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  ChangeGateTypeSFX:
+    Name: Change Gate Type SFX
+    Clips:
+    - {fileID: 8300000, guid: 2257a590a78a15c439f581af98c23b00, type: 3}
+    - {fileID: 8300000, guid: 0f435c007a793e749b4f8043a68e691c, type: 3}
+    - {fileID: 8300000, guid: 16fab1d6f79f9ea41852163fb58c819e, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  EnterGatePlacementModeSFX:
+    Name: Enter Gate Placement Mode SFX
+    Clips:
+    - {fileID: 8300000, guid: 6d1b01a98a3fb764b8397117ed111a74, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  GatePlacementModeLoopSFX:
+    Name: Gate Placement Loop SFX
+    Clips: []
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  LeaveGatePlacementModeSFX:
+    Name: Leave Gate Placement Mode SFX
+    Clips:
+    - {fileID: 8300000, guid: 1ea401e1772c6f34a82a9a190affc58f, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  EnterRotationModeSFX:
+    Name: Enter Rotation Mode SFX
+    Clips:
+    - {fileID: 8300000, guid: df360ac781345c7409d3995be074f1dc, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  RotateGateSFX:
+    Name: Rotate Gate SFX
+    Clips:
+    - {fileID: 8300000, guid: 2257a590a78a15c439f581af98c23b00, type: 3}
+    - {fileID: 8300000, guid: 0f435c007a793e749b4f8043a68e691c, type: 3}
+    - {fileID: 8300000, guid: 16fab1d6f79f9ea41852163fb58c819e, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  PlaceGateSFX:
+    Name: Place Gate SFX
+    Clips:
+    - {fileID: 8300000, guid: c817238ab9ac624469fb55cabffdb3b4, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  DestroyGateSFX:
+    Name: Destroy Gate SFX
+    Clips:
+    - {fileID: 8300000, guid: 6d7fc8654c812ef4fafd7f0968739f16, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  CollectSoulShardSFX:
+    Name: Collect Soul Shard SFX
+    Clips:
+    - {fileID: 8300000, guid: d628349c7b1e1d949823a99c8a59e5e9, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  MergeSoulShardSFX:
+    Name: Merge Soul Shard SFX
+    Clips:
+    - {fileID: 8300000, guid: d628349c7b1e1d949823a99c8a59e5e9, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  TutorialButtonSFX:
+    Name: Tutorial Button SFX
+    Clips:
+    - {fileID: 8300000, guid: df360ac781345c7409d3995be074f1dc, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  PlayButtonSFX:
+    Name: Play Button SFX
+    Clips:
+    - {fileID: 8300000, guid: 5e03252d9c995dd40b38c7e47a993ea0, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  ExitButtonSFX:
+    Name: Exit Button SFX
+    Clips:
+    - {fileID: 8300000, guid: 7fd93c871a2eda4449f56cf7d408d456, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
 --- !u!4 &1579627184
 Transform:
   m_ObjectHideFlags: 0
@@ -4143,7 +4239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a5991eaa78a0f43926890592d685a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Clickable2D
-  clickSound: {fileID: 0}
   specialFunction: 5
   enableDebug: 0
 --- !u!61 &1592250583
@@ -4647,7 +4742,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a5991eaa78a0f43926890592d685a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Clickable2D
-  clickSound: {fileID: 0}
   specialFunction: 2
   enableDebug: 0
 --- !u!61 &1713728337
@@ -5319,6 +5413,8 @@ MonoBehaviour:
   respawnDelay: 4
   objectPooler: {fileID: 127907762}
   poolSize: 500
+  wave1music: {fileID: 0}
+  wave2music: {fileID: 0}
 --- !u!4 &1897987069
 Transform:
   m_ObjectHideFlags: 0

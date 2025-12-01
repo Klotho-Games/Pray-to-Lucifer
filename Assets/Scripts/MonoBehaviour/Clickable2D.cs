@@ -10,20 +10,20 @@ public class Clickable2D : MonoBehaviour, IClickable {
         None,
         InvokeRotationMode,
         PlayGame,
-        PlayGameFromTutorial,
+        USETHISFORSMTHELSE,
         PlayTutorial,
         CloseGame,
         DestroyGate,
         PlaceGate
     }
     [Header("Click Settings")]
-    [SerializeField] private AudioClip clickSound;
+    //[SerializeField] private AudioClip clickSound;
     [SerializeField] private ButtonSpecialFunction specialFunction = ButtonSpecialFunction.None;
     [SerializeField] private bool enableDebug = false;
     
     private AudioSource audioSource;
     
-    void Awake() {
+    /* void Awake() {
         // Setup audio source if we have a click sound
         if (clickSound != null) {
             audioSource = GetComponent<AudioSource>();
@@ -32,17 +32,17 @@ public class Clickable2D : MonoBehaviour, IClickable {
                 audioSource.playOnAwake = false;
             }
         }
-    }
+    } */
     
     public virtual void OnClick() {
         if (enableDebug) {
             if (enableDebug) Debug.Log($"Clicked 2D object: {gameObject.name}");
         }
         
-        // Play click sound
+        /* // Play click sound
         if (clickSound != null && audioSource != null) {
             audioSource.PlayOneShot(clickSound);
-        }
+        } */
         
         // Override this method in derived classes for custom click behavior
         HandleCustomClick();
@@ -65,30 +65,30 @@ public class Clickable2D : MonoBehaviour, IClickable {
                 break;
 
             case ButtonSpecialFunction.PlayGame:
+                SFXManager.instance.PlaySFX(SFXManager.instance.PlayButtonSFX, transform.position);
                 InputManager.instance.CloseMainMenu();
                 LevelManager.instance.StartGame();
                 break;
 
             case ButtonSpecialFunction.PlayTutorial:
+                SFXManager.instance.PlaySFX(SFXManager.instance.TutorialButtonSFX, transform.position);
                 InputManager.instance.CloseMainMenu();
                 LevelManager.instance.StartTutorial();
                 break;
 
             case ButtonSpecialFunction.CloseGame:
+                SFXManager.instance.PlaySFX(SFXManager.instance.ExitButtonSFX, transform.position);
                 Application.Quit();
                 break;
 
-            case ButtonSpecialFunction.PlayGameFromTutorial:
-                gameObject.SetActive(false);
-                LevelManager.instance.StartGame();
-                break;
-
             case ButtonSpecialFunction.DestroyGate:
+                SFXManager.instance.PlaySFX(SFXManager.instance.DestroyGateSFX, transform.position);
                 Vector2 cellWorldPosition = transform.position;
                 DestroyGateAtPosition(cellWorldPosition);
                 break;
 
             case ButtonSpecialFunction.PlaceGate:
+                SFXManager.instance.PlaySFX(SFXManager.instance.PlaceGateSFX, transform.position);
                 gameObject.SetActive(false);
                 GatePlacementManager.instance.PlaceGate();
                 break;

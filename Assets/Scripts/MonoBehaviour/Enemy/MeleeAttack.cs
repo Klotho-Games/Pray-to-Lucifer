@@ -7,8 +7,6 @@ public class MeleeAttack : MonoBehaviour
     [SerializeField] private EnemySO enemyData;
     [SerializeField] private CircleCollider2D attackArea;
     [SerializeField] private Animator animator;
-    [Tooltip("Play sound when attack hits player rather than when attack is triggered")]
-    [SerializeField] private bool soundOnHit;
 
     private EnemySO.Attack attackInfo;
     private Collider2D playerColl;
@@ -79,20 +77,13 @@ public class MeleeAttack : MonoBehaviour
         isAttacking = true;
         animator.SetTrigger("Attack");
         cooldownTimer = attackInfo.Cooldown;
-        if (!soundOnHit)
-        {
-            SFXManager.instance.PlayEnemyAttackSFX(enemyData.Name, transform.position);
-        }
 
         yield return new WaitForSeconds(attackInfo.DelayAfterTrigger);
 
         if (IsCollidingWithPlayer())
         {
             playerStats.TakeDamage(attackInfo.Damage);
-            if (soundOnHit)
-            {
-                SFXManager.instance.PlayEnemyAttackSFX(enemyData.Name, transform.position);
-            }
+            SFXManager.instance.PlayEnemyAttackSFX(enemyData.Name, transform.position);
         }
 
         isAttacking = false;

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ public class GatePlacementManager : MonoBehaviour
     [SerializeField] private LayerMask gateLayer;
     [SerializeField] private TMPro.TMP_Text currentGateTypeDisplayText;
     [SerializeField] private GameObject placeGateButton; // A workaround for mouse click input, probably better to do it properly with InputManager someday
-    private LineRenderer debugLineRenderer;
+    //private LineRenderer debugLineRenderer;
 
     private readonly float[] diagonals = new float[] { 0f, 60f, 120f };
     /// <summary>
@@ -97,6 +98,10 @@ public class GatePlacementManager : MonoBehaviour
                 || (isInRotationMode 
                     && GetGateCost(gateToChangeTo) > playerStats.CurrentSoul));
 
+        if (gateToChangeTo == currentGateType)
+            return;
+
+        SFXManager.instance.PlaySFX(SFXManager.instance.ChangeGateTypeSFX, player.position);
         currentGateType = gateToChangeTo;
 
         if (currentGateTypeDisplayText != null)
@@ -152,21 +157,31 @@ public class GatePlacementManager : MonoBehaviour
             currentGateTypeDisplayText.text = "Press Ctrl to place: " + GetCurrentGateTypeString();
         }
 
-        if (!InputManager.instance.PreciseControlInput)
+        if (!InputManager.instance.GatePlacementInput) // cancelled or not held
         {
             if (isInPlacementMode)
             {
                 Time.timeScale = 1f;
                 isInPlacementMode = false;
+                SFXManager.instance.StopLoopingSFX(SFXManager.instance.GatePlacementModeLoopSFX.Name);
+                SFXManager.instance.PlaySFX(SFXManager.instance.LeaveGatePlacementModeSFX, player.position);
             }
             DestroyAllIndicators();
             return;
         }
 
-        if (!isInPlacementMode)
+        if (!isInPlacementMode) // just entered placement mode
         {
             Time.timeScale = 0f;
             isInPlacementMode = true;
+            SFXManager.instance.PlaySFX(SFXManager.instance.EnterGatePlacementModeSFX, player.position);
+            StartCoroutine(StartLoopingSFX());
+
+            IEnumerator StartLoopingSFX()
+            {
+                yield return new WaitForSecondsRealtime(SFXManager.instance.EnterGatePlacementModeSFX.Clips[0].length);
+                SFXManager.instance.StartLoopingSFX(SFXManager.instance.GatePlacementModeLoopSFX, player.position);
+            }
         }
         // Show places where you can build
         DestroyAllIndicators(); // children
@@ -196,6 +211,7 @@ public class GatePlacementManager : MonoBehaviour
 
     public void EnterGateRotationMode(Vector2 cellWorldPos)
     {
+        SFXManager.instance.PlaySFX(SFXManager.instance.EnterRotationModeSFX, player.position);
         isInPlacementMode = false;
         isInRotationMode = true;
         InputManager.instance.CancelAction.performed += ctx => CancelRotationMode();
@@ -216,6 +232,7 @@ public class GatePlacementManager : MonoBehaviour
 
         playerStats.TakeSoul(GetGateCost(currentGateType));
 
+        SFXManager.instance.PlaySFX(SFXManager.instance.PlaceGateSFX, player.position);
         GameObject gatePrefab = gatePrefabs[(int)currentGateType];
         GameObject placedGate = Instantiate(gatePrefab, currentRotationIndicator.position, currentRotationIndicator.rotation, parentForPlacedGates);
         
@@ -263,6 +280,7 @@ public class GatePlacementManager : MonoBehaviour
             return;
         }
 
+        var rotationBefore = currentRotationIndicator.rotation;
         if (InputManager.instance.IsKeyboardAndMouse)
         {
             HandleRotationWithMouse();
@@ -274,6 +292,10 @@ public class GatePlacementManager : MonoBehaviour
         else
         {
             BackupRotation(currentRotationIndicator.position);
+        }
+        if (rotationBefore != currentRotationIndicator.rotation)
+        {
+            SFXManager.instance.PlaySFX(SFXManager.instance.RotateGateSFX, player.position);
         }
     }
 

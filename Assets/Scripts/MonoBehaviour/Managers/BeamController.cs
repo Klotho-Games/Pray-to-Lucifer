@@ -102,10 +102,35 @@ public class BeamController : MonoBehaviour
 
     void OnDisable()
     {
+        
+        if (Time.timeScale == 0f) return;
+
         if (beamOriginTransform != null && beamOriginTransform.gameObject != null)
         {
+            SFXManager.instance.StopLoopingSFX(SFXManager.instance.BeamLoopSFX.Name);
+            SFXManager.instance.PlaySFX(SFXManager.instance.BeamEndSFX, beamOriginTransform.position);
             beamOriginTransform.gameObject.SetActive(false);
             DestroyOldLineRenderers();
+        }
+    }
+
+    void OnEnable()
+    {
+        if (Time.timeScale == 0f) return;
+
+        if (beamOriginTransform != null && beamOriginTransform.gameObject != null)
+        {
+            SFXManager.instance.PlaySFX(SFXManager.instance.BeamStartSFX, beamOriginTransform.position);
+            StartCoroutine(StartBeamLoopSFXAfterBeamStartSFX());
+
+            IEnumerator StartBeamLoopSFXAfterBeamStartSFX()
+            {
+                yield return new WaitForSeconds(SFXManager.instance.BeamStartSFX.Clips[0].length);
+                if (beamOriginTransform != null && beamOriginTransform.gameObject != null && beamOriginTransform.gameObject.activeInHierarchy)
+                {
+                    SFXManager.instance.StartLoopingSFX(SFXManager.instance.BeamLoopSFX, beamOriginTransform.position);
+                }
+            }
         }
     }
 
@@ -119,36 +144,6 @@ public class BeamController : MonoBehaviour
             return false;
         return true;
     }
-
-    /* private void FacingDirectionUpdate()
-    {
-        if (animator.GetInteger("isShootingWhileMovingInDirection") != -1)
-        {
-            int dirIndex = animator.GetInteger("isShootingWhileMovingInDirection");
-            facingDirection = DirectionFromIndex(dirIndex);
-        }
-        else if (animator.GetInteger("isShootingFacing") != -1)
-        {
-            int dirIndex = animator.GetInteger("isShootingFacing") * 2;
-            facingDirection = DirectionFromIndex(dirIndex);
-        }
-
-        static Vector2 DirectionFromIndex(int index)
-        {
-            return index switch
-            {
-                0 => Vector2.down,
-                1 => new Vector2(1, -1).normalized,
-                2 => Vector2.right,
-                3 => new Vector2(1, 1).normalized,
-                4 => Vector2.up,
-                5 => new Vector2(-1, 1).normalized,
-                6 => Vector2.left,
-                7 => new Vector2(-1, -1).normalized,
-                _ => Vector2.up,
-            };
-        }
-    } */
 
     private void UpdateBeamPath()
     {
@@ -170,25 +165,6 @@ public class BeamController : MonoBehaviour
         }
 
         DrawNextBeam(_intensity + 1, (Vector2)beamOriginTransform.position, direction, null, _damagePerSecond);
-
-        /* Vector2 TranslateDirection(Vector2 direction)
-        {
-            FacingDirectionUpdate();
-
-            if (!InputManager.instance.PreciseControlInput)
-                return facingDirection;
-
-            //Trim to 90 degree cone around facingDirection
-            float angleBetween = Vector2.Angle(direction, facingDirection);
-            if (angleBetween <= beamConeAngle)
-                return direction;
-            
-            float sign = Mathf.Sign(Vector3.Cross(facingDirection, direction).z);
-            float clampedAngle = beamConeAngle * sign;
-            Vector2 clampedDirection = Quaternion.Euler(0, 0, clampedAngle) * facingDirection;
-            float mirroredAngle = beamConeAngle - Vector2.Angle(direction, clampedDirection); 
-            return Quaternion.Euler(0, 0, mirroredAngle * sign) * facingDirection;
-        } */
     }
 
     private IEnumerator DestroyAdditionalLineRenderersAndEffectsAtTheEndOfFrame()

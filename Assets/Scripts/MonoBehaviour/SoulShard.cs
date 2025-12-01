@@ -41,7 +41,11 @@ public class SoulShard : MonoBehaviour
         isMerging = true;
         GetComponent<Collider2D>().enabled = false; // Prevent re-trigger
         Tween.Position(transform, target.position, duration, ease: Ease.InCubic)
-            .OnComplete(() => ObjectPooler.instance.ReturnToPool(gameObject, gameObject));
+            .OnComplete(() => 
+            { 
+                SFXManager.instance.PlaySFX(SFXManager.instance.MergeSoulShardSFX, transform.position); 
+                ObjectPooler.instance.ReturnToPool(gameObject, gameObject); 
+            });
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -74,6 +78,8 @@ public class SoulShard : MonoBehaviour
             yield return null;
         }
         
+        
+        SFXManager.instance.PlaySFX(SFXManager.instance.CollectSoulShardSFX, transform.position); 
         ObjectPooler.instance.ReturnToPool(gameObject, gameObject);
     }
 }

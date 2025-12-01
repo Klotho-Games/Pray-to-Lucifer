@@ -18,17 +18,36 @@ public class SFXManager : MonoBehaviour
     [SerializeField] private GameObject sfxAudioSourcePrefab;
     [SerializeField] private int poolSize = 5;
 
+    [Header("Enemy SFX")]
     [SerializeField] private List<SFX> enemyAttacks;
     [SerializeField] private List<SFX> enemyDeaths;
-    [SerializeField] private List<SFX> loopingSFX;
+
+    [Header("Beam SFX")]
+    public SFX BeamStartSFX;
+    public SFX BeamLoopSFX;
+    public SFX BeamEndSFX;
+
+    [Header("Densoul SFX")]
+    public SFX ChangeGateTypeSFX;
+    public SFX EnterGatePlacementModeSFX;
+    public SFX GatePlacementModeLoopSFX;
+    public SFX LeaveGatePlacementModeSFX;
+    public SFX EnterRotationModeSFX;
+    public SFX RotateGateSFX;
+    public SFX PlaceGateSFX;
+    public SFX DestroyGateSFX;
+
+    [Header("Soul Shard SFX")]
+    public SFX CollectSoulShardSFX;
+    public SFX MergeSoulShardSFX;
+
+    [Header("Main Menu SFX")]
+    public SFX TutorialButtonSFX;
+    public SFX PlayButtonSFX;
+    public SFX ExitButtonSFX;
+
 
     private List<GameObject> activeLoopingSFX = new(); 
-    public enum LoopingSFX
-    {
-        Beam,
-        EnemyAmbient
-        // Add more as needed and adjust the order to match the loopingSFX list in the inspector
-    }
 
     #region Instance
     void Awake()
@@ -148,6 +167,16 @@ public class SFXManager : MonoBehaviour
         PlaySFX(clips[randomIndex], position, randomVolume / 100f, randomPitch / 100f);
     }
 
+    public void PlaySFX(SFX sfx, Vector2 position)
+    {
+        if (sfx == null || sfx.Clips == null || sfx.Clips.Length == 0)
+        {
+            Debug.LogWarning("SFXManager: Attempted to play a null SFX.");
+            return;
+        }
+        PlaySFX(sfx.Clips, position, sfx.Volume, sfx.Pitch);
+    }
+
     #endregion
 
     public void PlayEnemyAttackSFX(string enemyName, Vector2 position)
@@ -178,13 +207,26 @@ public class SFXManager : MonoBehaviour
 
     #region Looping SFX
 
-    public void StartLoopingSFX(LoopingSFX sfxType, string name, Vector2 position, Vector2 volumeRange, Vector2 pitchRange)
+    public void StartLoopingSFX(SFX sfx, Vector2 position, string sfxName = "")
     {
-        if (LoopSFXExists(name, out AudioSource source))
+        if (sfx == null || sfx.Clips == null || sfx.Clips.Length == 0)
         {
+            Debug.LogWarning("SFXManager: Attempted to start a null looping SFX.");
+            return;
+        }
+
+        if(sfxName == "")
+        {
+            sfxName = sfx.Name;
+        }
+        if (LoopSFXExists(sfxName, out AudioSource source))
+        {
+            Debug.Log("Updating looping SFX: " + sfxName);
+            // SFX is already playing, just update position and parameters
+            source.clip = sfx.Clips[UnityEngine.Random.Range(0, sfx.Clips.Length)];
             source.transform.position = position;
-            source.volume = UnityEngine.Random.Range(volumeRange.x, volumeRange.y);
-            source.pitch = UnityEngine.Random.Range(pitchRange.x, pitchRange.y);
+            source.volume = UnityEngine.Random.Range(sfx.Volume.x, sfx.Volume.y);
+            source.pitch = UnityEngine.Random.Range(sfx.Pitch.x, sfx.Pitch.y);
             if (!source.isPlaying)
             {
                 source.Play();
@@ -192,13 +234,16 @@ public class SFXManager : MonoBehaviour
         }
         else
         {
+            Debug.Log("Starting looping SFX: " + sfxName);
             source = ObjectPooler.instance.GetFromPool(sfxAudioSourcePrefab, position, null, poolSize).GetComponent<AudioSource>();
             source.loop = true;
-            source.clip = loopingSFX[(int)sfxType].Clips[UnityEngine.Random.Range(0, loopingSFX[(int)sfxType].Clips.Length)];
-            source.volume = UnityEngine.Random.Range(volumeRange.x, volumeRange.y);
-            source.pitch = UnityEngine.Random.Range(pitchRange.x, pitchRange.y);
+            source.clip = sfx.Clips[UnityEngine.Random.Range(0, sfx.Clips.Length)];
+            source.transform.position = position;
+            source.volume = UnityEngine.Random.Range(sfx.Volume.x, sfx.Volume.y);
+            source.pitch = UnityEngine.Random.Range(sfx.Pitch.x, sfx.Pitch.y);
+            source.Play();
 
-            source.gameObject.name = name;
+            source.gameObject.name = sfxName;
             activeLoopingSFX.Add(source.gameObject);
         }
     }
@@ -207,11 +252,11 @@ public class SFXManager : MonoBehaviour
     {
         if (LoopSFXExists(name, out AudioSource source))
         {
-            AudioSource audioSource = source.gameObject.GetComponent<AudioSource>();
-            if (audioSource != null && audioSource.isPlaying)
+            Debug.Log("Stopping looping SFX: " + name);
+            if (source != null && source.isPlaying)
             {
-                audioSource.Stop();
-                audioSource.loop = false;
+                source.Stop();
+                source.loop = false;
             }
             ObjectPooler.instance.ReturnToPool(source.gameObject, source.gameObject);
             activeLoopingSFX.Remove(source.gameObject);
@@ -224,8 +269,9 @@ public class SFXManager : MonoBehaviour
 
     private bool LoopSFXExists(string name, out AudioSource source)
     {
-        source = activeLoopingSFX.Find(sfx => sfx.name == name).GetComponent<AudioSource>();
-        return source != null;
+        source = null;
+        GameObject sfxObject = activeLoopingSFX.Find(sfx => sfx.name == name);
+        return sfxObject != null && sfxObject.TryGetComponent(out source);
     }
 
     #endregion

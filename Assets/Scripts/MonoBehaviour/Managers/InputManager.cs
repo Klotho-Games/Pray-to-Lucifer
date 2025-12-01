@@ -33,7 +33,7 @@ public class InputManager : MonoBehaviour
     public bool DashInput { get; private set; }
     public Vector2 MousePosition { get; private set; }
     public Vector2 RightStick { get; private set; }
-    public bool PreciseControlInput { get; private set; }
+    public bool GatePlacementInput { get; private set; }
 
     private InputAction moveAction;
     private InputAction soulStateAction;
@@ -167,7 +167,7 @@ public class InputManager : MonoBehaviour
         MousePosition = mousePositionAction.ReadValue<Vector2>();
         MousePosition = cam.ScreenToWorldPoint(MousePosition);
         RightStick = rightStickAction.ReadValue<Vector2>();
-        PreciseControlInput = preciseControlAction.IsPressed();
+        GatePlacementInput = preciseControlAction.IsPressed();
         
         if (EnableDebug && MoveInput != Vector2.zero)
             Debug.Log($"[InputManager] Move input detected: {MoveInput}");

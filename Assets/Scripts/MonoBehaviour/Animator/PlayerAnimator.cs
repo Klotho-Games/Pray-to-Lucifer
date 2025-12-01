@@ -24,6 +24,7 @@ public class PlayerAnimator : MonoBehaviour
             if (!wasSoulStateLastFrame)
             {
                 animator.SetTrigger("startSoulState");
+                // begin charging
 
                 if (enterSoulStateParticleController != null)
                 {
@@ -36,11 +37,13 @@ public class PlayerAnimator : MonoBehaviour
 
             if (soulState.currentSoulState == PlayerSoulState.SoulState.Heal)
             {
+                // heal state
                 if (!healingParticleSystem.isPlaying)
                     healingParticleSystem.Play();
             }
             else
             {
+                // charged but not heal state
                 if (healingParticleSystem.isPlaying)
                     healingParticleSystem.Stop();
             }
@@ -49,6 +52,7 @@ public class PlayerAnimator : MonoBehaviour
         }
         else
         {
+            // stop charging 
             if (healingParticleSystem.isPlaying)
                 healingParticleSystem.Stop();
 
