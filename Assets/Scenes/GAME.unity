@@ -2816,10 +2816,10 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 5509097932273419458, guid: 8943216de54e992479b59d3c6aef8cb1, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: b8f89689338720649bd6e98394cc9664, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -3510,6 +3510,12 @@ MonoBehaviour:
     Name: Beam End SFX
     Clips:
     - {fileID: 8300000, guid: 729e1ca85fec41a4bbffc4538ca6e67d, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  HealSoulStateSFX:
+    Name: Heal Soul State
+    Clips:
+    - {fileID: 8300000, guid: 505c02be314282a4593f61aa880615a6, type: 3}
     Volume: {x: 1, y: 1}
     Pitch: {x: 1, y: 1}
   ChangeGateTypeSFX:
@@ -5118,8 +5124,10 @@ MonoBehaviour:
   - 'Place a <i>Densoul</i>: collect more soul; press Ctrl; click location; click
     again to place with the chosen rotation.'
   - Press Q or Tab to switch items.
-  - Try out the other types! When you're done, press M to open menu and choose PLAY.
-    Tip for future PLAY resets the game, choose M to resume instead.
+  - 'Destoy a Densoul: enter placement mode (Ctrl) and click on the red indicator
+    on a gate.'
+  - 'Try out the other types! When you''re done, press M to open menu and choose
+    PLAY. \nTip: PLAY resets the game, choose M to resume.'
   tutorialInstructionText: {fileID: 1209037423}
   tutorialEnemySpawnPos: {x: 5, y: 0}
   TutorialEnemy: {fileID: 1712254273}

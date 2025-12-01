@@ -27,6 +27,9 @@ public class SFXManager : MonoBehaviour
     public SFX BeamLoopSFX;
     public SFX BeamEndSFX;
 
+    [Header("Player SFX")]
+    public SFX HealSoulStateSFX;
+
     [Header("Densoul SFX")]
     public SFX ChangeGateTypeSFX;
     public SFX EnterGatePlacementModeSFX;
