@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SFXManager : MonoBehaviour
 {
@@ -45,6 +46,13 @@ public class SFXManager : MonoBehaviour
     public SFX TutorialButtonSFX;
     public SFX PlayButtonSFX;
     public SFX ExitButtonSFX;
+
+    [Header("Mixers")]
+    [SerializeField] private AudioMixerGroup mainMixerGroup;
+    [SerializeField] private float stepVolumeChange = 10f;
+    const string masterVolumeParam = "MasterVol";
+    const string musicVolumeParam = "MusicVol";
+    const string sfxVolumeParam = "SFXVol";
 
 
     private List<GameObject> activeLoopingSFX = new(); 
@@ -100,6 +108,51 @@ public class SFXManager : MonoBehaviour
                 }
             }
         }
+    }
+    
+    public void AdjustMasterVolume(float delta)
+    {
+        if (mainMixerGroup == null || mainMixerGroup.audioMixer == null)
+        {
+            Debug.LogWarning("SFXManager: AudioMixer not assigned.");
+            return;
+        }
+
+        delta *= stepVolumeChange;
+
+        mainMixerGroup.audioMixer.GetFloat(masterVolumeParam, out float currentVolume);
+        float newVolume = Mathf.Clamp(currentVolume + delta, -80f, 0f);
+        mainMixerGroup.audioMixer.SetFloat(masterVolumeParam, newVolume);
+    }
+
+    public void AdjustMusicVolume(float delta)
+    {
+        if (mainMixerGroup == null || mainMixerGroup.audioMixer == null)
+        {
+            Debug.LogWarning("SFXManager: AudioMixer not assigned.");
+            return;
+        }
+
+        delta *= stepVolumeChange;
+
+        mainMixerGroup.audioMixer.GetFloat(musicVolumeParam, out float currentVolume);
+        float newVolume = Mathf.Clamp(currentVolume + delta, -80f, 0f);
+        mainMixerGroup.audioMixer.SetFloat(musicVolumeParam, newVolume);
+    }
+
+    public void AdjustSFXVolume(float delta)
+    {
+        if (mainMixerGroup == null || mainMixerGroup.audioMixer == null)
+        {
+            Debug.LogWarning("SFXManager: AudioMixer not assigned.");
+            return;
+        }
+
+        delta *= stepVolumeChange;
+
+        mainMixerGroup.audioMixer.GetFloat(sfxVolumeParam, out float currentVolume);
+        float newVolume = Mathf.Clamp(currentVolume + delta, -80f, 0f);
+        mainMixerGroup.audioMixer.SetFloat(sfxVolumeParam, newVolume);
     }
 
     public void PlaySFX(AudioClip clip, Vector2 position, float volume = 1f, float pitch = 1f, string sfxName = "")

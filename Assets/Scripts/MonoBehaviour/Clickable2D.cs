@@ -10,11 +10,16 @@ public class Clickable2D : MonoBehaviour, IClickable {
         None,
         InvokeRotationMode,
         PlayGame,
-        USETHISFORSMTHELSE,
+        IncreaseMusicVolume,
         PlayTutorial,
         CloseGame,
         DestroyGate,
-        PlaceGate
+        PlaceGate,
+        DecreaseMusicVolume,
+        IncreaseSFXVolume,
+        DecreaseSFXVolume,
+        IncreaseMasterVolume,
+        DecreaseMasterVolume
     }
     [Header("Click Settings")]
     //[SerializeField] private AudioClip clickSound;
@@ -91,6 +96,30 @@ public class Clickable2D : MonoBehaviour, IClickable {
                 SFXManager.instance.PlaySFX(SFXManager.instance.PlaceGateSFX, transform.position);
                 gameObject.SetActive(false);
                 GatePlacementManager.instance.PlaceGate();
+                break;
+
+            case ButtonSpecialFunction.IncreaseMusicVolume:
+                SFXManager.instance.AdjustMusicVolume(1);
+                break;
+
+            case ButtonSpecialFunction.DecreaseMusicVolume:
+                SFXManager.instance.AdjustMusicVolume(-1);
+                break;
+
+            case ButtonSpecialFunction.IncreaseSFXVolume:
+                SFXManager.instance.AdjustSFXVolume(1);
+                break;
+
+            case ButtonSpecialFunction.DecreaseSFXVolume:
+                SFXManager.instance.AdjustSFXVolume(-1);
+                break;
+
+            case ButtonSpecialFunction.IncreaseMasterVolume:
+                SFXManager.instance.AdjustMasterVolume(1);
+                break;
+
+            case ButtonSpecialFunction.DecreaseMasterVolume:
+                SFXManager.instance.AdjustMasterVolume(-1);
                 break;
         }
 
