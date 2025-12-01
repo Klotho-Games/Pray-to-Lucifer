@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60959e2dc67c838438f69088ce1ab5dc, type: 3}
   m_Name: BigGhost
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  Name: Ghost
+  Description: A description placeholder.
   IsLava: 0
   MaxHP: 100
   Speed: 1.6

@@ -21,6 +21,8 @@ public class EnemySO : ScriptableObject
     }
     
     [Header("Identity")]
+    public string Name = "Enemy";
+    public string Description = "A description placeholder.";
     public bool IsLava = false;
 
 

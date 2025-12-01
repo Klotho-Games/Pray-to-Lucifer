@@ -3750,12 +3750,23 @@ MonoBehaviour:
   enemyAttacks:
   - Name: Ghost
     Clips:
-    - {fileID: 0}
+    - {fileID: 8300000, guid: 4a0f0f6610451c540a070f69493e8852, type: 3}
     Volume: {x: 1, y: 1}
     Pitch: {x: 1, y: 1}
   - Name: Gargoyle
     Clips:
-    - {fileID: 0}
+    - {fileID: 8300000, guid: ab3ab6a5f51fd2d45a3e1c26999b82d9, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  enemyDeaths:
+  - Name: Ghost
+    Clips:
+    - {fileID: 8300000, guid: 46b9d113bd2b7634e918e957d3775fe6, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  - Name: Gargoyle
+    Clips:
+    - {fileID: 8300000, guid: 63913fc7f75983c4e8e56675e9f0bdee, type: 3}
     Volume: {x: 1, y: 1}
     Pitch: {x: 1, y: 1}
 --- !u!4 &1579627184

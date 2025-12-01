@@ -19,6 +19,7 @@ public class SFXManager : MonoBehaviour
     [SerializeField] private int poolSize = 5;
 
     [SerializeField] private List<SFX> enemyAttacks;
+    [SerializeField] private List<SFX> enemyDeaths;
 
     #region Instance
     void Awake()
@@ -40,6 +41,23 @@ public class SFXManager : MonoBehaviour
         if (enemyAttacks != null)
         {
             foreach (var sfx in enemyAttacks)
+            {
+                if (sfx != null)
+                {
+                    if (sfx.Clips == null || sfx.Clips.Length == 0)
+                    {
+                        sfx.Clips = new AudioClip[1];
+                    }
+                    if (sfx.Volume == Vector2.zero)
+                        sfx.Volume = new Vector2(1f, 1f);
+                    if (sfx.Pitch == Vector2.zero)
+                        sfx.Pitch = new Vector2(1f, 1f);
+                }
+            }
+        }
+        if (enemyDeaths != null)
+        {
+            foreach (var sfx in enemyDeaths)
             {
                 if (sfx != null)
                 {
@@ -117,4 +135,30 @@ public class SFXManager : MonoBehaviour
     }
 
     #endregion
+
+    public void PlayEnemyAttackSFX(string enemyName, Vector2 position)
+    {
+        SFX sfx = enemyAttacks.Find(s => s.Name == enemyName);
+        if (sfx != null)
+        {
+            PlaySFX(sfx.Clips, position, sfx.Volume, sfx.Pitch);
+        }
+        else
+        {
+            Debug.LogWarning("SFXManager: No Enemy Attack SFX found with the name " + enemyName);
+        }
+    }
+
+    public void PlayEnemyDeathSFX(string enemyName, Vector2 position)
+    {
+        SFX sfx = enemyDeaths.Find(s => s.Name == enemyName);
+        if (sfx != null)
+        {
+            PlaySFX(sfx.Clips, position, sfx.Volume, sfx.Pitch);
+        }
+        else
+        {
+            Debug.LogWarning("SFXManager: No Enemy Death SFX found with the name " + enemyName);
+        }
+    }
 }

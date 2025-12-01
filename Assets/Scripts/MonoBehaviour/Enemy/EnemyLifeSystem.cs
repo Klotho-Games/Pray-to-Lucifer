@@ -76,6 +76,7 @@ public class EnemyLifeSystem : MonoBehaviour
     private void Die()
     {
         // Handle enemy death (e.g., play animation, drop rewards)
+        SFXManager.instance.PlayEnemyDeathSFX(enemyData.Name, transform.position);
         SpawnSoulShard();
 
         if (isTutorialEnemy)
