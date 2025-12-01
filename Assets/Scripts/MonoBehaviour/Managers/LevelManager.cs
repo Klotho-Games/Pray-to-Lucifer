@@ -51,9 +51,10 @@ public class LevelManager : MonoBehaviour
     [Header("Pooling Settings")]
     [SerializeField] private ObjectPooler objectPooler;
     [SerializeField] private int poolSize = 100;
-    [Header("Wave Music")]
-    [SerializeField] private AudioSource wave1music;
-    [SerializeField] private AudioSource wave2music;
+    [Header("Level Music")]
+    // Based on time even tho levels aren't. TODO: fix that later
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioClip[] musicClips;
 
    
     #endregion
@@ -203,6 +204,13 @@ public class LevelManager : MonoBehaviour
 
         currentLevelIndex = levelIndex;
 
+        // In case there are less music clips than levels, we take modulo
+        musicSource.clip = musicClips[levelIndex % musicClips.Length];
+        if (!musicSource.isPlaying)
+        {
+            musicSource.Play();
+        }
+
         // Complete cleanup
         DestroyAllEnemiesAndSoulShards();
         GatePlacementManager.instance.DestroyAllPlacedGates();
@@ -244,25 +252,6 @@ public class LevelManager : MonoBehaviour
     );
 
     ShowWaveText();
-
-    // ----------------------------------------------------
-    // CLEAN MUSIC SWITCH – ONLY THIS!!!
-    // ----------------------------------------------------
-    wave1music.Stop();
-    wave2music.Stop();
-
-    if (waveIndex == 0)
-    {
-        Debug.Log("PLAYING MUSIC FOR WAVE 1");
-        wave1music.Play();
-    }
-    else if (waveIndex == 1)
-    {
-        Debug.Log("PLAYING MUSIC FOR WAVE 2");
-        wave2music.Play();
-    }
-
-    // ----------------------------------------------------
 
     void ShowWaveText()
     {
