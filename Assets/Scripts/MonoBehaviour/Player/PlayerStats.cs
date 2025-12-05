@@ -11,6 +11,24 @@ public class PlayerStats : MonoBehaviour
     public event System.Action OnHealthChanged;
     public event System.Action OnSoulChanged;
 
+    [SerializeField] private bool infiniteHealth = false;
+    [SerializeField] private bool infiniteSoul = false;
+
+    void Update()
+    {
+        if (infiniteHealth && CurrentHealth < MaxHealth)
+        {
+            CurrentHealth = MaxHealth;
+            OnHealthChanged?.Invoke();
+        }
+
+        if (infiniteSoul && CurrentSoul < MaxSoul)
+        {
+            CurrentSoul = MaxSoul;
+            OnSoulChanged?.Invoke();
+        }
+    }
+
     public void TakeDamage(int damage)
     {
         var temp = CurrentHealth - damage;
