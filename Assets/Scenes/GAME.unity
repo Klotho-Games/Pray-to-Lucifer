@@ -3072,10 +3072,10 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: b8f89689338720649bd6e98394cc9664, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -3776,9 +3776,15 @@ MonoBehaviour:
   BeamEndSFX:
     Name: LightbeamEnd
     Clips:
-    - {fileID: 8300000, guid: e8f867c834b355947bdc0a84522a6f98, type: 3}
+    - {fileID: 8300000, guid: 729e1ca85fec41a4bbffc4538ca6e67d, type: 3}
+    Volume: {x: 1, y: 1}
+    Pitch: {x: 1, y: 1}
+  HealSoulStateSFX:
+    Name: Heal Soul State
+    Clips:
+    - {fileID: 8300000, guid: 505c02be314282a4593f61aa880615a6, type: 3}
     Volume: {x: 0.1, y: 0.1}
-    Pitch: {x: 1, y: 1.2}
+    Pitch: {x: 1, y: 1}
   ChangeGateTypeSFX:
     Name: 
     Clips: []
@@ -3832,10 +3838,11 @@ MonoBehaviour:
     Volume: {x: 0.2, y: 0.3}
     Pitch: {x: 1, y: 1.2}
   MergeSoulShardSFX:
-    Name: 
-    Clips: []
-    Volume: {x: 0, y: 0}
-    Pitch: {x: 0, y: 0}
+    Name: Merge Soul Shard SFX
+    Clips:
+    - {fileID: 8300000, guid: 08805c26f86a502498b5375082e008a1, type: 3}
+    Volume: {x: 0.6, y: 0.6}
+    Pitch: {x: 1, y: 1}
   TutorialButtonSFX:
     Name: TutorialButton
     Clips:
@@ -5381,7 +5388,10 @@ MonoBehaviour:
   - 'Place a <i>Densoul</i>: collect more soul; press Ctrl; click location; click
     again to place with the chosen rotation.'
   - Press Q or Tab to switch items.
-  - Press the button to end the tutorial.
+  - 'Destoy a Densoul: enter placement mode (Ctrl) and click on the red indicator
+    on a gate.'
+  - 'Try out the other types! When you''re done, press M to open menu and choose
+    PLAY. \nTip: PLAY resets the game, choose M to resume.'
   tutorialInstructionText: {fileID: 1209037423}
   tutorialEnemySpawnPos: {x: 5, y: 0}
   TutorialEnemy: {fileID: 1712254273}

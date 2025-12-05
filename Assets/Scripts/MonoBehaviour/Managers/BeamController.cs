@@ -125,7 +125,7 @@ public class BeamController : MonoBehaviour
 
             IEnumerator StartBeamLoopSFXAfterBeamStartSFX()
             {
-                yield return new WaitForSeconds(SFXManager.instance.BeamStartSFX.Clips[0].length);
+                yield return new WaitForSeconds(SFXManager.instance.BeamStartSFX.Clips[0].length - 0.1f);
                 if (beamOriginTransform != null && beamOriginTransform.gameObject != null && beamOriginTransform.gameObject.activeInHierarchy)
                 {
                     SFXManager.instance.StartLoopingSFX(SFXManager.instance.BeamLoopSFX, beamOriginTransform.position);
