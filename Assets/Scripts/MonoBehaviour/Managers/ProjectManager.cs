@@ -18,4 +18,17 @@ public class ProjectManager : MonoBehaviour
         }
     }
     #endregion
+
+    public void StopTime()
+    {
+        Time.timeScale = 0f;
+
+        BeamController.instance.IsBeamActive = false;
+        BeamController.instance.DeactivateBeam();
+    }
+
+    public void ResumeTime()
+    {
+        Time.timeScale = 1f;
+    }
 }

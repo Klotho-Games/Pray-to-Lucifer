@@ -37,7 +37,7 @@ public class InputManager : MonoBehaviour
 
     private InputAction moveAction;
     private InputAction soulStateAction;
-    private InputAction primaryShootAction; // beam attack
+    public InputAction PrimaryShootAction; // beam attack
     public InputAction SecondaryShootAction { get; private set; } // Zap Blast attack
     private InputAction tertiaryShootAction; // Soul Blast attack
     private InputAction dashAction;
@@ -119,7 +119,8 @@ public class InputManager : MonoBehaviour
             pressMToResumeText.text = startPressMToResumeText;
             controlsText.text = startControlsText;
         }
-        Time.timeScale = 0f;
+        
+        ProjectManager.instance.StopTime();
     }
 
     public void CloseMainMenu()
@@ -128,7 +129,7 @@ public class InputManager : MonoBehaviour
 
         isMenuOpen = false;
         MainMenu.SetActive(false);
-        Time.timeScale = timeScaleBeforeMenu;
+        ProjectManager.instance.ResumeTime();
     }
     #endregion
 
@@ -146,22 +147,13 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
         UpdateInputs();
-
-        if (PrimaryShootInput)
-        {
-            BeamController.instance.IsBeamActive = true;
-        }
-        else
-        {
-            BeamController.instance.IsBeamActive = false;
-        }
     }
 
     private void UpdateInputs()
     {
         MoveInput = moveAction.ReadValue<Vector2>();
         SoulStateInput = soulStateAction.IsPressed();
-        PrimaryShootInput = primaryShootAction.IsPressed();
+        PrimaryShootInput = PrimaryShootAction.IsPressed();
         TertiaryShootInput = tertiaryShootAction.IsPressed();
         DashInput = dashAction.IsPressed();
         MousePosition = mousePositionAction.ReadValue<Vector2>();
@@ -178,7 +170,7 @@ public class InputManager : MonoBehaviour
         if (EnableDebug) Debug.Log("[InputManager] Setting up actions");
         moveAction = playerInput.actions["Move"];
         soulStateAction = playerInput.actions["SoulState"];
-        primaryShootAction = playerInput.actions["PrimaryShoot"];
+        PrimaryShootAction = playerInput.actions["PrimaryShoot"];
         SecondaryShootAction = playerInput.actions["SecondaryShoot"];
         tertiaryShootAction = playerInput.actions["TertiaryShoot"];
         dashAction = playerInput.actions["Dash"];

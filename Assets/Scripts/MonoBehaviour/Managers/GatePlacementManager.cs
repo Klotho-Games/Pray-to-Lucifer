@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 
 public class GatePlacementManager : MonoBehaviour
@@ -145,7 +146,7 @@ public class GatePlacementManager : MonoBehaviour
         {
             if (isInPlacementMode)
             {
-                Time.timeScale = 1f;
+                ProjectManager.instance.ResumeTime();
                 isInPlacementMode = false;
             }
             currentGateTypeDisplayText.alpha = 0.06f;
@@ -163,7 +164,7 @@ public class GatePlacementManager : MonoBehaviour
         {
             if (isInPlacementMode)
             {
-                Time.timeScale = 1f;
+                ProjectManager.instance.ResumeTime();
                 isInPlacementMode = false;
                 SFXManager.instance.StopLoopingSFX(SFXManager.instance.GatePlacementModeLoopSFX.Name);
                 SFXManager.instance.PlaySFX(SFXManager.instance.LeaveGatePlacementModeSFX, player.position);
@@ -174,7 +175,7 @@ public class GatePlacementManager : MonoBehaviour
 
         if (!isInPlacementMode) // just entered placement mode
         {
-            Time.timeScale = 0f;
+            ProjectManager.instance.StopTime();
             isInPlacementMode = true;
             SFXManager.instance.PlaySFX(SFXManager.instance.EnterGatePlacementModeSFX, player.position);
             StartCoroutine(StartLoopingSFX());
@@ -217,7 +218,7 @@ public class GatePlacementManager : MonoBehaviour
         isInPlacementMode = false;
         isInRotationMode = true;
         InputManager.instance.CancelAction.performed += ctx => CancelRotationMode();
-        Time.timeScale = 0;
+        ProjectManager.instance.StopTime();
         DestroyAllIndicators();
         currentRotationIndicator = Instantiate(rotationIndicatorPrefab).transform;
         currentRotationIndicator.position = cellWorldPos;
@@ -367,7 +368,7 @@ public class GatePlacementManager : MonoBehaviour
         isInRotationMode = false;
         isInPlacementMode = true;
         InputManager.instance.CancelAction.performed -= ctx => CancelRotationMode();
-        Time.timeScale = 1f;
+        ProjectManager.instance.ResumeTime();
         if (currentRotationIndicator != null)
         {
             Destroy(currentRotationIndicator.gameObject);
