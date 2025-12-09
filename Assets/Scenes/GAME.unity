@@ -1033,7 +1033,7 @@ MonoBehaviour:
   EnableDebug: 0
   cam: {fileID: 519420031}
   PrimaryShootAction:
-    m_Name: 
+    m_Name: Primary Shoot
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 5ce6020c-9ad9-4714-b370-75310ca0bbfb
@@ -1226,7 +1226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &391916038
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1239,6 +1239,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1535952303}
   - {fileID: 2038883502}
   - {fileID: 1717468284}
   - {fileID: 1487059688}
@@ -3308,7 +3309,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -2.5}
-  m_SizeDelta: {x: 9.3, y: 50}
+  m_SizeDelta: {x: 12.3, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1487059689
 MonoBehaviour:
@@ -3330,7 +3331,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100.00 meters to ground
+  m_text: respawning in 1s
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3364,7 +3365,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 17
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -3452,6 +3453,134 @@ MeshRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 21
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1535952302
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1535952303}
+  - component: {fileID: 1535952307}
+  - component: {fileID: 1535952306}
+  - component: {fileID: 1535952305}
+  - component: {fileID: 1535952304}
+  m_Layer: 31
+  m_Name: Respawn Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1535952303
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535952302}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 9}
+  m_LocalScale: {x: 35.4476, y: 19.939276, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 391916038}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1535952304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535952302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5a5991eaa78a0f43926890592d685a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Clickable2D
+  specialFunction: 8
+  enableDebug: 0
+--- !u!114 &1535952305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535952302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6a2aa38677573947ad1b15d9e44d65c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightableElement2D
+  highlightAnchor: {fileID: 0}
+  highlightScale: 1.1
+  isTint: 1
+  highlightColor: {r: 1.2, g: 1.2, b: 1.2, a: 1}
+  PreHighlightColors: []
+  PreHighlightScale: {x: 1, y: 1}
+  PreHighlightScaleCached: 0
+  enableDebug: 0
+--- !u!61 &1535952306
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535952302}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &1535952307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535952302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e688dcbb6b35174b8d3b764149b8e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TransformFullScreenScaler
+  cam: {fileID: 519420031}
 --- !u!1 &1546054141
 GameObject:
   m_ObjectHideFlags: 0
@@ -3664,6 +3793,11 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 505c02be314282a4593f61aa880615a6, type: 3}
     Volume: {x: 0.1, y: 0.1}
     Pitch: {x: 1, y: 1}
+  RespawnSFX:
+    Name: 
+    Clips: []
+    Volume: {x: 0, y: 0}
+    Pitch: {x: 0, y: 0}
   ChangeGateTypeSFX:
     Name: Change Gate Type SFX
     Clips:
@@ -5293,6 +5427,7 @@ MonoBehaviour:
     indicator in top-right</b>\n  <b>Ctrl</b> - choose densoul placement,  \n  <b>Tab</b>
     / <b>Q</b> - switch densoul type
   respawnDelay: 4
+  respawnButton: {fileID: 1535952302}
   objectPooler: {fileID: 127907762}
   poolSize: 500
   musicSource: {fileID: 1429836479}

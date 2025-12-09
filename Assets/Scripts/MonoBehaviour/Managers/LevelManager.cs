@@ -1,6 +1,7 @@
 using System.Collections;
 using PrimeTween;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -46,6 +47,7 @@ public class LevelManager : MonoBehaviour
     
     [Header("Death & Respawn")]
     [SerializeField] private float respawnDelay = 2f;
+    [SerializeField] private GameObject respawnButton;
     
     [Header("Pooling Settings")]
     [SerializeField] private ObjectPooler objectPooler;
@@ -515,47 +517,31 @@ public class LevelManager : MonoBehaviour
 
     #region Death & Respawn
 
-    private IEnumerator CountdownMetersAsRespawnCounter()
+    private IEnumerator RespawnCountdown()
     {
         float countdown = 0;
-        float g = 9.81f;
-        while (countdown <= respawnDelay)
+
+        while (countdown < respawnDelay)
         {
-            respawnCounterText.text = RoundToTwoDecimalPlacesAndToString(0.5f * g * (respawnDelay - countdown) * (respawnDelay + countdown)) + " meters to ground";
+            respawnCounterText.text = $"Respawning in {Mathf.CeilToInt(respawnDelay - countdown)}";
             yield return null;
             countdown += Time.unscaledDeltaTime;
         }
 
-        static string RoundToTwoDecimalPlacesAndToString(float value)
-        {
-            int times100 = Mathf.RoundToInt(value * 100f);
-            if (times100 % 100 == 0)
-                return (times100 / 100).ToString() + ".00";
-            else if (times100 % 10 == 0)
-                return (times100 / 100).ToString() + "." + (times100 % 10).ToString() + "0";
-            else
-                return (times100 / 100).ToString() + "." + (times100 % 100).ToString();
-                
-        }
+        respawnButton.SetActive(true);
+        respawnCounterText.text = "Click to Respawn";
     }
 
     public void OnPlayerDeath()
     {
         isDead = true;
         youDiedScreen.SetActive(true);
-        StartCoroutine(CountdownMetersAsRespawnCounter());
-        StartCoroutine(WaitAndRespawnPlayer());
+        ProjectManager.instance.StopTime();
+        StartCoroutine(RespawnCountdown());
         // more player death handling logic can be added here
     }
 
-    private IEnumerator WaitAndRespawnPlayer()
-    {
-        Time.timeScale = 0f;
-        yield return new WaitForSecondsRealtime(respawnDelay);
-        RespawnPlayer();
-    }
-
-    private void RespawnPlayer()
+    public void RespawnPlayer()
     {
         playerStats.ResetCurrentHealth();
         youDiedScreen.SetActive(false);

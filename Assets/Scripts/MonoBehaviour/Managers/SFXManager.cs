@@ -29,6 +29,7 @@ public class SFXManager : MonoBehaviour
 
     [Header("Player SFX")]
     public SFX HealSoulStateSFX;
+    public SFX RespawnSFX;
 
     [Header("Densoul SFX")]
     public SFX ChangeGateTypeSFX;

@@ -14,7 +14,8 @@ public class Clickable2D : MonoBehaviour, IClickable {
         PlayTutorial,
         CloseGame,
         DestroyGate,
-        PlaceGate
+        PlaceGate,
+        RespawnPlayer
     }
     [Header("Click Settings")]
     //[SerializeField] private AudioClip clickSound;
@@ -91,6 +92,11 @@ public class Clickable2D : MonoBehaviour, IClickable {
                 SFXManager.instance.PlaySFX(SFXManager.instance.PlaceGateSFX, transform.position);
                 gameObject.SetActive(false);
                 GatePlacementManager.instance.PlaceGate();
+                break;
+
+            case ButtonSpecialFunction.RespawnPlayer:
+                SFXManager.instance.PlaySFX(SFXManager.instance.RespawnSFX, transform.position);
+                LevelManager.instance.RespawnPlayer();
                 break;
         }
 
