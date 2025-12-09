@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using NUnit.Framework;
 using UnityEngine;
 
 public class BeamController : MonoBehaviour
 {
     public static BeamController instance;
+
+    public bool IsBeamActive = false;
+    public bool previousIsBeamActive = false;
 
     [SerializeField] private int _damagePerSecond = 10;
     [SerializeField] private int _intensity = 10;
@@ -27,8 +32,6 @@ public class BeamController : MonoBehaviour
 
     public List<LineRenderer> SpawnedLineRenderers { get; private set; } = new();
     private readonly List<GameObject> spawnedEffects = new();
-
-    //private Vector2 facingDirection;
     private Vector2 lastBeamDirection = Vector2.zero;
     private int spawnedLineRenderersNextToRedrawCache = 0;
 
@@ -56,14 +59,46 @@ public class BeamController : MonoBehaviour
     }
     #endregion
 
-    void Start()
-    {
-        // FacingDirectionUpdate();
-    }
-
     private void FixedUpdate()
     {
-        UpdateBeamPath();
+        if (IsBeamActive)
+        {
+            if (!previousIsBeamActive)
+            {
+                // Start beam
+                if (beamOriginTransform != null && beamOriginTransform.gameObject != null)
+                {
+                    SFXManager.instance.PlaySFX(SFXManager.instance.BeamStartSFX, beamOriginTransform.position);
+                    StartCoroutine(StartBeamLoopSFXAfterBeamStartSFX());
+
+                    IEnumerator StartBeamLoopSFXAfterBeamStartSFX()
+                    {
+                        yield return new WaitForSeconds(SFXManager.instance.BeamStartSFX.Clips[0].length - 0.1f);
+                        if (beamOriginTransform != null && beamOriginTransform.gameObject != null && beamOriginTransform.gameObject.activeInHierarchy)
+                        {
+                            SFXManager.instance.StartLoopingSFX(SFXManager.instance.BeamLoopSFX, beamOriginTransform.position);
+                        }
+                    }
+                }
+            }
+
+            UpdateBeamPath();
+
+            previousIsBeamActive = true;
+        }
+        else if (previousIsBeamActive)
+        {
+            // Stop beam
+            if (beamOriginTransform != null && beamOriginTransform.gameObject != null)
+            {
+                SFXManager.instance.StopLoopingSFX(SFXManager.instance.BeamLoopSFX.Name);
+                SFXManager.instance.PlaySFX(SFXManager.instance.BeamEndSFX, beamOriginTransform.position);
+                beamOriginTransform.gameObject.SetActive(false);
+                DestroyOldLineRenderers();
+            }
+
+            previousIsBeamActive = false;
+        }
     }
 
     private int Increase(int value)
@@ -100,39 +135,6 @@ public class BeamController : MonoBehaviour
         public GameObject hitObject;
     }
 
-    void OnDisable()
-    {
-        
-        if (Time.timeScale == 0f) return;
-
-        if (beamOriginTransform != null && beamOriginTransform.gameObject != null)
-        {
-            SFXManager.instance.StopLoopingSFX(SFXManager.instance.BeamLoopSFX.Name);
-            SFXManager.instance.PlaySFX(SFXManager.instance.BeamEndSFX, beamOriginTransform.position);
-            beamOriginTransform.gameObject.SetActive(false);
-            DestroyOldLineRenderers();
-        }
-    }
-
-    void OnEnable()
-    {
-        if (Time.timeScale == 0f) return;
-
-        if (beamOriginTransform != null && beamOriginTransform.gameObject != null)
-        {
-            SFXManager.instance.PlaySFX(SFXManager.instance.BeamStartSFX, beamOriginTransform.position);
-            StartCoroutine(StartBeamLoopSFXAfterBeamStartSFX());
-
-            IEnumerator StartBeamLoopSFXAfterBeamStartSFX()
-            {
-                yield return new WaitForSeconds(SFXManager.instance.BeamStartSFX.Clips[0].length - 0.1f);
-                if (beamOriginTransform != null && beamOriginTransform.gameObject != null && beamOriginTransform.gameObject.activeInHierarchy)
-                {
-                    SFXManager.instance.StartLoopingSFX(SFXManager.instance.BeamLoopSFX, beamOriginTransform.position);
-                }
-            }
-        }
-    }
 
     private bool BeamOriginIsAllGood()
     {

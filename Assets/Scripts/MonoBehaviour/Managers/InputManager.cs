@@ -149,11 +149,11 @@ public class InputManager : MonoBehaviour
 
         if (PrimaryShootInput)
         {
-            BeamController.instance.gameObject.SetActive(true);
+            BeamController.instance.IsBeamActive = true;
         }
         else
         {
-            BeamController.instance.gameObject.SetActive(false);
+            BeamController.instance.IsBeamActive = false;
         }
     }
 
