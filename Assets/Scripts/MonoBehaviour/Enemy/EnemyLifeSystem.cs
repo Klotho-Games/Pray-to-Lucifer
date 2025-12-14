@@ -101,6 +101,9 @@ public class EnemyLifeSystem : MonoBehaviour
 
     private bool GetDamaged()
     {
+        if (BeamController.instance.IsBeamActive == false)
+            return false;
+        
         bool takingDamage = false;
 
         foreach (LineRenderer beamLR in BeamController.instance.SpawnedLineRenderers)
