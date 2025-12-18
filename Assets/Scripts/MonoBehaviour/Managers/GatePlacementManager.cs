@@ -60,7 +60,7 @@ public class GatePlacementManager : MonoBehaviour
     {
         foreach (Transform child in parentForPlacedGates)
         {
-            Destroy(child.gameObject);
+            ObjectPooler.instance.ReturnToPool(child.gameObject, child.gameObject);
         }
         HasPlacedGate = false;
         HasDestroyedGate = false;
@@ -147,10 +147,10 @@ public class GatePlacementManager : MonoBehaviour
             {
                 ProjectManager.instance.ResumeTime();
                 isInPlacementMode = false;
+                DestroyAllIndicators();
             }
             currentGateTypeDisplayText.alpha = 0.06f;
             currentGateTypeDisplayText.text = GetCurrentGateTypeString();
-            DestroyAllIndicators();
             return;
         }
         else
@@ -167,8 +167,8 @@ public class GatePlacementManager : MonoBehaviour
                 isInPlacementMode = false;
                 SFXManager.instance.StopLoopingSFX(SFXManager.instance.GatePlacementModeLoopSFX.Name);
                 SFXManager.instance.PlaySFX(SFXManager.instance.LeaveGatePlacementModeSFX, player.position);
+                DestroyAllIndicators();
             }
-            DestroyAllIndicators();
             return;
         }
 
@@ -178,6 +178,10 @@ public class GatePlacementManager : MonoBehaviour
             isInPlacementMode = true;
             SFXManager.instance.PlaySFX(SFXManager.instance.EnterGatePlacementModeSFX, player.position);
             StartCoroutine(StartLoopingSFX());
+            
+            // Show places where you can build
+            Vector2Int playerCell = (Vector2Int)hexGrid.WorldToCell(player.position);
+            SearchForAllCellsToIndicateAndShowThem(playerCell, 5);
 
             IEnumerator StartLoopingSFX()
             {
@@ -185,10 +189,6 @@ public class GatePlacementManager : MonoBehaviour
                 SFXManager.instance.StartLoopingSFX(SFXManager.instance.GatePlacementModeLoopSFX, player.position);
             }
         }
-        // Show places where you can build
-        DestroyAllIndicators(); // children
-        Vector2Int playerCell = (Vector2Int)hexGrid.WorldToCell(player.position);
-        SearchForAllCellsToIndicateAndShowThem(playerCell, 5);
     }
 
     private int GetGateCost(GateType gateType)
@@ -430,7 +430,7 @@ public class GatePlacementManager : MonoBehaviour
     private void InstantiateIndicatorAtCell(Vector2Int cellPosition)
     {
         Vector3 cellWorldPosition = hexGrid.GetCellCenterWorld((Vector3Int)cellPosition);
-        Instantiate(placementIndicatorPrefab, cellWorldPosition, Quaternion.identity, hexGrid.transform);
+        ObjectPooler.instance.GetFromPool(placementIndicatorPrefab, cellWorldPosition, hexGrid.transform);
     }
 
     private bool IsPossibleToPlaceGateInCell(Vector2Int cellPosition)
