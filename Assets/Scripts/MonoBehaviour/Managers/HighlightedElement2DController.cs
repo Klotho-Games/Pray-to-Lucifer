@@ -51,8 +51,7 @@ public class HighlightedElement2DController : MonoBehaviour
         // Handle click input
         if (Current != null && IsClickPressed())
         {
-            var clickable = Current.GetComponent<IClickable>();
-            if (clickable != null)
+            if (Current.TryGetComponent<IClickable>(out var clickable))
             {
                 clickable.OnClick();
             }

@@ -22,28 +22,10 @@ public class Clickable2D : MonoBehaviour, IClickable {
     [SerializeField] private ButtonSpecialFunction specialFunction = ButtonSpecialFunction.None;
     [SerializeField] private bool enableDebug = false;
     
-    private AudioSource audioSource;
-    
-    /* void Awake() {
-        // Setup audio source if we have a click sound
-        if (clickSound != null) {
-            audioSource = GetComponent<AudioSource>();
-            if (audioSource == null) {
-                audioSource = gameObject.AddComponent<AudioSource>();
-                audioSource.playOnAwake = false;
-            }
-        }
-    } */
-    
     public virtual void OnClick() {
         if (enableDebug) {
             if (enableDebug) Debug.Log($"Clicked 2D object: {gameObject.name}");
         }
-        
-        /* // Play click sound
-        if (clickSound != null && audioSource != null) {
-            audioSource.PlayOneShot(clickSound);
-        } */
         
         // Override this method in derived classes for custom click behavior
         HandleCustomClick();
