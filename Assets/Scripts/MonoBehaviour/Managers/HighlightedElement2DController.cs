@@ -34,6 +34,10 @@ public class HighlightedElement2DController : MonoBehaviour
     void Update()
     {
         if (mainCamera == null) return;
+        if (Current != null && !Current.gameObject.activeInHierarchy)
+        {
+            SetCurrentHighlighted(null);
+        }
 
         // Handle mobile touch input
         if (Application.isMobilePlatform && !IsTouchActive())

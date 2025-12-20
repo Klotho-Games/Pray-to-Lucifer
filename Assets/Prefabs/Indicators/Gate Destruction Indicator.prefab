@@ -178,6 +178,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a5991eaa78a0f43926890592d685a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Clickable2D
-  clickSound: {fileID: 0}
-  specialFunction: 6
+  clickAction: {fileID: 11400000, guid: 21ce8a4b5176f9041868f02c465b7b8c, type: 2}
   enableDebug: 0

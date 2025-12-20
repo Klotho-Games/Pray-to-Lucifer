@@ -110,7 +110,7 @@ public class SFXManager : MonoBehaviour
     {
         if (HasIssues()) return;
 
-        GameObject obj = ObjectPooler.instance.GetFromPool(sfxAudioSourcePrefab, position, null, poolSize);
+        GameObject obj = ObjectPooler.instance.GetFromPool(sfxAudioSourcePrefab, position, Quaternion.identity, null, poolSize);
         if (sfxName != "")
             obj.name = sfxName + " SFX";
         else
@@ -239,7 +239,7 @@ public class SFXManager : MonoBehaviour
         else
         {
             Debug.Log("Starting looping SFX: " + sfxName);
-            source = ObjectPooler.instance.GetFromPool(sfxAudioSourcePrefab, position, null, poolSize).GetComponent<AudioSource>();
+            source = ObjectPooler.instance.GetFromPool(sfxAudioSourcePrefab, position, Quaternion.identity, null, poolSize).GetComponent<AudioSource>();
             source.loop = true;
             source.clip = sfx.Clips[UnityEngine.Random.Range(0, sfx.Clips.Length)];
             source.transform.position = position;

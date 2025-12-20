@@ -676,7 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a5991eaa78a0f43926890592d685a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Clickable2D
-  specialFunction: 7
+  clickAction: {fileID: 11400000, guid: 1e1e4a2fd435bea4baea8db6abcc1d24, type: 2}
   enableDebug: 0
 --- !u!114 &152246876
 MonoBehaviour:
@@ -2791,7 +2791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a5991eaa78a0f43926890592d685a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Clickable2D
-  specialFunction: 4
+  clickAction: {fileID: 11400000, guid: 753793937b17f054cb1fdf52d13f984e, type: 2}
   enableDebug: 0
 --- !u!61 &1365788411
 BoxCollider2D:
@@ -3500,7 +3500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a5991eaa78a0f43926890592d685a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Clickable2D
-  specialFunction: 8
+  clickAction: {fileID: 11400000, guid: 67f6416aa2aa18b4795b4e333e7f8ecb, type: 2}
   enableDebug: 0
 --- !u!114 &1535952305
 MonoBehaviour:
@@ -4253,7 +4253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a5991eaa78a0f43926890592d685a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Clickable2D
-  specialFunction: 5
+  clickAction: {fileID: 11400000, guid: 1fb98f6e6fd130c4c9ea9fa20b4ca573, type: 2}
   enableDebug: 0
 --- !u!61 &1592250583
 BoxCollider2D:
@@ -4756,7 +4756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a5991eaa78a0f43926890592d685a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Clickable2D
-  specialFunction: 2
+  clickAction: {fileID: 11400000, guid: f373ac1b08fd9df4ca7e0943b69245c4, type: 2}
   enableDebug: 0
 --- !u!61 &1713728337
 BoxCollider2D:
@@ -5149,7 +5149,7 @@ MonoBehaviour:
   hoverLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  enableDebug: 0
+  enableDebug: 1
   enableDebugMousePosition: 0
 --- !u!4 &1802261714
 Transform:
@@ -6119,7 +6119,7 @@ GameObject:
   - component: {fileID: 2083989084}
   - component: {fileID: 2083989083}
   m_Layer: 5
-  m_Name: Main Menu Canvas
+  m_Name: Menu Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

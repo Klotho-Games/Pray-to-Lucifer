@@ -6,25 +6,13 @@ using UnityEngine;
 [RequireComponent(typeof(HighlightableElement2D))]
 [RequireComponent(typeof(Collider2D))]
 public class Clickable2D : MonoBehaviour, IClickable {
-    enum ButtonSpecialFunction {
-        None,
-        InvokeRotationMode,
-        PlayGame,
-        USETHISFORSMTHELSE,
-        PlayTutorial,
-        CloseGame,
-        DestroyGate,
-        PlaceGate,
-        RespawnPlayer
-    }
     [Header("Click Settings")]
-    //[SerializeField] private AudioClip clickSound;
-    [SerializeField] private ButtonSpecialFunction specialFunction = ButtonSpecialFunction.None;
+    [SerializeField] private ClickActionSO clickAction;
     [SerializeField] private bool enableDebug = false;
     
     public virtual void OnClick() {
         if (enableDebug) {
-            if (enableDebug) Debug.Log($"Clicked 2D object: {gameObject.name}");
+            Debug.Log($"Clicked 2D object: {gameObject.name}");
         }
         
         // Override this method in derived classes for custom click behavior
@@ -36,69 +24,13 @@ public class Clickable2D : MonoBehaviour, IClickable {
     /// </summary>
     protected virtual void HandleCustomClick() 
     {
-        switch (specialFunction)
+        if (clickAction != null && clickAction.CanExecute(this))
         {
-            case ButtonSpecialFunction.None:
-                // No special function, do nothing
-                break;
-
-            case ButtonSpecialFunction.InvokeRotationMode:
-                Vector2 cellWorldPos = transform.position;
-                GatePlacementManager.instance.EnterGateRotationMode(cellWorldPos);
-                break;
-
-            case ButtonSpecialFunction.PlayGame:
-                SFXManager.instance.PlaySFX(SFXManager.instance.PlayButtonSFX, transform.position);
-                InputManager.instance.CloseMainMenu();
-                LevelManager.instance.StartGame();
-                break;
-
-            case ButtonSpecialFunction.PlayTutorial:
-                SFXManager.instance.PlaySFX(SFXManager.instance.TutorialButtonSFX, transform.position);
-                InputManager.instance.CloseMainMenu();
-                LevelManager.instance.StartTutorial();
-                break;
-
-            case ButtonSpecialFunction.CloseGame:
-                SFXManager.instance.PlaySFX(SFXManager.instance.ExitButtonSFX, transform.position);
-                Application.Quit();
-                break;
-
-            case ButtonSpecialFunction.DestroyGate:
-                SFXManager.instance.PlaySFX(SFXManager.instance.DestroyGateSFX, transform.position);
-                Vector2 cellWorldPosition = transform.position;
-                DestroyGateAtPosition(cellWorldPosition);
-                break;
-
-            case ButtonSpecialFunction.PlaceGate:
-                SFXManager.instance.PlaySFX(SFXManager.instance.PlaceGateSFX, transform.position);
-                gameObject.SetActive(false);
-                GatePlacementManager.instance.PlaceGate();
-                break;
-
-            case ButtonSpecialFunction.RespawnPlayer:
-                SFXManager.instance.PlaySFX(SFXManager.instance.RespawnSFX, transform.position);
-                LevelManager.instance.RespawnPlayer();
-                break;
+            clickAction.Execute(this);
         }
-
-        
-        // Add your custom behavior here
-        if (enableDebug) Debug.Log($"Add custom click behavior for {gameObject.name}");
-    }
-
-    
-    private void DestroyGateAtPosition(Vector2 position)
-    {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(position, 0.01f, LayerMask.GetMask("Gate"));
-        foreach (var col in colliders)
+        else if (enableDebug && clickAction == null)
         {
-            if (col.CompareTag("Gate"))
-            {
-                GatePlacementManager.instance.HasDestroyedGate = true;
-                ObjectPooler.instance.ReturnToPool(col.gameObject, col.gameObject);
-                return;
-            }
+            Debug.LogWarning($"No click action assigned for {gameObject.name}");
         }
     } 
 }

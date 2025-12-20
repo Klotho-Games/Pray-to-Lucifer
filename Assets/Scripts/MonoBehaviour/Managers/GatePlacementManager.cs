@@ -47,7 +47,6 @@ public class GatePlacementManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -58,9 +57,9 @@ public class GatePlacementManager : MonoBehaviour
 
     public void DestroyAllPlacedGates()
     {
-        foreach (Transform child in parentForPlacedGates)
+        while (parentForPlacedGates.childCount > 0)
         {
-            ObjectPooler.instance.ReturnToPool(child.gameObject, child.gameObject);
+            Destroy(parentForPlacedGates.GetChild(0).gameObject);
         }
         HasPlacedGate = false;
         HasDestroyedGate = false;
@@ -205,9 +204,10 @@ public class GatePlacementManager : MonoBehaviour
 
     private void DestroyAllIndicators()
     {
-        foreach (Transform child in hexGrid.transform)
+        while (hexGrid.transform.childCount > 0)
         {
-            Destroy(child.gameObject);
+            Transform child = hexGrid.transform.GetChild(0);
+            ObjectPooler.instance.ReturnToPool(child.gameObject, child.gameObject);
         }
     }
 
@@ -243,6 +243,8 @@ public class GatePlacementManager : MonoBehaviour
         {
             SetLayerRecursively(placedGate, LayerMaskToLayer(gateLayer));
         }
+
+        placeGateButton.SetActive(false); // A workaround for mouse click input, probably better to do it properly with InputManager someday
 
         HasPlacedGate = true;
         
@@ -377,10 +379,17 @@ public class GatePlacementManager : MonoBehaviour
 
     private void SearchForAllCellsToIndicateAndShowThem(Vector2Int playerCell, int radius)
     {
-        // if (debugLineRenderer != null)
+        // if (debugLineRenderer == null)
         // {
-        //     debugLineRenderer.positionCount = 0;
+        //     debugLineRenderer = new GameObject("DebugLineRenderer").AddComponent<LineRenderer>();
+        //     debugLineRenderer.startWidth = 0.05f;
+        //     debugLineRenderer.endWidth = 0.05f;
+        //     debugLineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        //     debugLineRenderer.startColor = Color.green;
+        //     debugLineRenderer.endColor = Color.green;
         // }
+        // debugLineRenderer.positionCount = 0;
+        
         Vector2 playerCellWorldPosition = (Vector2)hexGrid.GetCellCenterWorld((Vector3Int)playerCell);
         // Start from 1 to radius going through all hexagonal cells
         for (int r = 0; r < radius; r++)
@@ -400,15 +409,63 @@ public class GatePlacementManager : MonoBehaviour
                     continue;
                 }
 
-                if (IsPossibleToPlaceGateInCell(cellPosition))
+                // Debug visualization: show all cell centers being checked
+                // if (debugLineRenderer != null)
+                // {
+                //     debugLineRenderer.positionCount++;
+                //     debugLineRenderer.SetPosition(debugLineRenderer.positionCount - 1, hexGrid.GetCellCenterWorld((Vector3Int)cellPosition));
+                // }
+
+                // Use grid-aligned cell center for accurate gate detection
+                Vector3 gridAlignedPosition = hexGrid.GetCellCenterWorld((Vector3Int)cellPosition);
+                
+                // Gate check must be before linecast check to show gate destruction indicator
+                Collider2D gateHit = Physics2D.OverlapCircle(gridAlignedPosition, 0.1f, gateLayer);
+                if (gateHit != null)
                 {
-                    // if (debugLineRenderer != null)
-                    // {
-                    //     debugLineRenderer.positionCount++;
-                    //     debugLineRenderer.SetPosition(debugLineRenderer.positionCount - 1, hexGrid.GetCellCenterWorld((Vector3Int)cellPosition));
-                    // }
-                    InstantiateIndicatorAtCell(cellPosition);
+                    ShowGateDestructionIndicator();
+                    continue;
+
+                    void ShowGateDestructionIndicator()
+                    {
+                        ObjectPooler.instance.GetFromPool(destructionIndicatorPrefab, gridAlignedPosition, Quaternion.identity, hexGrid.transform, poolSize: 1);
+                    }
                 }
+
+                TryShowPlacementIndicator(cellPosition: cellPosition);
+            }
+        }
+        
+        // Force physics to sync transform changes immediately
+        Physics2D.SyncTransforms();
+    }
+
+    public void TryShowPlacementIndicator(Vector2Int? cellPosition = null, Vector2? cellWorldPosition = null)
+    {
+        if (cellWorldPosition.HasValue == false)
+        {
+            if (cellPosition.HasValue == false)
+            {
+                Debug.LogError("[GatePlacementManager]: Neither cellPosition nor cellWorldPosition has been specified");
+                return;
+            }
+        }
+        else
+        {
+            if (cellPosition.HasValue == false)
+            {
+                cellPosition = (Vector2Int)hexGrid.WorldToCell((Vector3)cellWorldPosition.Value);
+            }
+        }
+
+        if (IsPossibleToPlaceGateInCell(cellPosition.Value))
+        {
+            ShowPlacementIndicatorAtCell(cellPosition.Value);
+
+            void ShowPlacementIndicatorAtCell(Vector2Int cellPosition)
+            {
+                Vector3 cellWorldPosition = hexGrid.GetCellCenterWorld((Vector3Int)cellPosition);
+                ObjectPooler.instance.GetFromPool(placementIndicatorPrefab, cellWorldPosition, Quaternion.identity, hexGrid.transform, poolSize: 1);
             }
         }
     }
@@ -427,11 +484,6 @@ public class GatePlacementManager : MonoBehaviour
                cellWorldPosition.y > cam.transform.position.y + screenHeight / 2f;
     }
 
-    private void InstantiateIndicatorAtCell(Vector2Int cellPosition)
-    {
-        Vector3 cellWorldPosition = hexGrid.GetCellCenterWorld((Vector3Int)cellPosition);
-        ObjectPooler.instance.GetFromPool(placementIndicatorPrefab, cellWorldPosition, hexGrid.transform);
-    }
 
     private bool IsPossibleToPlaceGateInCell(Vector2Int cellPosition)
     {
@@ -471,24 +523,6 @@ public class GatePlacementManager : MonoBehaviour
 
         Vector2 diagonalStart = cellWorldPosition.Value + GetStartOffset(diagonalIndex);
         Vector2 diagonalEnd = cellWorldPosition.Value + GetEndOffset(diagonalIndex);
-        /* 
-        if (debugLineRenderer == null)
-        {
-            debugLineRenderer = GetComponent<LineRenderer>();
-            if (debugLineRenderer == null)
-                debugLineRenderer = gameObject.AddComponent<LineRenderer>();
-        }
-        debugLineRenderer.positionCount = 2;
-        debugLineRenderer.SetPosition(0, diagonalStart);
-        debugLineRenderer.SetPosition(1, diagonalEnd);
- */
-        // Gate check must be before linecast check to show gate destruction indicator
-        Collider2D gateHit = Physics2D.OverlapCircle(cellWorldPosition.Value, 0.01f, gateLayer);
-        if (gateHit != null)
-        {
-            ShowGateDestructionIndicator();
-            return false;
-        }
 
         RaycastHit2D[] hits = Physics2D.LinecastAll(diagonalStart, diagonalEnd);
         foreach (RaycastHit2D hit in hits)
@@ -511,11 +545,6 @@ public class GatePlacementManager : MonoBehaviour
                 }
             }
             return false;
-        }
-        
-        void ShowGateDestructionIndicator()
-        {
-            Instantiate(destructionIndicatorPrefab, cellWorldPosition.Value, Quaternion.identity, hexGrid.transform);
         }
 
         Vector2 GetStartOffset(int id)

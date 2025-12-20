@@ -776,7 +776,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: b4d6d3130062f624eb903be670fe4b07, type: 3}
-  m_Color: {r: 0.6117647, g: 0.1239327, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.6117647, b: 0.04370942, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -798,7 +798,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a5991eaa78a0f43926890592d685a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Clickable2D
-  clickAction: {fileID: 11400000, guid: 1fb98f6e6fd130c4c9ea9fa20b4ca573, type: 2}
+  clickAction: {fileID: 11400000, guid: 4fdcacd488eb21d4092dfae650713e17, type: 2}
   enableDebug: 0
 --- !u!61 &1855660563
 BoxCollider2D:

@@ -14,7 +14,7 @@ public class ObjectPooler : MonoBehaviour
     public static ObjectPooler instance;
 
     [Header("Enemy Pooling")]
-    [SerializeField] private const int defaultPoolSize = 100;
+    [SerializeField] private const int defaultPoolSize = 1;
     private Dictionary<GameObject, Queue<GameObject>> pools = new();
     private List<GameObject> inactiveObjects = new();
 
@@ -23,7 +23,6 @@ public class ObjectPooler : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -61,7 +60,7 @@ public class ObjectPooler : MonoBehaviour
 
     // Weighted prefab selection is now handled by the manager using scriptable objects.
 
-    public GameObject GetFromPool(GameObject prefab, Vector3 position, Transform parent, int poolSize = defaultPoolSize)
+    public GameObject GetFromPool(GameObject prefab, Vector3 worldPosition, Quaternion rotation, Transform parent, int poolSize = defaultPoolSize)
     {
         if (!pools.ContainsKey(prefab))
             CreatePool(prefab, poolSize);
@@ -77,8 +76,8 @@ public class ObjectPooler : MonoBehaviour
             var pooledObj = obj.AddComponent<PooledObject>();
             pooledObj.prefabReference = prefab;
         }
-        obj.transform.SetPositionAndRotation(position, Quaternion.identity);
-        obj.transform.parent = parent;
+        obj.transform.SetPositionAndRotation(worldPosition, rotation);
+        obj.transform.SetParent(parent);
         obj.SetActive(true);
         return obj;
     }
@@ -88,7 +87,7 @@ public class ObjectPooler : MonoBehaviour
     public void ReturnToPool(GameObject prefab, GameObject obj)
     {
         obj.SetActive(false);
-        obj.transform.parent = transform;
+        obj.transform.SetParent(transform);
         var pooledObj = obj.GetComponent<PooledObject>();
         if (pooledObj != null && pooledObj.prefabReference != null && pools.ContainsKey(pooledObj.prefabReference))
         {
