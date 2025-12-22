@@ -67,8 +67,8 @@ public class GatePlacementManager : MonoBehaviour
 
     void Start()
     {
-        InputManager.instance.ItemRightAction.performed += ctx => OnGateTypeRight();
-        InputManager.instance.ItemLeftAction.performed += ctx => OnGateTypeLeft();
+        InputManager.ItemRightAction.performed += ctx => OnGateTypeRight();
+        InputManager.ItemLeftAction.performed += ctx => OnGateTypeLeft();
     }
 
     void OnGateTypeRight()
@@ -126,8 +126,8 @@ public class GatePlacementManager : MonoBehaviour
 
     void OnDestroy()
     {
-        InputManager.instance.ItemRightAction.performed -= ctx => OnGateTypeRight();
-        InputManager.instance.ItemLeftAction.performed -= ctx => OnGateTypeLeft();
+        InputManager.ItemRightAction.performed -= ctx => OnGateTypeRight();
+        InputManager.ItemLeftAction.performed -= ctx => OnGateTypeLeft();
     }
 
     void Update()
@@ -158,7 +158,7 @@ public class GatePlacementManager : MonoBehaviour
             currentGateTypeDisplayText.text = "Press Ctrl to place: " + GetCurrentGateTypeString();
         }
 
-        if (!InputManager.instance.GatePlacementInput) // cancelled or not held
+        if (!InputManager.GatePlacementInput) // cancelled or not held
         {
             if (isInPlacementMode)
             {
@@ -216,7 +216,7 @@ public class GatePlacementManager : MonoBehaviour
         SFXManager.instance.PlaySFX(SFXManager.instance.EnterRotationModeSFX, player.position);
         isInPlacementMode = false;
         isInRotationMode = true;
-        InputManager.instance.CancelAction.performed += ctx => CancelRotationMode();
+        InputManager.CancelAction.performed += ctx => CancelRotationMode();
         ProjectManager.instance.StopTime();
         DestroyAllIndicators();
         currentRotationIndicator = Instantiate(rotationIndicatorPrefab).transform;
@@ -278,20 +278,20 @@ public class GatePlacementManager : MonoBehaviour
         if (currentRotationIndicator == null)
             CancelRotationMode();
 
-        if (InputManager.instance.DashInput)
+        if (InputManager.DashInput)
         {
             PlaceGate();
             return;
         }
 
         var rotationBefore = currentRotationIndicator.rotation;
-        if (InputManager.instance.IsKeyboardAndMouse)
+        if (InputManager.IsKeyboardAndMouse)
         {
             HandleRotationWithMouse();
         }
-        else if (InputManager.instance.RightStick != Vector2.zero)
+        else if (InputManager.RightStick != Vector2.zero)
         {
-            RotateToFaceDirection(InputManager.instance.RightStick);
+            RotateToFaceDirection(InputManager.RightStick);
         }
         else
         {
@@ -305,7 +305,7 @@ public class GatePlacementManager : MonoBehaviour
 
     private void HandleRotationWithMouse()
     {
-        Vector2 direction = InputManager.instance.MousePosition - (Vector2)currentRotationIndicator.position;
+        Vector2 direction = InputManager.MousePosition - (Vector2)currentRotationIndicator.position;
         RotateToFaceDirection(direction);
     }
 
@@ -368,7 +368,7 @@ public class GatePlacementManager : MonoBehaviour
     {
         isInRotationMode = false;
         isInPlacementMode = true;
-        InputManager.instance.CancelAction.performed -= ctx => CancelRotationMode();
+        InputManager.CancelAction.performed -= ctx => CancelRotationMode();
         ProjectManager.instance.ResumeTime();
         if (currentRotationIndicator != null)
         {

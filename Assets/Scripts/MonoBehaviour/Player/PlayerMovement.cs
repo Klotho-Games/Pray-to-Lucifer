@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     private void Move(Axis axis)
     {
         int i = (int)axis;
-        moveInput[i] = axis == Axis.X ? InputManager.instance.MoveInput.x : InputManager.instance.MoveInput.y;
+        moveInput[i] = axis == Axis.X ? InputManager.MoveInput.x : InputManager.MoveInput.y;
         acceleration = maxVelocity / accelerationDuration;
         decceleration = maxVelocity / deccelerationDuration;
 

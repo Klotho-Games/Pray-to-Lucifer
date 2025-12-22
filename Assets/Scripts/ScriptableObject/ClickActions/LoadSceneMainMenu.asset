@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: LoadSceneMainMenu
   m_EditorClassIdentifier: Assembly-CSharp::LoadSceneAction
   description: Opens the Main Menu scene
-  sceneName: MainMenu
+  sceneToLoad:
+    sceneAsset: {fileID: 102900000, guid: 16900670dcbb4a344818b175ba65696b, type: 3}
+    sceneName: MainMenu
   loadMode: 0

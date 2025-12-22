@@ -6,7 +6,6 @@ public class PlayGameAction : ClickActionSO
     public override void Execute(Clickable2D source)
     {
         SFXManager.instance.PlaySFX(SFXManager.instance.PlayButtonSFX, source.transform.position);
-        InputManager.instance.CloseMainMenu();
         LevelManager.instance.StartGame();
     }
 }

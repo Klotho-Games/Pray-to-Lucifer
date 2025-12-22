@@ -481,7 +481,7 @@ public class LevelManager : MonoBehaviour
                 }
                 break;
             case 5:
-                if (InputManager.instance.ItemRightAction.IsPressed() || InputManager.instance.ItemLeftAction.IsPressed())
+                if (InputManager.ItemRightAction.IsPressed() || InputManager.ItemLeftAction.IsPressed())
                 {
                     currentTutorialStep++;
                 }

@@ -61,7 +61,7 @@ public class PlayerSoulState : MonoBehaviour
 
     private bool ReceivedInputForSoulState()
     {
-        if (InputManager.instance.SoulStateInput)
+        if (InputManager.SoulStateInput)
             return true;
 
         return false;
@@ -209,7 +209,7 @@ public class PlayerSoulState : MonoBehaviour
     }
     private void SetIndicatorDirection()
     {
-        zapIndicatorDirection = (InputManager.instance.IsKeyboardAndMouse ? (InputManager.instance.MousePosition - (Vector2)transform.position) : InputManager.instance.MoveInput).normalized;
+        zapIndicatorDirection = (InputManager.IsKeyboardAndMouse ? (InputManager.MousePosition - (Vector2)transform.position) : InputManager.MoveInput).normalized;
     }
 
     private void ContinueZapAttack()
@@ -253,16 +253,16 @@ public class PlayerSoulState : MonoBehaviour
 
     void Start()
     {
-        InputManager.instance.SecondaryShootAction.started += ctx => OnZapAttackStarted();
-        InputManager.instance.SecondaryShootAction.canceled += ctx => OnZapAttackCanceled();
-        InputManager.instance.CancelAction.performed += ctx => ZapCancel();
+        InputManager.SecondaryShootAction.started += ctx => OnZapAttackStarted();
+        InputManager.SecondaryShootAction.canceled += ctx => OnZapAttackCanceled();
+        InputManager.CancelAction.performed += ctx => ZapCancel();
     }
 
     void OnDestroy()
     {
-        InputManager.instance.SecondaryShootAction.started -= ctx => OnZapAttackStarted();
-        InputManager.instance.SecondaryShootAction.canceled -= ctx => OnZapAttackCanceled();
-        InputManager.instance.CancelAction.performed -= ctx => ZapCancel();
+        InputManager.SecondaryShootAction.started -= ctx => OnZapAttackStarted();
+        InputManager.SecondaryShootAction.canceled -= ctx => OnZapAttackCanceled();
+        InputManager.CancelAction.performed -= ctx => ZapCancel();
     }
 
     /// <summary>

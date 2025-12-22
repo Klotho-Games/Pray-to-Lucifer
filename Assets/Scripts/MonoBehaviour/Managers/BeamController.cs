@@ -61,14 +61,14 @@ public class BeamController : MonoBehaviour
 
     private void OnEnable()
     {
-        InputManager.instance.PrimaryShootAction.started += _ => { IsBeamActive = true; };
-        InputManager.instance.PrimaryShootAction.canceled += _ => { IsBeamActive = false; };
+        InputManager.PrimaryShootAction.started += _ => { IsBeamActive = true; };
+        InputManager.PrimaryShootAction.canceled += _ => { IsBeamActive = false; };
     }
 
     private void OnDisable()
     {
-        InputManager.instance.PrimaryShootAction.started -= _ => { IsBeamActive = true; };
-        InputManager.instance.PrimaryShootAction.canceled -= _ => { IsBeamActive = false; };
+        InputManager.PrimaryShootAction.started -= _ => { IsBeamActive = true; };
+        InputManager.PrimaryShootAction.canceled -= _ => { IsBeamActive = false; };
     }
 
     private void FixedUpdate()
@@ -180,7 +180,7 @@ public class BeamController : MonoBehaviour
         if (!BeamOriginIsAllGood())
             return;
 
-        Vector2 direction = (InputManager.instance.IsKeyboardAndMouse ? (InputManager.instance.MousePosition - (Vector2)beamOriginTransform.position) : InputManager.instance.RightStick).normalized;
+        Vector2 direction = (InputManager.IsKeyboardAndMouse ? (InputManager.MousePosition - (Vector2)beamOriginTransform.position) : InputManager.RightStick).normalized;
         if (direction == Vector2.zero)
         {
             if (lastBeamDirection != Vector2.zero)

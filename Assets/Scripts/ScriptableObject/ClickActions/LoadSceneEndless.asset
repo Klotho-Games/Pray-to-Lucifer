@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: LoadSceneEndless
   m_EditorClassIdentifier: Assembly-CSharp::LoadSceneAction
   description: Opens the Endless game mode scene
-  sceneName: Endless
+  sceneToLoad:
+    sceneAsset: {fileID: 102900000, guid: 4303e071b255b674086af1e1e024ec59, type: 3}
+    sceneName: Endless
   loadMode: 0
