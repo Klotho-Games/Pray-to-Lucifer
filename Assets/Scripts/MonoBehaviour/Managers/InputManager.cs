@@ -3,8 +3,6 @@
 /// It manages move and button inputs, and provides them through properties.
 /// Uses the singleton pattern to ensure only one instance exists.
 /// </summary>
-using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,35 +16,36 @@ public class InputManager : MonoBehaviour
 
     private PlayerInput playerInput;
 
-    public bool IsKeyboardAndMouse
+    public static bool IsKeyboardAndMouse
     {
         get
         {
-            return playerInput.currentControlScheme == "Keyboard&Mouse";
+            return instance.playerInput.currentControlScheme == "Keyboard&Mouse";
         }
     }
 
-    public Vector2 MoveInput { get; private set; }
-    public bool SoulStateInput { get; private set; }
-    public bool PrimaryShootInput { get; private set; } // beam attack
-    public bool TertiaryShootInput { get; private set; } // Soul Blast attack
-    public bool DashInput { get; private set; }
-    public Vector2 MousePosition { get; private set; }
-    public Vector2 RightStick { get; private set; }
-    public bool GatePlacementInput { get; private set; }
+    public static Vector2 MoveInput { get; private set; }
+    public static bool SoulStateInput { get; private set; }
+    public static bool PrimaryShootInput { get; private set; } // beam attack
+    public static bool TertiaryShootInput { get; private set; } // Soul Blast attack
+    public static bool DashInput { get; private set; }
+    public static Vector2 MousePosition { get; private set; }
+    public static Vector2 RightStick { get; private set; }
+    public static bool GatePlacementInput { get; private set; }
+    public static bool MenuInput { get; private set; }
 
     private InputAction moveAction;
     private InputAction soulStateAction;
-    public InputAction PrimaryShootAction; // beam attack
-    public InputAction SecondaryShootAction { get; private set; } // Zap Blast attack
+    public static InputAction PrimaryShootAction; // beam attack
+    public static InputAction SecondaryShootAction { get; private set; } // Zap Blast attack
     private InputAction tertiaryShootAction; // Soul Blast attack
     private InputAction dashAction;
-    public InputAction CancelAction {get; private set; }
+    public static InputAction CancelAction {get; private set; }
     private InputAction mousePositionAction;
     private InputAction rightStickAction;
     private InputAction preciseControlAction;
-    public InputAction ItemRightAction {get; private set; } // for cycling through items
-    public InputAction ItemLeftAction {get; private set; } // for cycling through items
+    public static InputAction ItemRightAction {get; private set; } // for cycling through items
+    public static InputAction ItemLeftAction {get; private set; } // for cycling through items
     private InputAction MenuAction; // for opening menu
 
     private void Awake()
@@ -78,70 +77,6 @@ public class InputManager : MonoBehaviour
             cam = Camera.main;
             if (EnableDebug) Debug.Log("[InputManager] Camera not assigned, using main camera");
         }
-        Time.timeScale = 1f;
-        
-        OpenMainMenu(true);
-    }
-
-    #region MainMenu
-    [Header("Main Menu")]
-    [SerializeField] private GameObject MainMenu;
-    [SerializeField] private TMP_Text pressMToResumeText;
-    [SerializeField] private string startPressMToResumeText;
-    [SerializeField] private TMP_Text controlsText;
-    [SerializeField] private string startControlsText;
-
-    private float timeScaleBeforeMenu;
-    private bool isMenuOpen = false;
-
-    private void OnMenuActionPerformed(InputAction.CallbackContext ctx)
-    {
-        if (isMenuOpen)
-        {
-            CloseMainMenu();
-        }
-        else
-        {
-            OpenMainMenu();
-        }
-    }
-
-    private void OpenMainMenu(bool fromStart = false)
-    {
-        if (isMenuOpen) return;
-
-        timeScaleBeforeMenu = Time.timeScale;
-        isMenuOpen = true;
-
-        MainMenu.SetActive(true);
-        if (fromStart)
-        {
-            pressMToResumeText.text = startPressMToResumeText;
-            controlsText.text = startControlsText;
-        }
-        
-        ProjectManager.instance.StopTime();
-    }
-
-    public void CloseMainMenu()
-    {
-        if (!isMenuOpen) return;
-
-        isMenuOpen = false;
-        MainMenu.SetActive(false);
-        ProjectManager.instance.ResumeTime();
-    }
-    #endregion
-
-    void OnDestroy()
-    {
-        if (EnableDebug) Debug.Log("[InputManager] OnDestroy called");
-        
-        // Unsubscribe from menu action
-        if (MenuAction != null)
-        {
-            MenuAction.performed -= OnMenuActionPerformed;
-        }
     }
 
     private void Update()
@@ -160,6 +95,7 @@ public class InputManager : MonoBehaviour
         MousePosition = cam.ScreenToWorldPoint(MousePosition);
         RightStick = rightStickAction.ReadValue<Vector2>();
         GatePlacementInput = preciseControlAction.IsPressed();
+        MenuInput = MenuAction.IsPressed();
         
         if (EnableDebug && MoveInput != Vector2.zero)
             Debug.Log($"[InputManager] Move input detected: {MoveInput}");
@@ -181,8 +117,5 @@ public class InputManager : MonoBehaviour
         ItemRightAction = playerInput.actions["ItemRight"];
         ItemLeftAction = playerInput.actions["ItemLeft"];
         MenuAction = playerInput.actions["Menu"];
-        
-        // Subscribe to menu action once during setup
-        MenuAction.performed += OnMenuActionPerformed;
     }
 }
