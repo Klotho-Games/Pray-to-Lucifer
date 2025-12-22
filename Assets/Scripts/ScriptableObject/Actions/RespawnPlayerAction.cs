@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RespawnPlayer", menuName = "Click Actions/In-Game/Respawn Player")]
-public class RespawnPlayerAction : ClickActionSO
+[CreateAssetMenu(fileName = "RespawnPlayer", menuName = "Actions/In-Game/Respawn Player")]
+public class RespawnPlayerAction : ActionSO
 {
     public override void Execute(Clickable2D source)
     {

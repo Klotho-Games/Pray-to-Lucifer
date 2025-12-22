@@ -6,6 +6,7 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
+    public const string LevelToLoadIndexKey = "LevelToLoadIndex";
 
     #region Serialized Fields
     

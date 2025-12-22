@@ -4,7 +4,7 @@ using UnityEngine;
 /// Base class for click actions that can be assigned to Clickable2D objects.
 /// Create concrete implementations for specific button behaviors.
 /// </summary>
-public abstract class ClickActionSO : ScriptableObject
+public abstract class ActionSO : ScriptableObject
 {
     [TextArea(2, 4)]
     [Tooltip("Description of what this action does (for documentation)")]

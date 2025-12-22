@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DestroyGate", menuName = "Click Actions/In-Game/Destroy Gate")]
-public class DestroyGateAction : ClickActionSO
+[CreateAssetMenu(fileName = "DestroyGate", menuName = "Actions/In-Game/Destroy Gate")]
+public class DestroyGateAction : ActionSO
 {
     [SerializeField] private float detectionRadius = 0.1f;
     [SerializeField] private string gateLayerName = "Gate";

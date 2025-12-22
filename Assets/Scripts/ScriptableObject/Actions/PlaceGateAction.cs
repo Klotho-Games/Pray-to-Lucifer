@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlaceGate", menuName = "Click Actions/In-Game/Place Gate")]
-public class PlaceGateAction : ClickActionSO
+[CreateAssetMenu(fileName = "PlaceGate", menuName = "Actions/In-Game/Place Gate")]
+public class PlaceGateAction : ActionSO
 {
     [SerializeField] private bool deactivateSourceAfterPlacement = true;
     

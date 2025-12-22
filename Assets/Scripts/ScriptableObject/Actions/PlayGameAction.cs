@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayGame", menuName = "Click Actions/Main Menu/Play Game")]
-public class PlayGameAction : ClickActionSO
+[CreateAssetMenu(fileName = "PlayGame", menuName = "Actions/Main Menu/Play Game")]
+public class PlayGameAction : ActionSO
 {
     public override void Execute(Clickable2D source)
     {

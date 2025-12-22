@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[CreateAssetMenu(fileName = "ExitToMainMenu", menuName = "Click Actions/Exit to Main Menu")]
-public class ExitToMainMenuAction : ClickActionSO
+[CreateAssetMenu(fileName = "ExitToMainMenu", menuName = "Actions/Exit to Main Menu")]
+public class ExitToMainMenuAction : ActionSO
 {
     public override void Execute(Clickable2D source)
     {

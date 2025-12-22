@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[CreateAssetMenu(fileName = "LoadScene", menuName = "Click Actions/Load Scene")]
-public class LoadSceneAction : ClickActionSO
+[CreateAssetMenu(fileName = "LoadScene", menuName = "Actions/Load Scene")]
+public class LoadSceneAction : ActionSO
 {
     [SerializeField] private SceneField sceneToLoad;
     [SerializeField] private LoadSceneMode loadMode = LoadSceneMode.Single;

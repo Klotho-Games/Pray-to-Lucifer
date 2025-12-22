@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CloseGame", menuName = "Click Actions/Main Menu/Close Game")]
-public class CloseGameAction : ClickActionSO
+[CreateAssetMenu(fileName = "CloseGame", menuName = "Actions/Main Menu/Close Game")]
+public class CloseGameAction : ActionSO
 {
     public override void Execute(Clickable2D source)
     {

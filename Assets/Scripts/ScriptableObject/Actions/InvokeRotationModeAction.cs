@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "InvokeRotationMode", menuName = "Click Actions/In-Game/Rotation Mode")]
-public class InvokeRotationModeAction : ClickActionSO
+[CreateAssetMenu(fileName = "InvokeRotationMode", menuName = "Actions/In-Game/Rotation Mode")]
+public class InvokeRotationModeAction : ActionSO
 {
     public override void Execute(Clickable2D source)
     {

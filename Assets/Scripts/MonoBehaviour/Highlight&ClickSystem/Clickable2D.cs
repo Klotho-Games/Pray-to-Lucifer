@@ -8,7 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Clickable2D : MonoBehaviour, IClickable {
     [Header("Click Settings")]
-    [SerializeField] private ClickActionSO[] clickActions;
+    [SerializeField] private ActionSO[] clickActions;
     [SerializeField] private bool enableDebug = false;
     
     public virtual void OnClick() {
@@ -34,7 +34,7 @@ public class Clickable2D : MonoBehaviour, IClickable {
     /// <summary>
     /// Override this method to add custom click behavior.
     /// </summary>
-    protected virtual void TryExecute(ClickActionSO clickAction) 
+    protected virtual void TryExecute(ActionSO clickAction) 
     {
         if (clickAction != null && clickAction.CanExecute(this))
         {
