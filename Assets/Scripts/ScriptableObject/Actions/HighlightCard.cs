@@ -10,10 +10,12 @@ public class HighlightLevelSelectionCard : ActionSO
     [SerializeField] private Color normalColor = Color.darkGray;
     [SerializeField] private Ease colorEase = Ease.InOutSine;
     [SerializeField] private Ease parentPositionEase = Ease.OutCirc;
-    [SerializeField] private Ease scaleEase = Ease.InCubic;
+    [SerializeField] private Ease localPositionAndScaleEase = Ease.InCubic;
     [SerializeField] private float highlightDuration = 0.5f;
     [SerializeField] private float gapBetweenCards = 0.5f;
     [SerializeField] private int highlightScaleMultiplier = 2; // 200% size to maintain pixel perfect look
+    [Tooltip("Number of cards to the right/left of the highlighted card to adjust position for")]
+    [SerializeField] private int bufferCardsToAdjust = 4;
     [SerializeField] private string cardNamePrefix = "LevelSelectionCard_";
     [SerializeField] private float cardScale = 5f;
     [SerializeField] private float cardHeight = 5 * 3/2; // 5 is card scale, 3/2 is aspect ratio
@@ -24,59 +26,69 @@ public class HighlightLevelSelectionCard : ActionSO
     
     public override void Execute(Clickable2D source)
     {
-        int sign = cardToHighlight > highlightedCardLevel ? -1 : 1; // if bigger, move left
         Transform card = source.transform;
         Transform parent = card.parent;
 
         // move parent to center the target card
         float targetParentX = -(cardToHighlight - 1) * (cardWidth + gapBetweenCards);
-        Tween.LocalPositionX(parent, targetParentX, highlightDuration, parentPositionEase).OnComplete(() =>
+        Tween.LocalPositionX(parent, targetParentX, highlightDuration, parentPositionEase);
+
+    // HIGHLIGHTING CARD
+        // highlight the source card
+        HighlightableElement2D highlightable = card.GetComponent<HighlightableElement2D>();
+        highlightable.PreHighlightScaleCached = false; // Clear cached scale to prevent controller interference
+        highlightable.enabled = false; // Disable to avoid scaling conflicts
+        
+        Tween.Color(card.GetComponent<SpriteRenderer>(), highlightedColor, highlightDuration, colorEase);
+        Tween.LocalPositionX(card, (cardToHighlight - 1) * (cardWidth + gapBetweenCards), highlightDuration, localPositionAndScaleEase); // Reset X position
+        Tween.LocalPositionY(card, 0, highlightDuration, localPositionAndScaleEase); // Center Y for bottom alignment at 2x scale
+        Tween.Scale(card, cardScale * highlightScaleMultiplier * Vector3.one, highlightDuration, localPositionAndScaleEase).OnComplete(() =>
         {
-            // set card scale to highlight scale when the transition is complete
+            // mark the card as highlighted
             highlightedCardLevel = cardToHighlight;
         });
 
-        // highlight the source card
-        Tween.Scale(card, cardScale * highlightScaleMultiplier * Vector3.one, highlightDuration, scaleEase);
-        Tween.Color(card.GetComponent<SpriteRenderer>(), highlightedColor, highlightDuration, colorEase);
-        // Cards maintain fixed grid X positions
-        float cardGridX = (cardToHighlight - 1) * (cardWidth + gapBetweenCards);
-        Tween.LocalPositionX(card, cardGridX, highlightDuration, scaleEase);
-        Tween.LocalPositionY(card, 0, highlightDuration, scaleEase); // Center Y for bottom alignment at 2x scale
-
-        // get all cards between current highlighted and to be highlighted
-        Transform[] otherCards = GetCardsFromCurrentToPreviousHighlighted();
-
-        // dehighlight previous card
-        Tween.Scale(otherCards[^1], cardScale * Vector3.one, highlightDuration, scaleEase);
-        Tween.Color(otherCards[^1].GetComponent<SpriteRenderer>(), normalColor, highlightDuration, colorEase);
-        // Return to fixed grid position
-        float prevCardGridX = (highlightedCardLevel - 1) * (cardWidth + gapBetweenCards);
-        Tween.LocalPositionX(otherCards[^1], prevCardGridX, highlightDuration, parentPositionEase);
-        Tween.LocalPositionY(otherCards[^1], -cardHeight/2, highlightDuration, scaleEase); // Bottom aligned at 1x scale
-
-        // move other cards in between to their grid positions
-        for (int i = otherCards.Length - 2; i >= 0; --i)
+    // UNHIGHLIGHTING PREVIOUS CARD
+        if (highlightedCardLevel != -1)
         {
-            Transform otherCard = otherCards[i];
-            // Get the card's level from its sibling index and ensure it's at its grid position
-            int cardLevel = otherCard.GetSiblingIndex() + 1;
-            float targetX = (cardLevel - 1) * (cardWidth + gapBetweenCards);
-            Tween.LocalPositionX(otherCard, targetX, highlightDuration, scaleEase);
+            card = parent.GetChild(highlightedCardLevel - 1);
+            HighlightableElement2D prevHighlightable = card.GetComponent<HighlightableElement2D>();
+            prevHighlightable.PreHighlightScaleCached = false; // Clear cached scale
+            
+            Tween.Color(card.GetComponent<SpriteRenderer>(), normalColor, highlightDuration, colorEase);
+            Tween.LocalPositionY(card, -cardHeight / 2, highlightDuration, localPositionAndScaleEase); // Reset Y for bottom alignment at normal scale
+            Tween.Scale(card, cardScale * Vector3.one, highlightDuration, localPositionAndScaleEase).OnComplete(() =>
+            {
+                // Re-enable HighlightableElement2D on the previously highlighted card
+                prevHighlightable.enabled = true;
+            });
         }
 
-        /// <summary>
-        /// Get all cards from current highlighted to target (inclusive of current, exclusive of target)
-        /// </summary>
-        Transform[] GetCardsFromCurrentToPreviousHighlighted()
+    // ADJUSTING OTHER CARDS
+        float offset = (highlightScaleMultiplier - 1) * cardWidth / 2;
+
+    // ADJUSTING CARDS TO THE RIGHT OF HIGHLIGHTED CARD
+        for (int i = cardToHighlight + 1; i <= parent.childCount && i <= cardToHighlight + bufferCardsToAdjust; ++i)
         {
-            Transform[] cards = new Transform[Mathf.Abs(cardToHighlight - highlightedCardLevel)];
-            int startIndex = highlightedCardLevel - 1; // Start from currently highlighted card
-            for (int i = 0; i < cards.Length; i++)
-            {
-                cards[i] = parent.GetChild(startIndex + sign * i);
-            }
-            return cards;
+            card = parent.GetChild(i - 1);
+
+            float typicalPosition = (i - 1) * (cardWidth + gapBetweenCards);
+            float offsetedPosition = typicalPosition + offset; // shift cards right
+
+            if (offsetedPosition != card.localPosition.x)
+                Tween.LocalPositionX(card, offsetedPosition, highlightDuration, localPositionAndScaleEase);
+        }
+
+    // ADJUSTING CARDS TO THE LEFT OF HIGHLIGHTED CARD
+        for (int i = cardToHighlight - 1; i >= 1 && i >= cardToHighlight - bufferCardsToAdjust; --i)
+        {
+            card = parent.GetChild(i - 1);
+
+            float typicalPosition = (i - 1) * (cardWidth + gapBetweenCards);
+            float offsetedPosition = typicalPosition - offset; // shift cards left
+
+            if (offsetedPosition != card.localPosition.x)
+                Tween.LocalPositionX(card, offsetedPosition, highlightDuration, localPositionAndScaleEase);
         }
     }
 
@@ -93,7 +105,7 @@ public class HighlightLevelSelectionCard : ActionSO
             return false;
         }
         
-        if (cardToHighlight != highlightedCardLevel && cardToHighlight != 0)
+        if (cardToHighlight != highlightedCardLevel)
         {
             Debug.LogWarning($"Another highlight transition is in progress (going to level {cardToHighlight}).");
             return false;
@@ -110,6 +122,11 @@ public class HighlightLevelSelectionCard : ActionSO
             string name = source.gameObject.name;
             string levelString = name[^2..];
             if (int.TryParse(levelString, out int level))
+            {
+                return level;
+            }
+
+            if (int.TryParse(name[^1..], out level))
             {
                 return level;
             }
