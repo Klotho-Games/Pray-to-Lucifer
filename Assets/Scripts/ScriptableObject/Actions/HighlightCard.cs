@@ -1,7 +1,5 @@
-using System;
 using PrimeTween;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [CreateAssetMenu(fileName = "HighlightLevelSelectionCardNumber_", menuName = "Actions/Single-Use/Highlight Level Selection Card")]
 public class HighlightLevelSelectionCard : ActionSO
@@ -16,12 +14,11 @@ public class HighlightLevelSelectionCard : ActionSO
     [SerializeField] private int highlightScaleMultiplier = 2; // 200% size to maintain pixel perfect look
     [Tooltip("Number of cards to the right/left of the highlighted card to adjust position for")]
     [SerializeField] private int bufferCardsToAdjust = 4;
-    [SerializeField] private string cardNamePrefix = "LevelSelectionCard_";
     [SerializeField] private float cardScale = 5f;
     [SerializeField] private float cardHeight = 5 * 3/2; // 5 is card scale, 3/2 is aspect ratio
     [SerializeField] private float cardWidth = 5;
-    private int highlightedCardLevel = 1;
-    private int cardToHighlight;
+    [SerializeField] private int highlightedCardLevel = 1;
+    [SerializeField] private int cardToHighlight = 1;
     
     
     public override void Execute(Clickable2D source)

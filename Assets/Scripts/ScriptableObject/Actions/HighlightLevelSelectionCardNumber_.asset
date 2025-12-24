@@ -17,11 +17,13 @@ MonoBehaviour:
   normalColor: {r: 0.29803923, g: 0.29803923, b: 0.29803923, a: 1}
   colorEase: 4
   parentPositionEase: 21
-  scaleEase: 8
+  localPositionAndScaleEase: 8
   highlightDuration: 0.5
   gapBetweenCards: 0.5
   highlightScaleMultiplier: 2
-  cardNamePrefix: LevelSelectionCard_
+  bufferCardsToAdjust: 4
   cardScale: 5
   cardHeight: 7.5
   cardWidth: 5
+  highlightedCardLevel: 1
+  cardToHighlight: 1

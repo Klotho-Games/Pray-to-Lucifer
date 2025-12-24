@@ -34,7 +34,7 @@ public class HighlightedElement2DController : MonoBehaviour
     void Update()
     {
         if (mainCamera == null) return;
-        if (Current != null && !Current.gameObject.activeInHierarchy)
+        if (Current != null && (!Current.gameObject.activeInHierarchy || !Current.enabled))
         {
             SetCurrentHighlighted(null);
         }
@@ -118,26 +118,41 @@ public class HighlightedElement2DController : MonoBehaviour
 
     /// <summary>
     /// Uses 2D physics raycast to detect hoverable elements.
+    /// Skips disabled HighlightableElement2D components and checks for enabled ones behind them.
     /// </summary>
     [CanBeNull]
     private HighlightableElement2D RaycastHighlightableElement2D(Vector2 worldPosition)
     {
-        RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero, Mathf.Infinity, hoverLayers);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(worldPosition, Vector2.zero, Mathf.Infinity, hoverLayers);
 
-        if (hit.collider != null)
+        if (hits.Length > 0)
         {
-            var element = hit.collider.GetComponentInParent<HighlightableElement2D>();
-
-            if (element != null)
+            // Sort by distance (closest first)
+            System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+            
+            foreach (var hit in hits)
             {
-                if (enableDebugMousePosition) Debug.Log($"Mouse over 2D element: {element.gameObject.name}");
-            }
-            else
-            {
-                if (enableDebugMousePosition) Debug.Log("Mouse over 2D collider with no HighlightableElement2D component.");
-            }
+                if (hit.collider == null) continue;
+                
+                var element = hit.collider.GetComponentInParent<HighlightableElement2D>();
 
-            return element;
+                if (element != null)
+                {
+                    // Skip if the component is disabled
+                    if (!element.enabled)
+                    {
+                        if (enableDebugMousePosition) Debug.Log($"Mouse over DISABLED 2D element: {element.gameObject.name}, checking behind it...");
+                        continue;
+                    }
+                    
+                    if (enableDebugMousePosition) Debug.Log($"Mouse over 2D element: {element.gameObject.name}");
+                    return element;
+                }
+                else
+                {
+                    if (enableDebugMousePosition) Debug.Log("Mouse over 2D collider with no HighlightableElement2D component.");
+                }
+            }
         }
 
         return null;
@@ -188,16 +203,24 @@ public class HighlightedElement2DController : MonoBehaviour
                 Vector2 targetScale = new(h.highlightScale * h.PreHighlightScale.x, h.highlightScale * h.PreHighlightScale.y);
                 if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Tweening scale TO: {targetScale} over {sizeTweenDuration}s with ease {sizeTweenEaseIn}");
                 
-                Tween.ScaleX(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseIn, useUnscaledTime: true);
-                Tween.ScaleY(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseIn, useUnscaledTime: true);
+                if (targetScale != (Vector2)h.highlightAnchor.localScale)
+                {
+                    Tween.ScaleX(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseIn, useUnscaledTime: true);
+                    Tween.ScaleY(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseIn, useUnscaledTime: true);
+                }
                 h.PreHighlightScaleCached = true;
             }
             else
             {
                 if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Scale already cached: {h.PreHighlightScale} | Re-applying highlight scale: {h.highlightScale}");
                 
-                Tween.ScaleX(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseIn, useUnscaledTime: true);
-                Tween.ScaleY(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseIn, useUnscaledTime: true);
+                Vector2 targetScale = h.highlightScale * h.PreHighlightScale;
+
+                if (targetScale != (Vector2)h.highlightAnchor.localScale)
+                {
+                    Tween.ScaleX(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseIn, useUnscaledTime: true);
+                    Tween.ScaleY(h.highlightAnchor, h.highlightScale * h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseIn, useUnscaledTime: true);
+                }
             }
 
             if (h.PreHighlightColors == null || h.PreHighlightColors.Count == 0)
@@ -220,7 +243,9 @@ public class HighlightedElement2DController : MonoBehaviour
                     
                     if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Component[{cachedCount}] {component.GetType().Name}: {currentColor.Value} → {targetColor} | isTint={h.isTint} | Duration={colorTweenDuration}s | Ease={colorTweenEaseIn}");
                     
-                    TweenExt.Color(component, targetColor, colorTweenDuration, colorTweenEaseIn, useUnscaledTime: true);
+                    if (targetColor != currentColor.Value)
+                        TweenExt.Color(component, targetColor, colorTweenDuration, colorTweenEaseIn, useUnscaledTime: true);
+
                     cachedCount++;
                 }
                 
@@ -237,7 +262,8 @@ public class HighlightedElement2DController : MonoBehaviour
                     
                     if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Re-highlighting Component[{i}] {component.GetType().Name}: Cached={h.PreHighlightColors[i]} → Target={targetColor}");
                     
-                    TweenExt.Color(component, targetColor, colorTweenDuration, colorTweenEaseIn, useUnscaledTime: true);
+                    if (targetColor != h.PreHighlightColors[i])
+                        TweenExt.Color(component, targetColor, colorTweenDuration, colorTweenEaseIn, useUnscaledTime: true);
                 }
             }
         }
@@ -250,8 +276,11 @@ public class HighlightedElement2DController : MonoBehaviour
                 if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Restoring scale FROM current to CACHED: {h.PreHighlightScale} over {sizeTweenDuration}s with ease {sizeTweenEaseOut}");
                 
                 // Restore to pre-highlight scale
-                Tween.ScaleX(h.highlightAnchor, h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseOut, useUnscaledTime: true);
-                Tween.ScaleY(h.highlightAnchor, h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseOut, useUnscaledTime: true);
+                if (h.PreHighlightScale != (Vector2)h.highlightAnchor.localScale)
+                {
+                    Tween.ScaleX(h.highlightAnchor, h.PreHighlightScale.x, sizeTweenDuration, sizeTweenEaseOut, useUnscaledTime: true);
+                    Tween.ScaleY(h.highlightAnchor, h.PreHighlightScale.y, sizeTweenDuration, sizeTweenEaseOut, useUnscaledTime: true);
+                }
             }
             else
             {
@@ -287,7 +316,9 @@ public class HighlightedElement2DController : MonoBehaviour
                     
                     if (enableDebug) Debug.Log($"[AnimateHighlightedElement2D] Component[{i}] {component.GetType().Name}: Restoring {currentColor.Value} → {h.PreHighlightColors[i]} over {colorTweenDuration}s with ease {colorTweenEaseOut}");
                     
-                    TweenExt.Color(component, h.PreHighlightColors[i], colorTweenDuration, colorTweenEaseOut, useUnscaledTime: true);
+                    if (h.PreHighlightColors[i] != currentColor.Value)
+                        TweenExt.Color(component, h.PreHighlightColors[i], colorTweenDuration, colorTweenEaseOut, useUnscaledTime: true);
+                    
                     restoredCount++;
                 }
                 
