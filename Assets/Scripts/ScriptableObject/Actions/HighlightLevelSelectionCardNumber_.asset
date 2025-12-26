@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: HighlightLevelSelectionCardNumber_
   m_EditorClassIdentifier: Assembly-CSharp::HighlightLevelSelectionCard
   description: 
-  highlightedColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  normalColor: {r: 0.29803923, g: 0.29803923, b: 0.29803923, a: 1}
+  highlightedColor: {r: 0.6039216, g: 0.6, b: 0.6, a: 1}
+  normalColor: {r: 0.5411765, g: 0.5372549, b: 0.5372549, a: 1}
   colorEase: 4
   parentPositionEase: 21
   localPositionAndScaleEase: 8
@@ -25,5 +25,5 @@ MonoBehaviour:
   cardScale: 5
   cardHeight: 7.5
   cardWidth: 5
-  highlightedCardLevel: 1
-  cardToHighlight: 1
+  highlightedCardLevel: 3
+  cardToHighlight: 3

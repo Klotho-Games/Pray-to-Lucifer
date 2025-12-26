@@ -31,10 +31,12 @@ public class HighlightLevelSelectionCard : ActionSO
         Tween.LocalPositionX(parent, targetParentX, highlightDuration, parentPositionEase);
 
     // HIGHLIGHTING CARD
-        // highlight the source card
         HighlightableElement2D highlightable = card.GetComponent<HighlightableElement2D>();
         highlightable.PreHighlightScaleCached = false; // Clear cached scale to prevent controller interference
         highlightable.enabled = false; // Disable to avoid scaling conflicts
+
+        var enterButton = GetLevelEnterButtonHighlightable(card); // Enable level entering button
+        enterButton.enabled = true;
         
         Tween.Color(card.GetComponent<SpriteRenderer>(), highlightedColor, highlightDuration, colorEase);
         Tween.LocalPositionX(card, (cardToHighlight - 1) * (cardWidth + gapBetweenCards), highlightDuration, localPositionAndScaleEase); // Reset X position
@@ -51,6 +53,9 @@ public class HighlightLevelSelectionCard : ActionSO
             card = parent.GetChild(highlightedCardLevel - 1);
             HighlightableElement2D prevHighlightable = card.GetComponent<HighlightableElement2D>();
             prevHighlightable.PreHighlightScaleCached = false; // Clear cached scale
+
+            enterButton = GetLevelEnterButtonHighlightable(card); // Disable level entering button
+            enterButton.enabled = false;
             
             Tween.Color(card.GetComponent<SpriteRenderer>(), normalColor, highlightDuration, colorEase);
             Tween.LocalPositionY(card, -cardHeight / 2, highlightDuration, localPositionAndScaleEase); // Reset Y for bottom alignment at normal scale
@@ -86,6 +91,16 @@ public class HighlightLevelSelectionCard : ActionSO
 
             if (offsetedPosition != card.localPosition.x)
                 Tween.LocalPositionX(card, offsetedPosition, highlightDuration, localPositionAndScaleEase);
+        }
+
+        static HighlightableElement2D GetLevelEnterButtonHighlightable(Transform card)
+        {
+            var ret = card.GetChild(0).GetComponent<HighlightableElement2D>(); // Ensure button is active
+            if (ret == null)
+            {
+                Debug.LogError("Level enter button highlightable not found! Make sure it is the first child of the card.");
+            }
+            return ret;
         }
     }
 
