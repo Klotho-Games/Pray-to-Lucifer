@@ -95,8 +95,7 @@ public class HighlightLevelSelectionCard : ActionSO
 
         static HighlightableElement2D GetLevelEnterButtonHighlightable(Transform card)
         {
-            var ret = card.GetChild(0).GetComponent<HighlightableElement2D>(); // Ensure button is active
-            if (ret == null)
+            if (!card.GetChild(0).TryGetComponent<HighlightableElement2D>(out var ret))
             {
                 Debug.LogError("Level enter button highlightable not found! Make sure it is the first child of the card.");
             }

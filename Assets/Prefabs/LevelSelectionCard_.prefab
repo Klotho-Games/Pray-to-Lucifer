@@ -661,7 +661,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.46875}
+  m_AnchoredPosition: {x: -0.02, y: 0.46875}
   m_SizeDelta: {x: 3.4375, y: 0.9375}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &3282684161460898121
@@ -862,7 +862,7 @@ MonoBehaviour:
   highlightAnchor: {fileID: 6658244651808387587}
   highlightScale: 1
   isTint: 1
-  highlightColor: {r: 1, g: 0.9935065, b: 0.9935065, a: 1}
+  highlightColor: {r: 0.90099996, g: 0.8939333, b: 0.8939333, a: 1}
   PreHighlightColors: []
   PreHighlightScale: {x: 5, y: 5}
   PreHighlightScaleCached: 0
